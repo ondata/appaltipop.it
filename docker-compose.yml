@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+    app:
+        build: .
+        image: appaltipop-app:dev
+
+    proxy:
+        build: proxy/
+        image: appaltipop-proxy:dev
+        environment:
+            - APP_URL=${APP_URL:-http://app:3000}
+            - OAS_URL=${OAS_URL:-http://oas-ui:8080}
+        ports:
+            - ${PROD_PORT:-8080}:80
+        depends_on:
+            - app
+            - oas-ui
+
+    oas-ui:
+        image: swaggerapi/swagger-ui
+        environment:
+            - URL=/oas/api/appaltipop.json
+        volumes:
+            - ./oas:/usr/share/nginx/html/api
