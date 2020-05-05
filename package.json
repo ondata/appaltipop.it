@@ -1,15 +1,27 @@
 {
-  "name": "appalti-pop",
+  "name": "ondata-appaltipop.it",
   "version": "0.1.0",
+  "homepage": "https://appaltipop.it",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ondata/appaltipop.it.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next build && next start",
+    "export": "next build && next export -o dist"
   },
   "dependencies": {
     "next": "9.3.6",
     "react": "16.13.1",
     "react-dom": "16.13.1"
-  }
+  },
+  "keywords": [],
+  "author": "Alessio Cimarelli <alessio.cimarelli@ondata.it> (https://www.linkedin.com/in/alessiocimarelli/)",
+  "contributors": [
+      "Jacopo Solmi <jacopo.solmi@gmail.com> (https://www.linkedin.com/in/jacoposolmi/)"
+  ],
+  "license": "MIT"
 }
