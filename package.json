@@ -14,14 +14,14 @@
     "export": "next build && next export -o dist"
   },
   "dependencies": {
-    "next": "9.3.6",
-    "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "next": "^9.4.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "keywords": [],
   "author": "Alessio Cimarelli <alessio.cimarelli@ondata.it> (https://www.linkedin.com/in/alessiocimarelli/)",
   "contributors": [
-      "Jacopo Solmi <jacopo.solmi@gmail.com> (https://www.linkedin.com/in/jacoposolmi/)"
+    "Jacopo Solmi <jacopo.solmi@gmail.com> (https://www.linkedin.com/in/jacoposolmi/)"
   ],
   "license": "MIT"
 }
