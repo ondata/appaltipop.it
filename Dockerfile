@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copying source files
-COPY .env.prod ./
+COPY .env.production ./
 COPY src/ ./src
 COPY public/ ./public
 
