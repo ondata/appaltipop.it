@@ -2,9 +2,12 @@ import Head from 'next/head'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import { getI18nProps, getI18nPaths, withI18n } from '../../utils/i18n'
+import { withI18n } from '../../../utils/i18n'
 
-function Index() {
+import { getSupplierProps } from '../../../utils/props'
+import { getSupplierPaths } from '../../../utils/paths'
+
+function Index(supplier) {
 
     const { t, lang } = useTranslation()
 
@@ -20,6 +23,10 @@ function Index() {
                 <h1 className="title">
                     {t("common:title")}
                 </h1>
+
+                <h2>{supplier["CF"]}</h2>
+
+                <p>{supplier["ragione sociale"]}</p>
 
             </main>
 
@@ -177,13 +184,13 @@ function Index() {
     )
 }
 
-export const getStaticProps = async (ctx) => ({
-    props: await getI18nProps(ctx, ['common']),
+export const getStaticProps = async ctx => ({
+    props: await getSupplierProps(ctx),
 })
 
 export const getStaticPaths = async () => ({
-    paths: getI18nPaths(),
-    fallback: false,
+    paths: await getSupplierPaths(),
+    fallback: true,
 })
 
 export default withI18n(Index)
