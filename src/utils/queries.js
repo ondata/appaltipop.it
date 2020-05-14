@@ -35,30 +35,65 @@ export const getTenderIds = async () => await getIds(`${ES_INDEX_PREFIX}-tenders
 export const getBuyerIds = async () => await getIds(`${ES_INDEX_PREFIX}-buyers`)
 export const getSupplierIds = async () => await getIds(`${ES_INDEX_PREFIX}-suppliers`)
 
-async function getItems(index) {
+async function getItems(index, query = { match_all: {} }) {
 
     const { body } = await es.search({
         index,
         body: {
-            query: {
-                match_all: {},
-            },
+            query,
         },
     })
 
-    return body.hits.hits
+    return body.hits.hits || []
 
 }
-
-export const getTenderItems = async () => await getItems(`${ES_INDEX_PREFIX}-tenders-*`)
-export const getBuyerItems = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
-export const getSupplierItems = async () => await getItems(`${ES_INDEX_PREFIX}-suppliers`)
 
 export const getTenders = async () => map(await getItems(`${ES_INDEX_PREFIX}-tenders-*`), "_source")
 export const getBuyers = async () => map(await getItems(`${ES_INDEX_PREFIX}-buyers`), "_source")
 export const getSuppliers = async () => map(await getItems(`${ES_INDEX_PREFIX}-suppliers`), "_source")
 
-export async function getTenderById({ id, index }) {
+export const getTendersByBuyer = async buyer => map(
+    await getItems(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            term: {
+                "pubblica amministrazione proponente.ID": { value: buyer }
+            }
+        }
+    ),
+    "_source"
+)
+
+export const getTendersBySupplier = async supplier => map(
+    await getItems(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            term: {
+                "aggiudicatari.CF": { value: supplier }
+            }
+        }
+    ),
+    "_source"
+)
+
+async function getCounts(index, query = { match_all: {} }) {
+
+    const { body } = await es.count({
+        index,
+        body: {
+            query,
+        },
+    })
+
+    return body.count || 0
+
+}
+
+export const getTenderCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-tenders-*`)
+export const getBuyerCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-buyers`)
+export const getSupplierCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-suppliers`)
+
+export async function getTenderById(id, index) {
 
     if (!id) return {}
 
@@ -90,7 +125,7 @@ export async function getTenderById({ id, index }) {
 
 }
 
-export async function getBuyerById({ id }) {
+export async function getBuyerById(id) {
 
     if (!id) return {}
 
@@ -103,7 +138,7 @@ export async function getBuyerById({ id }) {
 
 }
 
-export async function getSupplierById({ id }) {
+export async function getSupplierById(id) {
 
     if (!id) return {}
 

@@ -1,10 +1,13 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import { getI18nProps, getI18nPaths, withI18n } from '../../utils/i18n'
+import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
-function Index() {
+import { getTenderCounts, getBuyerCounts, getSupplierCounts } from '../../utils/queries'
+
+function Index({ tenders, buyers, suppliers }) {
 
     const { t, lang } = useTranslation()
 
@@ -21,6 +24,37 @@ function Index() {
                     {t("common:title")}
                 </h1>
 
+                <ul>
+                    <li>
+                        <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
+                            <a>
+                                {t("common:tenders")}
+                            </a>
+                        </Link>
+                        {` `}
+                        ({tenders})
+                    </li>
+                    <li>
+                        <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
+                            <a>
+                                {t("common:buyers")}
+                            </a>
+                        </Link>
+                        {` `}
+                        ({buyers})
+                    </li>
+                    <li>
+                        <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
+                            <a>
+                                {t("common:suppliers")}
+                            </a>
+                        </Link>
+                        {` `}
+                        ({suppliers})
+                    </li>
+                </ul>
+
+                
             </main>
 
             <footer>
@@ -63,11 +97,6 @@ function Index() {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                }
-
-                a {
-                color: inherit;
-                text-decoration: none;
                 }
 
                 .title a {
@@ -178,7 +207,12 @@ function Index() {
 }
 
 export const getStaticProps = async (ctx) => ({
-    props: await getI18nProps(ctx, ['common']),
+    props: {
+        ...(await getI18nProps(ctx, ['common'])),
+        tenders: await getTenderCounts(),
+        buyers: await getBuyerCounts(),
+        suppliers: await getSupplierCounts(),
+    }
 })
 
 export const getStaticPaths = async () => ({

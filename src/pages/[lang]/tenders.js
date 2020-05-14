@@ -3,15 +3,13 @@ import Link from 'next/link'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import {
-    map,
-} from 'lodash'
+import { map } from 'lodash'
 
-import { getI18nPaths, withI18n } from '../../utils/i18n'
+import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
-import { getTendersProps } from '../../utils/props'
+import { getTenders } from '../../utils/queries'
 
-function Index({ items: tenders }) {
+function Index({ tenders }) {
 
     const { t, lang } = useTranslation()
 
@@ -202,7 +200,10 @@ function Index({ items: tenders }) {
 }
 
 export const getStaticProps = async ctx => ({
-    props: await getTendersProps(ctx),
+    props: {
+        ...(await getI18nProps(ctx, ['common','tender'])),
+        tenders: await getTenders(),
+    }
 })
 
 export const getStaticPaths = async () => ({

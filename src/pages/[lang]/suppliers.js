@@ -3,15 +3,13 @@ import Link from 'next/link'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import {
-    map,
-} from 'lodash'
+import { map } from 'lodash'
 
-import { getI18nPaths, withI18n } from '../../utils/i18n'
+import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
-import { getSuppliersProps } from '../../utils/props'
+import { getSuppliers } from '../../utils/queries'
 
-function Index({ items: suppliers }) {
+function Index({ suppliers }) {
 
     const { t, lang } = useTranslation()
 
@@ -47,6 +45,7 @@ function Index({ items: suppliers }) {
                             )
                         )
                     }
+                    <li>...</li>
                 </ul>
 
             </main>
@@ -201,7 +200,10 @@ function Index({ items: suppliers }) {
 }
 
 export const getStaticProps = async ctx => ({
-    props: await getSuppliersProps(ctx),
+    props: {
+        ...(await getI18nProps(ctx, ['common','supplier'])),
+        suppliers: await getSuppliers(),
+    }
 })
 
 export const getStaticPaths = async () => ({
