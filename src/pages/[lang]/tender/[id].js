@@ -6,7 +6,7 @@ import { withI18n } from '../../../utils/i18n'
 import { getTenderPaths } from '../../../utils/paths'
 import { getTenderProps } from '../../../utils/props'
 
-function Index(tender) {
+function Index({ item: tender }) {
 
     const { t, lang } = useTranslation()
 

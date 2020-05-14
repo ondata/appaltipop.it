@@ -1,3 +1,9 @@
 {
-    "title": "AppaltiPOP in Italiano"
+    "title": "AppaltiPOP in Italiano",
+    "suppliers": "Aggiudicatari",
+    "supplier": "Aggiudicatario",
+    "buyers": "Pubbliche amministrazioni proponenti",
+    "buyer": "Pubblica amministrazione proponente",
+    "tenders": "Appalti",
+    "tender": "Appalto"
 }

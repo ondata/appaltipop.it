@@ -58,7 +58,7 @@ export const getTenders = async () => map(await getItems(`${ES_INDEX_PREFIX}-ten
 export const getBuyers = async () => map(await getItems(`${ES_INDEX_PREFIX}-buyers`), "_source")
 export const getSuppliers = async () => map(await getItems(`${ES_INDEX_PREFIX}-suppliers`), "_source")
 
-export async function getTenderById(id, index) {
+export async function getTenderById({ id, index }) {
 
     if (!id) return {}
 
@@ -90,7 +90,7 @@ export async function getTenderById(id, index) {
 
 }
 
-export async function getBuyerById(id) {
+export async function getBuyerById({ id }) {
 
     if (!id) return {}
 
@@ -103,7 +103,7 @@ export async function getBuyerById(id) {
 
 }
 
-export async function getSupplierById(id) {
+export async function getSupplierById({ id }) {
 
     if (!id) return {}
 

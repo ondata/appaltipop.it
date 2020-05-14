@@ -1,13 +1,17 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import { withI18n } from '../../../utils/i18n'
+import {
+    map,
+} from 'lodash'
 
-import { getBuyerProps } from '../../../utils/props'
-import { getBuyerPaths } from '../../../utils/paths'
+import { getI18nPaths, withI18n } from '../../utils/i18n'
 
-function Index({ item: buyer }) {
+import { getTendersProps } from '../../utils/props'
+
+function Index({ items: tenders }) {
 
     const { t, lang } = useTranslation()
 
@@ -24,7 +28,27 @@ function Index({ item: buyer }) {
                     {t("common:title")}
                 </h1>
 
-                <h2>{buyer["denominazione"]}</h2>
+                <h2>{t("common:tenders")}</h2>
+
+                <ul>
+                    {
+                        map(
+                            tenders,
+                            tender => (
+                                <li key={tender["cig"]}>
+                                    (<Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
+                                        <a>
+                                            {tender["cig"]}
+                                        </a>
+                                    </Link>)
+                                    {` `}
+                                    {tender["appalto"]}
+                                </li>
+                            )
+                        )
+                    }
+                    <li>...</li>
+                </ul>
 
             </main>
 
@@ -68,11 +92,6 @@ function Index({ item: buyer }) {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                }
-
-                a {
-                color: inherit;
-                text-decoration: none;
                 }
 
                 .title a {
@@ -183,12 +202,12 @@ function Index({ item: buyer }) {
 }
 
 export const getStaticProps = async ctx => ({
-    props: await getBuyerProps(ctx),
+    props: await getTendersProps(ctx),
 })
 
 export const getStaticPaths = async () => ({
-    paths: await getBuyerPaths(),
-    fallback: true,
+    paths: getI18nPaths(),
+    fallback: false,
 })
 
 export default withI18n(Index)

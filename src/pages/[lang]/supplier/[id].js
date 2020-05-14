@@ -7,7 +7,7 @@ import { withI18n } from '../../../utils/i18n'
 import { getSupplierProps } from '../../../utils/props'
 import { getSupplierPaths } from '../../../utils/paths'
 
-function Index(supplier) {
+function Index({ item: supplier }) {
 
     const { t, lang } = useTranslation()
 
