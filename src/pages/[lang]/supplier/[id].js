@@ -11,6 +11,8 @@ import { getI18nProps, withI18n } from '../../../utils/i18n'
 import { getSupplierById, getTendersBySupplier, getBuyersBySupplier } from '../../../utils/queries'
 import { getSupplierPaths } from '../../../utils/paths'
 
+import Footer from '../../../components/Footer'
+
 function Index({ supplier, tenders, buyers }) {
 
     const router = useRouter()
@@ -83,9 +85,7 @@ function Index({ supplier, tenders, buyers }) {
 
                 </main>
 
-                <footer>
-                    Powered by Ondata
-                </footer>
+                <Footer />
 
                 <style jsx>{`
                     .container {
@@ -102,25 +102,6 @@ function Index({ supplier, tenders, buyers }) {
                     flex: 1;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    }
-
-                    footer {
-                    width: 100%;
-                    height: 100px;
-                    border-top: 1px solid #eaeaea;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    }
-
-                    footer img {
-                    margin-left: 0.5rem;
-                    }
-
-                    footer a {
-                    display: flex;
                     justify-content: center;
                     align-items: center;
                     }
