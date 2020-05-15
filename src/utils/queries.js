@@ -3,6 +3,7 @@ import es from './es'
 import {
     map,
     isEmpty,
+    find,
 } from 'lodash'
 
 import {
@@ -92,6 +93,64 @@ async function getCounts(index, query = { match_all: {} }) {
 export const getTenderCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-tenders-*`)
 export const getBuyerCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-buyers`)
 export const getSupplierCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-suppliers`)
+
+async function getAggs(index, filterKey, filterValue, aggValue) {
+
+    const { body } = await es.search({
+        index,
+        body: {
+            "size": 0,
+            "aggs": {
+                "items": {
+                    "filter": { "term": { [filterKey.join(".")]: filterValue } },
+                    "aggs": {
+                        "terms": {
+                            "terms": {
+                                "field": aggValue.join("."),
+                                "size": 10
+                            },
+                            "aggs": {
+                                "items": {
+                                    "top_hits": {
+                                        "size": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    })
+
+    return map(
+        body.aggregations.items.terms.buckets,
+        bucket => find(
+            bucket.items.hits.hits[0]["_source"][aggValue[0]],
+            item => item[aggValue[1]] === bucket.key
+        )
+    )
+
+}
+
+export const getSuppliersByBuyer = async buyer => (
+    await getAggs(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        ["pubblica amministrazione proponente","ID"],
+        buyer,
+        ["aggiudicatari","CF"]
+    )
+)
+
+export const getBuyersBySupplier = async supplier => (
+    await getAggs(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        ["aggiudicatari","CF"],
+        supplier,
+        ["pubblica amministrazione proponente","ID"]
+    )
+)
 
 export async function getTenderById(id, index) {
 

@@ -8,10 +8,10 @@ import { map } from 'lodash'
 
 import { getI18nProps, withI18n } from '../../../utils/i18n'
 
-import { getSupplierById, getTendersBySupplier } from '../../../utils/queries'
+import { getSupplierById, getTendersBySupplier, getBuyersBySupplier } from '../../../utils/queries'
 import { getSupplierPaths } from '../../../utils/paths'
 
-function Index({ supplier, tenders }) {
+function Index({ supplier, tenders, buyers }) {
 
     const router = useRouter()
     const { t, lang } = useTranslation()
@@ -52,6 +52,28 @@ function Index({ supplier, tenders }) {
                                         </Link>)
                                         {` `}
                                         {tender["appalto"]}
+                                    </li>
+                                )
+                            )
+                        }
+                        <li>...</li>
+                    </ul>
+
+                    <h2>{t("common:buyers")}</h2>
+
+                    <ul>
+                        {
+                            map(
+                                buyers,
+                                buyer => (
+                                    <li key={buyer["ID"]}>
+                                        (<Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                            <a>
+                                                {buyer["ID"]}
+                                            </a>
+                                        </Link>)
+                                        {` `}
+                                        {buyer["denominazione"]}
                                     </li>
                                 )
                             )
@@ -216,6 +238,7 @@ export const getStaticProps = async ctx => ({
         ...(await getI18nProps(ctx, ['common','supplier'])),
         supplier: await getSupplierById(ctx.params.id),
         tenders: await getTendersBySupplier(ctx.params.id),
+        buyers: await getBuyersBySupplier(ctx.params.id),
     }
 })
 
