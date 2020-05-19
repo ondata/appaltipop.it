@@ -1,9 +1,18 @@
 {
-    "title": "AppaltiPOP in English",
+    "title": "AppaltiPOP",
+
     "suppliers": "Suppliers",
     "supplier": "Supplier",
     "buyers": "Buyers",
     "buyer": "Buyer",
     "tenders": "Tenders",
-    "tender": "Tender"
+    "tender": "Tender",
+
+    "getInvolved": "Get involved!",
+    "about": "About",
+    "faq": "FAQ",
+    "cc": "Creative Commons",
+
+    "english": "English",
+    "italian": "Italiano"
 }

@@ -1,9 +1,18 @@
 {
-    "title": "AppaltiPOP in Italiano",
+    "title": "AppaltiPOP",
+
     "suppliers": "Aggiudicatari",
     "supplier": "Aggiudicatario",
-    "buyers": "Pubbliche amministrazioni proponenti",
-    "buyer": "Pubblica amministrazione proponente",
+    "buyers": "Pubbliche amministrazioni",
+    "buyer": "Pubblica amministrazione",
     "tenders": "Appalti",
-    "tender": "Appalto"
+    "tender": "Appalto",
+
+    "getInvolved": "Partecipa!",
+    "about": "Chi siamo",
+    "faq": "FAQ",
+    "cc": "Creative Commons",
+
+    "english": "English",
+    "italian": "Italiano"
 }

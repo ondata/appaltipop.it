@@ -30,7 +30,7 @@ function Index({ tenders, buyers, suppliers }) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <Header title={t("common:title")} />
+            <Header />
 
             <Container component="main" maxWidth="md">
 
