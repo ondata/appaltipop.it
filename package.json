@@ -17,6 +17,8 @@
     "@elastic/elasticsearch": "^7.6.1",
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
+    "d3-format": "^1.4.4",
+    "d3-time-format": "^2.2.3",
     "lodash": "^4.17.15",
     "next": "^9.4.0",
     "next-seo": "^4.5.0",

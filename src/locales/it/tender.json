@@ -1,1 +1,9 @@
-{}
+{
+    "cig": "CIG",
+    "startDate": "Data di inizio",
+    "endDate": "Data di fine",
+    "numberOfParticipants": "N. di partecipanti",
+    "type": "Tipo",
+    "valueAmount": "Importo aggiudicazione",
+    "transactionAmount": "Importo somme liquidate"
+}

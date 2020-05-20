@@ -1,1 +1,9 @@
-{}
+{
+    "cig": "CIG",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "numberOfParticipants": "Num. of participants",
+    "type": "Type",
+    "valueAmount": "Value amount",
+    "transactionAmount": "Transaction amount"
+}

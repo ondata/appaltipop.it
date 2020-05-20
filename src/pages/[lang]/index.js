@@ -11,9 +11,17 @@ import {
     ListItemSecondaryAction,
 } from '@material-ui/core'
 
-import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
+import {
+    getI18nPaths,
+    getI18nProps,
+    withI18n,
+} from '../../utils/i18n'
 
-import { getTenderCounts, getBuyerCounts, getSupplierCounts } from '../../utils/queries'
+import {
+    getTenderCounts,
+    getBuyerCounts,
+    getSupplierCounts,
+} from '../../utils/queries'
 
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
