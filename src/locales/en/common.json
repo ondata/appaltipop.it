@@ -3,8 +3,10 @@
 
     "suppliers": "Suppliers",
     "supplier": "Supplier",
+
     "buyers": "Buyers",
     "buyer": "Buyer",
+    
     "tenders": "Tenders",
     "tender": "Tender",
 
@@ -15,6 +17,9 @@
     "about": "About",
     "faq": "FAQ",
     "cc": "Creative Commons",
+
+    "print": "Print report",
+    "download": "Download csv",
 
     "english": "English",
     "italian": "Italiano"

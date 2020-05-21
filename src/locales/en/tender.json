@@ -1,9 +1,39 @@
 {
+    
     "cig": "CIG",
     "startDate": "Start date",
     "endDate": "End date",
     "numberOfParticipants": "Num. of participants",
     "type": "Type",
     "valueAmount": "Value amount",
-    "transactionAmount": "Transaction amount"
+    "transactionAmount": "Transaction amount",
+
+    "suppliersDescription": "This contract was awarded by an association of companies of n subjects.",
+    "monitoredBy": {
+        "title": "This contract is monitored by:",
+        "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
+    },
+
+    "donut": {
+        "1": {
+            "title": "Number of Participants compared to the average",
+            "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
+        },
+        "2": {
+            "title": "Number of contracts between companies in this group and the contracting entity",
+            "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
+        },
+        "3": {
+            "title": "% of expenditure of the contracting entity to the companies of the successful group",
+            "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
+        }
+    },
+    
+    "bar": {
+        "1": {
+            "title": "Data quality compared to the average",
+            "description": "Number of contracts with the necessary data published out of the total number of contracts."
+        }
+    }
+
 }

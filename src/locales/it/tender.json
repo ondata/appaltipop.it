@@ -1,9 +1,39 @@
 {
+
     "cig": "CIG",
     "startDate": "Data di inizio",
     "endDate": "Data di fine",
     "numberOfParticipants": "N. di partecipanti",
     "type": "Tipo",
     "valueAmount": "Importo aggiudicazione",
-    "transactionAmount": "Importo somme liquidate"
+    "transactionAmount": "Importo somme liquidate",
+    
+    "suppliersDescription": "Questo contratto è stato aggiudicato da un'associazione di imprese di n soggetti.",
+    "monitoredBy": {
+        "title": "Questo contratto è monitorato da:",
+        "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
+    },
+    
+    "donut": {
+        "1": {
+            "title": "Numero di Partecipanti rispetto alla media",
+            "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
+        },
+        "2": {
+            "title": "Numero di contratti tra aziende di questo gruppo e l'ente appaltante",
+            "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
+        },
+        "3": {
+            "title": "% di spesa dell'ente appaltante a le aziende del gruppo aggiudicatario",
+            "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
+        }
+    },
+    
+    "bar": {
+        "1": {
+            "title": "Qualità del dato rispetto alla media",
+            "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appalti."
+        }
+    }
+
 }

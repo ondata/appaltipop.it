@@ -1,0 +1,21 @@
+{
+
+    "01": {
+        "title": "Redflag 01",
+        "summary": "Low number of mean bidders per tender for competitive processes",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+    },
+
+    "02": {
+        "title": "Redflag 02",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+    },
+
+    "03": {
+        "title": "Redflag 03",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+    }
+
+}

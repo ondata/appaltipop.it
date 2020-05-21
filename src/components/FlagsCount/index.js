@@ -1,7 +1,7 @@
 import useTranslation from 'next-translate/useTranslation'
 
 import {
-    Grid,
+    Grid, Typography,
 } from '@material-ui/core'
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -17,15 +17,15 @@ export default function Index({
     const { t, lang } = useTranslation()
 
     return (
-        <Grid container direction="column">
+        <Grid container direction="column" className={classes.root}>
             <Grid item>
-                <img src="/images/redflag-man.png" alt={t("common:redflag")} title={t("common:redflag")} />
+                <img src="/images/redflag-man.png" alt={t("common:redflag")} title={t("common:redflag")} className={classes.icon} />
             </Grid>
             <Grid item>
-                {flags.length}
+                <Typography variant="body2" color={flags.length ? "error" : "inherit"} className={classes.number}>{flags.length}</Typography>
             </Grid>
             <Grid item>
-                {t("common:redflags")}
+                <Typography variant="subtitle2" className={classes.label}>{t(`common:redflag${flags.length === 1 ? "" : "s"}`)}</Typography>
             </Grid>
         </Grid>
     )

@@ -27,15 +27,15 @@ export default function Index() {
         <AppBar position="sticky" color="primary" className={classes.root}>
             <Toolbar>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container alignItems="center">
+                    <Grid container alignItems="flex-start">
                         <Grid item md={6}>
-                            <Box className={classes.logo}>
+                            <Box p={2} className={classes.logo}>
                                 <Link href="/[lang]" as={`/${lang}`}>
                                     <a><img src="/logo-dark.png" alt="Logo di AppaltiPOP" title="AppaltiPOP" /></a>
                                 </Link>
                             </Box>
                         </Grid>
-                        <Grid item md={3}>
+                        <Grid item md={3} style={{alignSelf:"center"}}>
                             <List>
                                 <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
                                     <ListItem button className={classes.menuButton}>

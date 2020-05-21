@@ -23,24 +23,27 @@ export default function Index({
 
     return (
         <>
+
             {
                 !!title
                 &&
-                <Typography variant="h2">
+                <Typography variant="subtitle2">
                     {title}
                 </Typography>
             }
-            <Typography>
+
+            <Typography variant="body2">
                 {
                     !!as && !!href
                     ?
                     <Link href={href} as={as}>
-                        <a>{label}</a>
+                        <a>{label || "-"}</a>
                     </Link>
                     :
-                    label
+                    label || "-"
                 }
             </Typography>
+
         </>
     )
 }

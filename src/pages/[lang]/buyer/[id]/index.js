@@ -6,12 +6,13 @@ import useTranslation from 'next-translate/useTranslation'
 
 import { map } from 'lodash'
 
-import { getI18nProps, withI18n } from '../../../utils/i18n'
+import { getI18nProps, withI18n } from '../../../../utils/i18n'
 
-import { getBuyerById, getTendersByBuyer, getSuppliersByBuyer } from '../../../utils/queries'
-import { getBuyerPaths } from '../../../utils/paths'
+import { getBuyerById, getTendersByBuyer, getSuppliersByBuyer } from '../../../../utils/queries'
+import { getBuyerPaths } from '../../../../utils/paths'
 
-import Footer from '../../../components/Footer'
+import Header from '../../../../components/Header'
+import Footer from '../../../../components/Footer'
 
 function Index({ buyer, tenders, suppliers }) {
 
@@ -27,6 +28,8 @@ function Index({ buyer, tenders, suppliers }) {
                     <title>{t("common:title")}</title>
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
+
+                <Header />
 
                 <main>
 
