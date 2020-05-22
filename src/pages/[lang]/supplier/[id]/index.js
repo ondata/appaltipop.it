@@ -221,7 +221,7 @@ export const getStaticProps = async ctx => ({
     props: {
         ...(await getI18nProps(ctx, ['common','supplier'])),
         supplier: await getSupplierById(ctx.params.id),
-        tenders: await getTendersBySupplier(ctx.params.id),
+        tenders: map((await getTendersBySupplier(ctx.params.id)).hits, "_source"),
         buyers: await getBuyersBySupplier(ctx.params.id),
     }
 })

@@ -9,6 +9,7 @@ import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
 import { getSuppliers } from '../../utils/queries'
 
+import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
 function Index({ suppliers }) {
@@ -17,10 +18,13 @@ function Index({ suppliers }) {
 
     return (
         <div className="container">
+            
             <Head>
                 <title>{t("common:title")}</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
+            <Header />
 
             <main>
 
@@ -183,7 +187,7 @@ function Index({ suppliers }) {
 export const getStaticProps = async ctx => ({
     props: {
         ...(await getI18nProps(ctx, ['common','supplier'])),
-        suppliers: await getSuppliers(),
+        suppliers: map((await getSuppliers()).hits, "_source"),
     }
 })
 

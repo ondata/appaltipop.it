@@ -39,9 +39,10 @@ import {
 import { getTenderById } from '../../../../utils/queries'
 import { getTenderPaths } from '../../../../utils/paths'
 
-import Footer from '../../../../components/Footer'
 import Header from '../../../../components/Header'
-import FlagsCount from '../../../../components/FlagsCount'
+import Footer from '../../../../components/Footer'
+
+import { FlagsCounter } from '../../../../components/Counter'
 import FlagsInfo from '../../../../components/FlagsInfo'
 import KeyValue from '../../../../components/KeyValue'
 import DonutChart from '../../../../components/DonutChart'
@@ -107,7 +108,7 @@ function Index({
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <FlagsCount flags={redflags} />
+                                <FlagsCounter count={redflags.length} label={t(`common:redflag${redflags.length === 1 ? "" : "s"}`)} />
                             </Grid>
                         </Grid>
                     </Box>

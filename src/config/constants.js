@@ -15,3 +15,7 @@ export const CURRENCY_FORMAT = "($,.2f"
 export const DATE_FORMAT = "%x"
 
 export const REDFLAGS = ["01","02","03"]
+
+export const PAGE_SIZE = 25
+
+export const API_VERSION = "v1"

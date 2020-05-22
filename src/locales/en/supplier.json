@@ -1,6 +1,7 @@
 {
     "ragioneSociale": "Ragione sociale",
     "provincia": "Provincia",
+    "regione": "Regione",
     "cf": "Codice Fiscale",
     "importoTotaleAppaltiConStessoEnte": "Importo totale appalti con lo stesso ente"
 }

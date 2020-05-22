@@ -8,7 +8,10 @@ import {
 
 import {
     ES_INDEX_PREFIX,
+    PAGE_SIZE,
 } from '../config/constants'
+
+import { defaultLanguage } from '../config/i18n.json'
 
 async function getIds(index) {
 
@@ -36,45 +39,70 @@ export const getTenderIds = async () => await getIds(`${ES_INDEX_PREFIX}-tenders
 export const getBuyerIds = async () => await getIds(`${ES_INDEX_PREFIX}-buyers`)
 export const getSupplierIds = async () => await getIds(`${ES_INDEX_PREFIX}-suppliers`)
 
-async function getItems(index, query = { match_all: {} }) {
+async function getItems(index, query = { match_all: {} }, from = 0, size = PAGE_SIZE) {
 
     const { body } = await es.search({
         index,
         body: {
+            from,
+            size,
             query,
         },
     })
 
-    return body.hits.hits || []
+    return body.hits || {}
 
 }
 
-export const getTenders = async () => map(await getItems(`${ES_INDEX_PREFIX}-tenders-*`), "_source")
-export const getBuyers = async () => map(await getItems(`${ES_INDEX_PREFIX}-buyers`), "_source")
-export const getSuppliers = async () => map(await getItems(`${ES_INDEX_PREFIX}-suppliers`), "_source")
+export const getTenders = async () => await getItems(`${ES_INDEX_PREFIX}-tenders-*`)
+export const searchForTenders = async (q, lang = defaultLanguage, page = 0) => (
+    await getItems(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        q && { match_phrase: { [`appalto.${lang}`]: q } },
+        page*PAGE_SIZE
+    )
+)
 
-export const getTendersByBuyer = async buyer => map(
+export const getBuyers = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
+export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) => (
+    await getItems(
+        `${ES_INDEX_PREFIX}-buyers`,
+        q && { match_phrase: { [`denominazione.${lang}`]: q } },
+        page*PAGE_SIZE
+    )
+)
+
+export const getSuppliers = async () => await getItems(`${ES_INDEX_PREFIX}-suppliers`)
+export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) => (
+    await getItems(
+        `${ES_INDEX_PREFIX}-suppliers`,
+        q && { match_phrase: { [`ragione sociale.${lang}`]: q } },
+        page*PAGE_SIZE
+    )
+)
+
+export const getTendersByBuyer = async (buyer, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
         {
             term: {
                 "pubblica amministrazione proponente.ID": { value: buyer }
             }
-        }
-    ),
-    "_source"
+        },
+        page*PAGE_SIZE
+    )
 )
 
-export const getTendersBySupplier = async supplier => map(
+export const getTendersBySupplier = async (supplier, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
         {
             term: {
                 "aggiudicatari.CF": { value: supplier }
             }
-        }
-    ),
-    "_source"
+        },
+        page*PAGE_SIZE
+    )
 )
 
 async function getCounts(index, query = { match_all: {} }) {
@@ -99,20 +127,20 @@ async function getAggs(index, filterKey, filterValue, aggValue) {
     const { body } = await es.search({
         index,
         body: {
-            "size": 0,
-            "aggs": {
-                "items": {
-                    "filter": { "term": { [filterKey.join(".")]: filterValue } },
-                    "aggs": {
-                        "terms": {
-                            "terms": {
-                                "field": aggValue.join("."),
-                                "size": 10
+            size: 0,
+            aggs: {
+                items: {
+                    filter: { term: { [filterKey.join(".")]: filterValue } },
+                    aggs: {
+                        terms: {
+                            terms: {
+                                field: aggValue.join("."),
+                                size: PAGE_SIZE
                             },
-                            "aggs": {
-                                "items": {
-                                    "top_hits": {
-                                        "size": 1
+                            aggs: {
+                                items: {
+                                    top_hits: {
+                                        size: 1
                                     }
                                 }
                             }
