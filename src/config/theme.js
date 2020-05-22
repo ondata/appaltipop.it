@@ -64,5 +64,10 @@ export default createMuiTheme({
                 //color: primaryColor,
             },
         },
+        MuiPagination: {
+            ul: {
+                justifyContent: `center`,
+            },
+        },
     },
 })

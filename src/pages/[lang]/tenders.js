@@ -34,6 +34,10 @@ import {
 } from '@material-ui/icons'
 
 import {
+    Pagination,
+} from '@material-ui/lab'
+
+import {
     getI18nPaths,
     getI18nProps,
     withI18n,
@@ -48,6 +52,7 @@ import {
     CURRENCY_FORMAT,
     DATE_FORMAT,
     INTEGER_FORMAT,
+    PAGE_SIZE,
     API_VERSION,
 } from '../../config/constants'
 
@@ -74,7 +79,7 @@ function Index({
     const [ results, setResults ] = useState(0)
     const [ searchString, setSearchString ] = useState("")
     const [ currentSearchString, setCurrentSearchString ] = useState("")
-    const [ page, setPage ] = useState(0)
+    const [ page, setPage ] = useState(1)
     const [ waiting, setWaiting ] = useState(false)
 
     function handleSubmit(e) {
@@ -85,11 +90,15 @@ function Index({
     function handleReset() {
         setSearchString("")
         setCurrentSearchString("")
+        setPage(1)
         setTenders([])
     }
 
-    useEffect(() => {
+    function handleChangePage(e, value) {
+        setPage(value)
+    }
 
+    function handleRequest() {
         if (currentSearchString) {
 
             setWaiting(true)
@@ -101,7 +110,7 @@ function Index({
                         params: {
                             q: currentSearchString,
                             lang,
-                            page,
+                            page: page-1,
                         }
                     }
                 )
@@ -114,8 +123,15 @@ function Index({
         } else {
             setTenders([])
         }
+    }
 
-    }, [currentSearchString, page])
+    useEffect(() => {
+        handleRequest()
+    }, [currentSearchString])
+
+    useEffect(() => {
+        handleRequest()
+    }, [page])
 
     useEffect(() => {
         setWaiting(false)
@@ -197,52 +213,56 @@ function Index({
                     {
                         !!currentSearchString && !isEmpty(tenders)
                         ?
-                        <List>
-                            {
-                                map(
-                                    tenders,
-                                    tender => (
-                                        <Link key={tender["cig"]} href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
-                                            <ListItem button>
-                                                <ListItemIcon><ArrowForward color="secondary" /></ListItemIcon>
-                                                <Grid container spacing={2}>
-                                                    <Grid item>
-                                                        <Typography variant="caption">{t("tender:cig")}</Typography>
-                                                        <Typography variant="body2">{tender["cig"]}</Typography>
+                        <>
+                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
+                            <List>
+                                {
+                                    map(
+                                        tenders,
+                                        tender => (
+                                            <Link key={tender["cig"]} href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
+                                                <ListItem button>
+                                                    <ListItemIcon><ArrowForward color="secondary" /></ListItemIcon>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("tender:cig")}</Typography>
+                                                            <Typography variant="body2">{tender["cig"]}</Typography>
+                                                        </Grid>
+                                                        <Grid item xs>
+                                                            <Typography>{tender["appalto"]}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("tender:startDate")}</Typography>
+                                                            <Typography variant="body2">{tf(DATE_FORMAT)(new Date(tender["data inizio"]))}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("tender:endDate")}</Typography>
+                                                            <Typography variant="body2">{tf(DATE_FORMAT)(new Date(tender["data fine"]))}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("tender:valueAmount")}</Typography>
+                                                            <Typography variant="body2">{nf(CURRENCY_FORMAT)(tender["importo aggiudicazione"])}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("common:redflags")}</Typography>
+                                                            <Typography variant="body2">
+                                                                {
+                                                                    map(
+                                                                        tender.redflags,
+                                                                        redflag => (<Flag color="error" fontSize="small" />)
+                                                                    )
+                                                                }
+                                                            </Typography>
+                                                        </Grid>
                                                     </Grid>
-                                                    <Grid item xs>
-                                                        <Typography>{tender["appalto"]}</Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography variant="caption">{t("tender:startDate")}</Typography>
-                                                        <Typography variant="body2">{tf(DATE_FORMAT)(new Date(tender["data inizio"]))}</Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography variant="caption">{t("tender:endDate")}</Typography>
-                                                        <Typography variant="body2">{tf(DATE_FORMAT)(new Date(tender["data fine"]))}</Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography variant="caption">{t("tender:valueAmount")}</Typography>
-                                                        <Typography variant="body2">{nf(CURRENCY_FORMAT)(tender["importo aggiudicazione"])}</Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Typography variant="caption">{t("common:redflags")}</Typography>
-                                                        <Typography variant="body2">
-                                                            {
-                                                                map(
-                                                                    tender.redflags,
-                                                                    redflag => (<Flag color="error" fontSize="small" />)
-                                                                )
-                                                            }
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            </ListItem>
-                                        </Link>
+                                                </ListItem>
+                                            </Link>
+                                        )
                                     )
-                                )
-                            }
-                        </List>
+                                }
+                            </List>
+                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
+                        </>
                         :
                         !!currentSearchString && !waiting && <Typography>{t("common:search.noResults")}</Typography>
                     }
