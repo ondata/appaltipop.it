@@ -57,7 +57,7 @@ import {
 } from '../../config/constants'
 
 import {
-    getTenderCounts,
+    getTendersCount,
 } from '../../utils/queries'
 
 import Header from '../../components/Header'
@@ -293,7 +293,7 @@ export const getStaticProps = async ctx => {
     return {
         props: {
             ...(await getI18nProps(ctx, ['common', 'tender', 'redflags'])),
-            tendersCount: await getTenderCounts(),
+            tendersCount: await getTendersCount(),
         },
         unstable_revalidate: 3600,
     }

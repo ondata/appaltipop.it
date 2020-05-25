@@ -93,6 +93,37 @@ export const getTendersByBuyer = async (buyer, page = 0) => (
     )
 )
 
+export const getTendersCountByBuyer = async buyer => (
+    await getCount(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            term: {
+                "pubblica amministrazione proponente.ID": { value: buyer }
+            }
+        }
+    )
+)
+
+export const getRedflagsCountByBuyer = async buyer => (
+    await getCount(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            bool: {
+                filter: {
+                    term: {
+                        "pubblica amministrazione proponente.ID": { value: buyer }
+                    }
+                },
+                must: {
+                    exists: {
+                        field: "redflags.codice redflag"
+                    }
+                }
+            }
+        }
+    )
+)
+
 export const getTendersBySupplier = async (supplier, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
@@ -105,7 +136,18 @@ export const getTendersBySupplier = async (supplier, page = 0) => (
     )
 )
 
-async function getCounts(index, query = { match_all: {} }) {
+export const getTendersCountBySupplier = async supplier => (
+    await getCount(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            term: {
+                "aggiudicatari.CF": { value: supplier }
+            }
+        }
+    )
+)
+
+async function getCount(index, query = { match_all: {} }) {
 
     const { body } = await es.count({
         index,
@@ -118,9 +160,20 @@ async function getCounts(index, query = { match_all: {} }) {
 
 }
 
-export const getTenderCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-tenders-*`)
-export const getBuyerCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-buyers`)
-export const getSupplierCounts = async () => await getCounts(`${ES_INDEX_PREFIX}-suppliers`)
+export const getTendersCount = async () => await getCount(`${ES_INDEX_PREFIX}-tenders-*`)
+export const getBuyersCount = async () => await getCount(`${ES_INDEX_PREFIX}-buyers`)
+export const getSuppliersCount = async () => await getCount(`${ES_INDEX_PREFIX}-suppliers`)
+
+export const getRedflagsCount = async () => (
+    await getCount(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            exists: {
+                field: "redflags"
+            }
+        }
+    )
+)
 
 async function getAggs(index, filterKey, filterValue, aggValue) {
 

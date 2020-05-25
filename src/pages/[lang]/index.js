@@ -18,9 +18,9 @@ import {
 } from '../../utils/i18n'
 
 import {
-    getTenderCounts,
-    getBuyerCounts,
-    getSupplierCounts,
+    getTendersCount,
+    getBuyersCount,
+    getSuppliersCount,
 } from '../../utils/queries'
 
 import Footer from '../../components/Footer'
@@ -74,9 +74,9 @@ function Index({ tenders, buyers, suppliers }) {
 export const getStaticProps = async (ctx) => ({
     props: {
         ...(await getI18nProps(ctx, ['common'])),
-        tenders: await getTenderCounts(),
-        buyers: await getBuyerCounts(),
-        suppliers: await getSupplierCounts(),
+        tenders: await getTendersCount(),
+        buyers: await getBuyersCount(),
+        suppliers: await getSuppliersCount(),
     }
 })
 

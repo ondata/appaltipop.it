@@ -1,24 +1,147 @@
+import { useState, useEffect } from 'react'
+
 import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import { map } from 'lodash'
+import axios from 'axios'
 
-import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
+import { map, isEmpty } from 'lodash'
 
-import { getBuyers } from '../../utils/queries'
+import {
+    Container,
+    Box,
+    Grid,
+    Typography,
+    Button,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+    IconButton,
+    List,
+    ListItem,
+    ListItemIcon,
+    CircularProgress,
+} from '@material-ui/core'
+
+import {
+    HighlightOff,
+    ArrowForward,
+    Flag,
+} from '@material-ui/icons'
+
+import {
+    Pagination,
+} from '@material-ui/lab'
+
+import {
+    getI18nPaths,
+    getI18nProps,
+    withI18n,
+} from '../../utils/i18n'
+
+import {
+    numberFormat,
+    timeFormat,
+} from '../../utils/formats'
+
+import {
+    CURRENCY_FORMAT,
+    DATE_FORMAT,
+    INTEGER_FORMAT,
+    PAGE_SIZE,
+    API_VERSION,
+} from '../../config/constants'
+
+import {
+    getBuyersCount,
+    getRedflagsCount,
+} from '../../utils/queries'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import Partner from '../../components/Partner'
+import { BuyersCounter, FlagsCounter } from '../../components/Counter'
 
-function Index({ buyers }) {
+function Index({
+    buyersCount = 0,
+    redflagsCount = 0,
+}) {
 
+    const router = useRouter()
     const { t, lang } = useTranslation()
 
+    const nf = numberFormat(lang).format
+    const tf = timeFormat(lang).format
+
+    const [ buyers, setBuyers ] = useState([])
+    const [ results, setResults ] = useState(0)
+    const [ searchString, setSearchString ] = useState("")
+    const [ currentSearchString, setCurrentSearchString ] = useState("")
+    const [ page, setPage ] = useState(1)
+    const [ waiting, setWaiting ] = useState(false)
+
+    function handleSubmit(e) {
+        setCurrentSearchString(searchString)
+        e.preventDefault()
+    }
+
+    function handleReset() {
+        setSearchString("")
+        setCurrentSearchString("")
+        setPage(1)
+        setBuyers([])
+    }
+
+    function handleChangePage(e, value) {
+        setPage(value)
+    }
+
+    function handleRequest() {
+        if (currentSearchString) {
+
+            setWaiting(true)
+
+            axios
+                .get(
+                    `/api/${API_VERSION}/buyers`,
+                    {
+                        params: {
+                            q: currentSearchString,
+                            lang,
+                            page: page-1,
+                        }
+                    }
+                )
+                .then(
+                    res => {
+                        setResults(res.data.total.value)
+                        setBuyers(map(res.data.hits, "_source"))
+                    }
+                )
+        } else {
+            setBuyers([])
+        }
+    }
+
+    useEffect(() => {
+        handleRequest()
+    }, [currentSearchString])
+
+    useEffect(() => {
+        handleRequest()
+    }, [page])
+
+    useEffect(() => {
+        setWaiting(false)
+    }, [buyers])
+
     return (
-        <div className="container">
-            
+        <>
+
             <Head>
                 <title>{t("common:title")}</title>
                 <link rel="icon" href="/favicon.ico" />
@@ -26,170 +149,150 @@ function Index({ buyers }) {
 
             <Header />
 
-            <main>
+            <Container component="main" maxWidth="md">
 
-                <h1 className="title">
-                    {t("common:title")}
-                </h1>
+                <Box mb={8}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <Typography variant="subtitle2" color="secondary">
+                                {t("common:buyers")}
+                            </Typography>
+                            <Typography variant="h1">
+                                {t("buyer:search.title")}
+                            </Typography>
+                            <Typography>
+                                {t("buyer:search.description")}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3}>
+                            <BuyersCounter count={buyersCount} label={t("buyer:search.counter")} />
+                        </Grid>
+                        <Grid item xs={6} sm={3}>
+                            <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
+                        </Grid>
+                    </Grid>
+                </Box>
 
-                <h2>{t("common:buyers")}</h2>
+                <Box mb={4}>
 
-                <ul>
+                    <Typography variant="subtitle2" color="secondary">{t("common:search.title")}</Typography>
+
+                    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                        <Grid container spacing={2}>
+                            <Grid item xs>
+                                <FormControl variant="outlined" fullWidth>
+                                    <InputLabel htmlFor="search-field">{t("common:search.help")}</InputLabel>
+                                    <OutlinedInput
+                                        id="search-field"
+                                        value={searchString}
+                                        onChange={e => setSearchString(e.target.value)}
+                                        endAdornment={
+                                            !!searchString
+                                            &&
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label={t("common:search.reset")}
+                                                    onClick={handleReset}
+                                                    edge="end"
+                                                >
+                                                    { waiting ? <CircularProgress /> : <HighlightOff /> }
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    variant="contained" color="primary" disableElevation
+                                    type="submit"
+                                    style={{ height: "100%" }}
+                                >{t("common:search")}</Button>
+                            </Grid>
+                        </Grid>
+                    </form>
+
+                </Box>
+
+                <Box mb={8}>
                     {
-                        map(
-                            buyers,
-                            buyer => (
-                                <li key={buyer["ID"]}>
-                                    {buyer["denominazione"]}
-                                    {` `}
-                                    (<Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
-                                        <a>
-                                            {buyer["ID"]}
-                                        </a>
-                                    </Link>)
-                                </li>
-                            )
-                        )
+                        !!currentSearchString && !isEmpty(buyers)
+                        ?
+                        <>
+                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
+                            <List>
+                                {
+                                    map(
+                                        buyers,
+                                        buyer => (
+                                            <Link key={buyer["ID"]} href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                                <ListItem button>
+                                                    <ListItemIcon><ArrowForward color="secondary" /></ListItemIcon>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("buyer:ID")}</Typography>
+                                                            <Typography variant="body2">{buyer["ID"]}</Typography>
+                                                        </Grid>
+                                                        <Grid item xs>
+                                                            <Typography>{buyer["denominazione"]}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("common:tenders")}</Typography>
+                                                            <Typography variant="body2">{}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("common:suppliers")}</Typography>
+                                                            <Typography variant="body2">{}</Typography>
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography variant="caption">{t("common:redflags")}</Typography>
+                                                            <Typography variant="body2">{}</Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </ListItem>
+                                            </Link>
+                                        )
+                                    )
+                                }
+                            </List>
+                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
+                        </>
+                        :
+                        !!currentSearchString && !waiting && <Typography>{t("common:search.noResults")}</Typography>
                     }
-                    <li>...</li>
-                </ul>
+                </Box>
 
-            </main>
+                <Box mb={8}>
+                    <Partner
+                        images={[
+                            "/partner/transparency-international-italy.png",
+                            "/partner/parliament-watch-italy.png",
+                            "/partner/ondata-italy.png"
+                        ]}
+                        title={t("buyer:partner.title")}
+                        description={t("buyer:partner.description")}
+                    />
+                </Box>
+
+            </Container>
 
             <Footer />
 
-            <style jsx>{`
-                .container {
-                min-height: 100vh;
-                padding: 0 0.5rem;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                }
-
-                main {
-                padding: 5rem 0;
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                }
-
-                .title a {
-                color: #0070f3;
-                text-decoration: none;
-                }
-
-                .title a:hover,
-                .title a:focus,
-                .title a:active {
-                text-decoration: underline;
-                }
-
-                .title {
-                margin: 0;
-                line-height: 1.15;
-                font-size: 4rem;
-                }
-
-                .title,
-                .description {
-                text-align: center;
-                }
-
-                .description {
-                line-height: 1.5;
-                font-size: 1.5rem;
-                }
-
-                code {
-                background: #fafafa;
-                border-radius: 5px;
-                padding: 0.75rem;
-                font-size: 1.1rem;
-                font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-                    DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-                }
-
-                .grid {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-wrap: wrap;
-
-                max-width: 800px;
-                margin-top: 3rem;
-                }
-
-                .card {
-                margin: 1rem;
-                flex-basis: 45%;
-                padding: 1.5rem;
-                text-align: left;
-                color: inherit;
-                text-decoration: none;
-                border: 1px solid #eaeaea;
-                border-radius: 10px;
-                transition: color 0.15s ease, border-color 0.15s ease;
-                }
-
-                .card:hover,
-                .card:focus,
-                .card:active {
-                color: #0070f3;
-                border-color: #0070f3;
-                }
-
-                .card h3 {
-                margin: 0 0 1rem 0;
-                font-size: 1.5rem;
-                }
-
-                .card p {
-                margin: 0;
-                font-size: 1.25rem;
-                line-height: 1.5;
-                }
-
-                .logo {
-                height: 1em;
-                }
-
-                @media (max-width: 600px) {
-                .grid {
-                    width: 100%;
-                    flex-direction: column;
-                }
-                }
-            `}</style>
-
-            <style jsx global>{`
-                html,
-                body {
-                padding: 0;
-                margin: 0;
-                font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-                    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-                    sans-serif;
-                }
-
-                * {
-                box-sizing: border-box;
-                }
-            `}</style>
-
-        </div>
+        </>
     )
+
 }
 
-export const getStaticProps = async ctx => ({
-    props: {
-        ...(await getI18nProps(ctx, ['common','buyer'])),
-        buyers: map((await getBuyers()).hits, "_source"),
+export const getStaticProps = async ctx => {
+    return {
+        props: {
+            ...(await getI18nProps(ctx, ['common', 'buyer'])),
+            buyersCount: await getBuyersCount(),
+            redflagsCount: await getRedflagsCount()
+        },
+        unstable_revalidate: 3600,
     }
-})
+}
 
 export const getStaticPaths = async () => ({
     paths: getI18nPaths(),
