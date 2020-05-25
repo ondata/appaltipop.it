@@ -1,6 +1,6 @@
 import {
     getSupplierById,
-} from '../../../../utils/queries'
+} from '../../../../../utils/queries'
 
 export default async (req, res) => {
 

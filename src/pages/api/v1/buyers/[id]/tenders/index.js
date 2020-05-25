@@ -1,6 +1,6 @@
 import {
     getTendersByBuyer,
-} from '../../../../utils/queries'
+} from '../../../../../../utils/queries'
 
 export default async (req, res) => {
 
