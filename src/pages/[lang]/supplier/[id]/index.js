@@ -6,24 +6,76 @@ import useTranslation from 'next-translate/useTranslation'
 
 import { map } from 'lodash'
 
-import { getI18nProps, withI18n } from '../../../../utils/i18n'
+import {
+    Container,
+    Box,
+    Grid,
+    Typography,
+    Avatar,
+} from '@material-ui/core'
 
-import { getSupplierById, getTendersBySupplier, getBuyersBySupplier } from '../../../../utils/queries'
+import {
+    Print,
+    GetApp,
+    Sports,
+} from '@material-ui/icons'
+
+import {
+    getI18nProps,
+    withI18n,
+} from '../../../../utils/i18n'
+
+import {
+    numberFormat,
+    timeFormat,
+} from '../../../../utils/formats'
+
+import {
+    CURRENCY_FORMAT,
+    DATE_FORMAT,
+    INTEGER_FORMAT,
+} from '../../../../config/constants'
+
+import {
+    getSupplierById,
+    getTendersCountBySupplier,
+    getRedflagsCountBySupplier,
+    getTendersValueAmountBySupplier,
+    getTendersTransactionAmountBySupplier,
+} from '../../../../utils/queries'
+
 import { getSupplierPaths } from '../../../../utils/paths'
 
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
 
-function Index({ supplier, tenders, buyers }) {
+import { FlagsCounter, TendersCounter } from '../../../../components/Counter'
+import FlagsInfo from '../../../../components/FlagsInfo'
+import KeyValue from '../../../../components/KeyValue'
+import DonutChart from '../../../../components/DonutChart'
+import BarChart from '../../../../components/BarChart'
+import Cta from '../../../../components/Cta'
+import Partner from '../../../../components/Partner'
+
+function Index({
+    supplier = {},
+    tendersCount = 0,
+    redflagsCount = 0,
+    valueAmount = 0,
+    transactionAmount = 0,
+}) {
 
     const router = useRouter()
     const { t, lang } = useTranslation()
+
+    const nf = numberFormat(lang).format
+    const tf = timeFormat(lang).format
 
     if (router.isFallback) {
         return <div>Loading...</div>
     } else {
         return (
-            <div className="container">
+            <>
 
                 <Head>
                     <title>{t("common:title")}</title>
@@ -32,187 +84,105 @@ function Index({ supplier, tenders, buyers }) {
 
                 <Header />
 
-                <main>
+                <Container component="main" maxWidth="md">
 
-                    <h1 className="title">
-                        {t("common:title")}
-                    </h1>
+                    <Box mb={8}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="subtitle2" color="secondary">
+                                    {t("common:supplier")}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={3}>
+                                <Typography variant="subtitle2" color="secondary">
+                                    <a target="_blank" href="#">
+                                        {t("common:print")}&nbsp;<Print />
+                                    </a>
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={3}>
+                                <Typography variant="subtitle2" color="secondary">
+                                    <a target="_blank" href="#">
+                                        {t("common:download")}&nbsp;<GetApp />
+                                    </a>
+                                </Typography>
+                            </Grid>
+                        </Grid>
 
-                    <h2>{t("common:supplier")}</h2>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <Typography variant="h1">
+                                    {supplier["ragione sociale"]}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <TendersCounter count={tendersCount} label={t(`common:tender${tendersCount === 1 ? "" : "s"}`)} />
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
+                            </Grid>
+                        </Grid>
+                    </Box>
 
-                    <p>{supplier["ragione sociale"]} ({supplier["CF"]})</p>
+                    <Box mb={8}>
+                        <Grid container spacing={2}>
 
-                    <h2>{t("common:tenders")}</h2>
+                            <Grid item xs={4}>
+                                <KeyValue title={t("supplier:province")} label={supplier["province"]} />
+                            </Grid>
 
-                    <ul>
-                        {
-                            map(
-                                tenders,
-                                tender => (
-                                    <li key={tender["cig"]}>
-                                        (<Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
-                                            <a>
-                                                {tender["cig"]}
-                                            </a>
-                                        </Link>)
-                                        {` `}
-                                        {tender["appalto"]}
-                                    </li>
-                                )
-                            )
-                        }
-                        <li>...</li>
-                    </ul>
+                            <Grid item xs={4}>
+                                <KeyValue title={t("supplier:region")} label={supplier["region"]} />
+                            </Grid>
 
-                    <h2>{t("common:buyers")}</h2>
+                            <Grid item xs={4}>
+                                <KeyValue title={t("supplier:cf")} label={supplier["CF"]} />
+                            </Grid>
 
-                    <ul>
-                        {
-                            map(
-                                buyers,
-                                buyer => (
-                                    <li key={buyer["ID"]}>
-                                        (<Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
-                                            <a>
-                                                {buyer["ID"]}
-                                            </a>
-                                        </Link>)
-                                        {` `}
-                                        {buyer["denominazione"]}
-                                    </li>
-                                )
-                            )
-                        }
-                        <li>...</li>
-                    </ul>
+                            <Grid item xs={6}>
+                                <KeyValue title={t("supplier:valueAmount")} label={nf(CURRENCY_FORMAT)(valueAmount)} />
+                            </Grid>
 
-                </main>
+                            <Grid item xs={6}>
+                                <KeyValue title={t("supplier:transactionAmount")} label={nf(CURRENCY_FORMAT)(transactionAmount)} />
+                            </Grid>
+
+                        </Grid>
+                    </Box>
+                    
+                    <Box mb={8}>
+                        <Grid container spacing={2}>
+
+                            <Grid item xs={12} sm={6}>
+                                <BarChart title={t("supplier:bar.1.title")} description={t("supplier:bar.1.description")} />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <BarChart title={t("supplier:bar.2.title")} description={t("supplier:bar.2.description")} />
+                            </Grid>
+
+                        </Grid>
+                    </Box>
+                    
+                    <Box mb={8}>
+                        <BarChart title={t("supplier:bar.3.title")} description={t("supplier:bar.3.description")} />
+                    </Box>
+
+                    <Box mb={8}>
+                        <Typography variant="h2">{t("common:tenders")}</Typography>
+                        <Typography>...</Typography>
+                    </Box>
+
+                    <Box mb={8}>
+                        <Typography variant="h2">{t("common:buyers")}</Typography>
+                        <Typography>...</Typography>
+                    </Box>
+
+                </Container>
 
                 <Footer />
 
-                <style jsx>{`
-                    .container {
-                    min-height: 100vh;
-                    padding: 0 0.5rem;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    }
-
-                    main {
-                    padding: 5rem 0;
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    }
-
-                    .title a {
-                    color: #0070f3;
-                    text-decoration: none;
-                    }
-
-                    .title a:hover,
-                    .title a:focus,
-                    .title a:active {
-                    text-decoration: underline;
-                    }
-
-                    .title {
-                    margin: 0;
-                    line-height: 1.15;
-                    font-size: 4rem;
-                    }
-
-                    .title,
-                    .description {
-                    text-align: center;
-                    }
-
-                    .description {
-                    line-height: 1.5;
-                    font-size: 1.5rem;
-                    }
-
-                    code {
-                    background: #fafafa;
-                    border-radius: 5px;
-                    padding: 0.75rem;
-                    font-size: 1.1rem;
-                    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-                        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-                    }
-
-                    .grid {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-wrap: wrap;
-
-                    max-width: 800px;
-                    margin-top: 3rem;
-                    }
-
-                    .card {
-                    margin: 1rem;
-                    flex-basis: 45%;
-                    padding: 1.5rem;
-                    text-align: left;
-                    color: inherit;
-                    text-decoration: none;
-                    border: 1px solid #eaeaea;
-                    border-radius: 10px;
-                    transition: color 0.15s ease, border-color 0.15s ease;
-                    }
-
-                    .card:hover,
-                    .card:focus,
-                    .card:active {
-                    color: #0070f3;
-                    border-color: #0070f3;
-                    }
-
-                    .card h3 {
-                    margin: 0 0 1rem 0;
-                    font-size: 1.5rem;
-                    }
-
-                    .card p {
-                    margin: 0;
-                    font-size: 1.25rem;
-                    line-height: 1.5;
-                    }
-
-                    .logo {
-                    height: 1em;
-                    }
-
-                    @media (max-width: 600px) {
-                    .grid {
-                        width: 100%;
-                        flex-direction: column;
-                    }
-                    }
-                `}</style>
-
-                <style jsx global>{`
-                    html,
-                    body {
-                    padding: 0;
-                    margin: 0;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-                        Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-                        sans-serif;
-                    }
-
-                    * {
-                    box-sizing: border-box;
-                    }
-                `}</style>
-
-            </div>
+            </>
         )
     }
 }
@@ -221,8 +191,10 @@ export const getStaticProps = async ctx => ({
     props: {
         ...(await getI18nProps(ctx, ['common','supplier'])),
         supplier: await getSupplierById(ctx.params.id),
-        tenders: map((await getTendersBySupplier(ctx.params.id)).hits, "_source"),
-        buyers: await getBuyersBySupplier(ctx.params.id),
+        tendersCount: await getTendersCountBySupplier(ctx.params.id),
+        redflagsCount: await getRedflagsCountBySupplier(ctx.params.id),
+        valueAmount: await getTendersValueAmountBySupplier(ctx.params.id),
+        transactionAmount: await getTendersTransactionAmountBySupplier(ctx.params.id),
     }
 })
 

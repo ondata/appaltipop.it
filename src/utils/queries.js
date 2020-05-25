@@ -147,6 +147,26 @@ export const getTendersCountBySupplier = async supplier => (
     )
 )
 
+export const getRedflagsCountBySupplier = async supplier => (
+    await getCount(
+        `${ES_INDEX_PREFIX}-tenders-*`,
+        {
+            bool: {
+                filter: {
+                    term: {
+                        "aggiudicatari.CF": { value: supplier }
+                    }
+                },
+                must: {
+                    exists: {
+                        field: "redflags.codice redflag"
+                    }
+                }
+            }
+        }
+    )
+)
+
 async function getCount(index, query = { match_all: {} }) {
 
     const { body } = await es.count({
@@ -169,11 +189,42 @@ export const getRedflagsCount = async () => (
         `${ES_INDEX_PREFIX}-tenders-*`,
         {
             exists: {
-                field: "redflags"
+                field: "redflags.codice redflag"
             }
         }
     )
 )
+
+async function getSum(filterKey, filterValue, aggKey) {
+
+    const { body } = await es.search({
+        index: `${ES_INDEX_PREFIX}-tenders-*`,
+        body: {
+            size: 0,
+            aggs: {
+                items: {
+                    filter: { term: { [filterKey.join(".")]: filterValue } },
+                    aggs: {
+                        sum: {
+                            sum: {
+                                field: aggKey
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+    return body.aggregations.items.sum.value
+    
+}
+
+export const getTendersValueAmountByBuyer = async buyer => await getSum(["pubblica amministrazione proponente","ID"], buyer, "importo aggiudicazione")
+export const getTendersTransactionAmountByBuyer = async buyer => await getSum(["pubblica amministrazione proponente","ID"], buyer, "importo somme liquidate")
+
+export const getTendersValueAmountBySupplier = async supplier => await getSum(["aggiudicatari","CF"], supplier, "importo aggiudicazione")
+export const getTendersTransactionAmountBySupplier = async supplier => await getSum(["aggiudicatari","CF"], supplier, "importo somme liquidate")
 
 async function getAggs(index, filterKey, filterValue, aggValue) {
 

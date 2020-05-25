@@ -58,15 +58,17 @@ import {
 
 import {
     getTendersCount,
+    getRedflagsCount,
 } from '../../utils/queries'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Partner from '../../components/Partner'
-import { TendersCounter } from '../../components/Counter'
+import { TendersCounter, FlagsCounter } from '../../components/Counter'
 
 function Index({
     tendersCount = 0,
+    redflagsCount = 0,
 }) {
 
     const router = useRouter()
@@ -151,7 +153,7 @@ function Index({
 
                 <Box mb={8}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={8}>
+                        <Grid item xs={12} sm={6}>
                             <Typography variant="subtitle2" color="secondary">
                                 {t("common:tenders")}
                             </Typography>
@@ -162,8 +164,11 @@ function Index({
                                 {t("tender:search.description")}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TendersCounter count={tendersCount} label={t("tender:search.counter")} />
+                        <Grid item xs={12} sm={3}>
+                            <TendersCounter count={tendersCount} label={t(`common:tender${tendersCount === 1 ? "" : "s"}`)} />
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                            <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
                         </Grid>
                     </Grid>
                 </Box>
@@ -294,6 +299,7 @@ export const getStaticProps = async ctx => {
         props: {
             ...(await getI18nProps(ctx, ['common', 'tender', 'redflags'])),
             tendersCount: await getTendersCount(),
+            redflagsCount: await getRedflagsCount()
         },
         unstable_revalidate: 3600,
     }

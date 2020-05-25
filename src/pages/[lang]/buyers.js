@@ -165,7 +165,7 @@ function Index({
                             </Typography>
                         </Grid>
                         <Grid item xs={6} sm={3}>
-                            <BuyersCounter count={buyersCount} label={t("buyer:search.counter")} />
+                            <BuyersCounter count={buyersCount} label={t(`common:buyer${buyersCount === 1 ? "" : "s"}`)} />
                         </Grid>
                         <Grid item xs={6} sm={3}>
                             <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
