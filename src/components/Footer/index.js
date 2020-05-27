@@ -24,18 +24,18 @@ export default function Index() {
     const { t, lang } = useTranslation()
 
     return (
-        <AppBar position="sticky" color="primary" className={classes.root}>
+        <AppBar position="sticky" className={classes.root}>
             <Toolbar>
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container alignItems="flex-start">
-                        <Grid item md={6}>
+                        <Grid item md={6} style={{alignSelf:"center"}}>
                             <Box p={2} className={classes.logo}>
                                 <Link href="/[lang]" as={`/${lang}`}>
                                     <a><img src="/logo-dark.png" alt="Logo di AppaltiPOP" title="AppaltiPOP" /></a>
                                 </Link>
                             </Box>
                         </Grid>
-                        <Grid item md={3} style={{alignSelf:"center"}}>
+                        <Grid item md={3}>
                             <List>
                                 <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
                                     <ListItem button className={classes.menuButton}>

@@ -21,9 +21,9 @@ export default function Index({
     const { t, lang } = useTranslation()
 
     return (
-        <Grid container className={classes.root}>
+        <Grid container spacing={2} alignItems="center" className={classes.root}>
             <Grid item xs={12}>
-                <Typography variant="subtitle2" color="secondary" gutterBottom className={classes.title}>
+                <Typography variant="subtitle1" gutterBottom className={classes.title}>
                     {title}
                 </Typography>
             </Grid>
@@ -38,7 +38,7 @@ export default function Index({
                 )
             }
             <Grid item xs={12}>
-                <Typography variant="body1" className={classes.description}>
+                <Typography variant="body2" className={classes.description}>
                     {description}
                 </Typography>
             </Grid>

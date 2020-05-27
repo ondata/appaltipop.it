@@ -9,4 +9,10 @@ export default theme => ({
     menuButton: {
         marginLeft: theme.spacing(2),
     },
+    langButton: {
+        backgroundColor: `transparent`,
+        '&:hover': {
+            backgroundColor: `transparent`,
+        },
+    },
 })

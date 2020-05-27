@@ -265,9 +265,9 @@ function Index({
                 <Box mb={8}>
                     <Partner
                         images={[
-                            "/partner/transparency-international-italy.png",
-                            "/partner/parliament-watch-italy.png",
-                            "/partner/ondata-italy.png"
+                            "/partners/transparency-international-italy.png",
+                            "/partners/parliament-watch-italy.png",
+                            "/partners/ondata-italy.png"
                         ]}
                         title={t("supplier:partner.title")}
                         description={t("supplier:partner.description")}

@@ -53,21 +53,24 @@ export default function Index() {
                     </Box>
                     <Hidden implementation="css" smDown>
                         <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
-                            <Button color="primary" className={classes.menuButton}>{t("common:buyers")}</Button>
+                            <Button className={classes.menuButton}>{t("common:buyers")}</Button>
                         </Link>
                         <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
-                            <Button color="primary" className={classes.menuButton}>{t("common:suppliers")}</Button>
+                            <Button className={classes.menuButton}>{t("common:suppliers")}</Button>
                         </Link>
                         <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
-                            <Button color="primary" className={classes.menuButton}>{t("common:tenders")}</Button>
+                            <Button className={classes.menuButton}>{t("common:tenders")}</Button>
                         </Link>
                         <Link href="/[lang]/get-involved" as={`/${lang}/get-involved`}>
-                            <Button color="primary" className={classes.menuButton}>{t("common:getInvolved")}</Button>
+                            <Button className={classes.menuButton}>{t("common:getInvolved")}</Button>
                         </Link>
                         <Link href="/[lang]/about" as={`/${lang}/about`}>
-                            <Button color="primary" className={classes.menuButton}>{t("common:about")}</Button>
+                            <Button className={classes.menuButton}>{t("common:about")}</Button>
                         </Link>
-                        <IconButton color="primary" className={classes.menuButton} onClick={e => setAnchorEl(e.currentTarget)}>
+                        <IconButton
+                            color="inherit" className={classes.menuButton}
+                            onClick={e => setAnchorEl(e.currentTarget)}
+                        >
                             <LanguageIcon />
                         </IconButton>
                         <Menu
@@ -86,18 +89,18 @@ export default function Index() {
                         >
                             <MenuItem onClick={() => setAnchorEl(null)}>
                                 <Link href={router.route} as={router.asPath.replace(`/${lang}`,"/it")}>
-                                    <span>{t("common:italian")}</span>
+                                    <Button className={classes.langButton}>{t("common:italian")}</Button>
                                 </Link>
                             </MenuItem>
                             <MenuItem onClick={() => setAnchorEl(null)}>
                                 <Link href={router.route} as={router.asPath.replace(`/${lang}`,"/en")}>
-                                    <span>{t("common:english")}</span>
+                                    <Button className={classes.langButton}>{t("common:english")}</Button>
                                 </Link>
                             </MenuItem>
                         </Menu>
                     </Hidden>
                     <Hidden implementation="css" mdUp>
-                        <IconButton edge="start" color="primary" aria-label="menu" onClick={() => toggleMenu(!isMenuOpen)}>
+                        <IconButton edge="end" color="inherit" aria-label="menu" onClick={() => toggleMenu(!isMenuOpen)}>
                             <MenuIcon />
                         </IconButton>
                         <Drawer anchor="right" open={isMenuOpen} onClose={() => toggleMenu(false)}>

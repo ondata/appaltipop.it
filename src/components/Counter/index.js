@@ -25,7 +25,7 @@ export default function Counter({
                 {icon}
             </Grid>
             <Grid item>
-                <Typography variant="body2" color={color} className={classes.number}>{count}</Typography>
+                <Typography variant="body1" color={color} className={classes.number}>{count}</Typography>
             </Grid>
             <Grid item>
                 <Typography variant="subtitle2" className={classes.label}>{label}</Typography>
@@ -47,7 +47,7 @@ export function FlagsCounter({
             icon={<img src="/images/redflag-man.png" alt={t("common:redflag")} title={t("common:redflag")} className={classes.icon} />}
             count={count}
             label={label}
-            color={count ? "error" : "inherit"}
+            color={count ? "secondary" : "primary"}
         />
     )
 
@@ -66,7 +66,7 @@ export function TendersCounter({
             icon={<img src="/images/tender-lens.png" alt={t("common:tender")} title={t("common:tender")} className={classes.icon} />}
             count={count}
             label={label}
-            color="secondary"
+            color="primary"
         />
     )
 
@@ -85,7 +85,7 @@ export function BuyersCounter({
             icon={<img src="/images/tender-lens.png" alt={t("common:buyer")} title={t("common:buyer")} className={classes.icon} />}
             count={count}
             label={label}
-            color="secondary"
+            color="primary"
         />
     )
 
@@ -104,7 +104,7 @@ export function SuppliersCounter({
             icon={<img src="/images/tender-lens.png" alt={t("common:supplier")} title={t("common:supplier")} className={classes.icon} />}
             count={count}
             label={label}
-            color="secondary"
+            color="primary"
         />
     )
 

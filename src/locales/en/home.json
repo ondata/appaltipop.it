@@ -1,0 +1,25 @@
+{
+
+    "introduction": "Ogni anno le Pubbliche amministrazioni italiane spendono circa 140 miliardi di euro in Appalti Pubblici, per creare infrastrutture e servizi, oppure per acquistare beni. Monitorare i dati degli appalti è difficilissmo anche per loro ed è fondamentale che i cittadini si diano da fare per attivare un controllo civico. Il nostro progetto permette ri rendere più facili queste azioni di monitoraggio. Non ci credi? Prova anche tu!",
+    
+    "ocds": {
+        "title": "Lo sapevi che esite uno standard mondiale sulla pubblicazione degli appalti pubblici?",
+        "description": "Si chiama OCDS - Open Contracting Data Standard has become a new global norm, recommended and endorsed by global bodies such as the G7, the G20, OECD, the European Commission, the World Bank, and the European Bank of Reconstruction and Development."
+    },
+    
+    "practice": {
+        "title": "In pratica",
+        "description": "Raccogliamo i dati degli Appalti dai siti istituzionali che troppo spesso mancano di dati o sono pubblicati in formati differenti tra loro e con un colpo di magia li trasformiamo in OCDS. Questo ci permette di confrontare tra loro gli appalti e, confrontandoli con alcuni indicatori, alzare delle bandierine rosse dove qualcosa non va. Qui tutti i Comuni e le altre Pubbliche Amministrazioni monitorate su AppaltiPOP"
+    },
+    
+    "todo": {
+        "title": "Cosa si può fare utilizzando un formato standard per i dati della PA?",
+        "description": "Il grafico qui sotto, per esempio, si può fare in un attimo! Avere i dati pubblicati tutti nello stesso modo permette trasparenza e consente alla società civile e alle stesse autorità istituzionali di monitorare e controllare che la macchina pubblica funzioni al meglio."
+    },
+    
+    "buyer": {
+        "title": "Sei una pubblica amministrazione e ti interessa diventare OCDS compliant?",
+        "description": "Noi attivisti di Ondata abbiamo lavorato a contatto con il team di open-contracting.org per migliorare lo standard e renderlo adatto alla legislazione italiana in ambito di appalti. Saremo felicissimi di aiutarti a diventare più trasparente nei confronti dei cittadini."
+    }
+    
+}

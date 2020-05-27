@@ -258,7 +258,7 @@ function Index({
 
                     <Box mb={8}>
                         <Partner
-                            images={["/partner/transparency-international-italy.png"]}
+                            images={["/partners/transparency-international-italy.png"]}
                             title={t("tender:monitoredBy.title")}
                             description={t("tender:monitoredBy.description")}
                         />

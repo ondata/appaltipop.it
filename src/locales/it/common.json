@@ -1,5 +1,7 @@
 {
+    
     "title": "AppaltiPOP",
+    "claim": "Diamo agli Appalti un’aria un po' più POP! Insieme a te.",
 
     "suppliers": "Aggiudicatari",
     "supplier": "Aggiudicatario",
@@ -22,5 +24,13 @@
     "download": "Scarica csv",
 
     "english": "English",
-    "italian": "Italiano"
+    "italian": "Italiano",
+
+    "search": {
+        "title": "Cerca",
+        "help": "Prova \"Milano\"...",
+        "cta": "Cerca",
+        "reset": "Annulla"
+    }
+
 }

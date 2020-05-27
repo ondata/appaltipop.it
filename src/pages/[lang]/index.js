@@ -5,10 +5,11 @@ import useTranslation from 'next-translate/useTranslation'
 
 import {
     Container,
-    List,
-    ListItem,
-    ListItemText,
-    ListItemSecondaryAction,
+    Typography,
+    Paper,
+    Grid,
+    Button,
+    Box,
 } from '@material-ui/core'
 
 import {
@@ -40,32 +41,111 @@ function Index({ tenders, buyers, suppliers }) {
 
             <Header />
 
-            <Container component="main" maxWidth="md">
+            <main>
 
-                <List component="nav">
-                    <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
-                        <ListItem button component="a">
-                            <ListItemText primary={t("common:tenders")} />
-                            <ListItemSecondaryAction>{tenders}</ListItemSecondaryAction>
-                        </ListItem>
-                    </Link>
-                    <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
-                        <ListItem button component="a">
-                            <ListItemText primary={t("common:buyers")} />
-                            <ListItemSecondaryAction>{buyers}</ListItemSecondaryAction>
-                        </ListItem>
-                    </Link>
-                    <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
-                        <ListItem button component="a">
-                            <ListItemText primary={t("common:suppliers")} />
-                            <ListItemSecondaryAction>{suppliers}</ListItemSecondaryAction>
-                        </ListItem>
-                    </Link>
-                </List>
-                
-            </Container>
+                <Container maxWidth="md">
+                    <img src="/logo.png" alt="AlboPOP" title="AlboPOP" />
+                    <Typography variant="subtitle1">
+                        {t("common:claim")}
+                    </Typography>
+                </Container>
 
-            <Footer lang={lang} />
+                <Container maxWidth="md">
+                    <Box mb={8} mt={16}>
+                        <Grid container spacing={4} justify="center">
+                            <Grid item xs={12}>
+                                <Paper elevation={0}>
+                                    <Typography variant="body2">
+                                        {t("home:introduction")}
+                                    </Typography>
+                                </Paper>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    target="_blank" href={t("cta:monitor.url")}
+                                    variant="contained" size="large" color="secondary" disableElevation
+                                >
+                                    {t("cta:monitor.title")}
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    target="_blank" href={t("cta:search.url")}
+                                    variant="contained" size="large" color="secondary" disableElevation
+                                >
+                                    {t("cta:search.title")}
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Container>
+
+                <Box className="home__band home__band-b">
+                    <Container maxWidth="md">
+                        <Typography variant="h2">
+                            {t("home:ocds.title")}
+                        </Typography>
+                        <Typography variant="body2">
+                            {t("home:ocds.description")}
+                        </Typography>
+                    </Container>
+                </Box>
+
+                <Box className="home__band home__band-g">
+                    <Container maxWidth="md">
+                        <Grid container spacing={4}>
+                            <Grid item xs={8} sm={6}>
+                                <Typography variant="h2">
+                                    {t("home:practice.title")}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {t("home:practice.description")}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={4} sm={6}>
+                                <img src="/partners/ocds-logo.png" alt="OCDS" title="OCDS" style={{width:"100%"}} />
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Box>
+
+                <Box className="home__band home__band-w">
+                    <Container maxWidth="md">
+                        <Typography variant="h2">
+                            {t("home:todo.title")}
+                        </Typography>
+                        <Typography variant="body2">
+                            {t("home:todo.description")}
+                        </Typography>
+                    </Container>
+                </Box>
+
+                <Box className="home__band home__band-b">
+                    <Grid container spacing={2} direction="column" alignItems="center">
+                        <Grid item>
+                            <Typography variant="h2" align="center">
+                                {t("home:buyer.title")}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="body2" align="center">
+                                {t("home:buyer.description")}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                target="_blank" href={t("cta:participate.url")}
+                                variant="contained" size="large" color="secondary" disableElevation
+                            >
+                                {t("cta:participate.title")}
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>
+
+            </main>
+
+            <Footer />
 
         </>
     )
@@ -73,7 +153,7 @@ function Index({ tenders, buyers, suppliers }) {
 
 export const getStaticProps = async (ctx) => ({
     props: {
-        ...(await getI18nProps(ctx, ['common'])),
+        ...(await getI18nProps(ctx, ['common','home','cta'])),
         tenders: await getTendersCount(),
         buyers: await getBuyersCount(),
         suppliers: await getSuppliersCount(),

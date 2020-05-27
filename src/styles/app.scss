@@ -6,13 +6,32 @@ $space: 8px;
 
 main {
     padding-top: spacing(8);
-    padding-bottom: spacing(8);
 }
 
+/*
 a,
 a:hover,
 a:visited,
 a:focus,
 a:active {
     color: #3624E0 !important;
+}
+*/
+
+.home__band {
+
+    padding: spacing(16);
+
+    &.home__band-b {
+        background-color: #f3f2ff;
+    }
+
+    &.home__band-g {
+        background-color: #f9f9f9;
+    }
+
+    &.home__band-w {
+        background-color: #ffffff;
+    }
+
 }

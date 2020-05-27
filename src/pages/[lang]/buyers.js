@@ -154,28 +154,28 @@ function Index({
                 <Box mb={8}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <Typography variant="subtitle2" color="secondary">
+                            <Typography variant="subtitle1">
                                 {t("common:buyers")}
                             </Typography>
                             <Typography variant="h1">
                                 {t("buyer:search.title")}
                             </Typography>
-                            <Typography>
+                            <Typography variant="body2">
                                 {t("buyer:search.description")}
                             </Typography>
                         </Grid>
                         <Grid item xs={6} sm={3}>
-                            <BuyersCounter count={buyersCount} label={t(`common:buyer${buyersCount === 1 ? "" : "s"}`)} />
+                            <BuyersCounter count={buyersCount} label={t("buyer:counter.buyers")} />
                         </Grid>
                         <Grid item xs={6} sm={3}>
-                            <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
+                            <FlagsCounter count={redflagsCount} label={t("buyer:counter.tenders")} />
                         </Grid>
                     </Grid>
                 </Box>
 
                 <Box mb={4}>
 
-                    <Typography variant="subtitle2" color="secondary">{t("common:search.title")}</Typography>
+                    <Typography variant="subtitle1">{t("common:search.title")}</Typography>
 
                     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
@@ -207,7 +207,7 @@ function Index({
                                     variant="contained" color="primary" disableElevation
                                     type="submit"
                                     style={{ height: "100%" }}
-                                >{t("common:search")}</Button>
+                                >{t("common:search.cta")}</Button>
                             </Grid>
                         </Grid>
                     </form>
@@ -265,9 +265,9 @@ function Index({
                 <Box mb={8}>
                     <Partner
                         images={[
-                            "/partner/transparency-international-italy.png",
-                            "/partner/parliament-watch-italy.png",
-                            "/partner/ondata-italy.png"
+                            "/partners/transparency-international-italy.png",
+                            "/partners/parliament-watch-italy.png",
+                            "/partners/ondata-italy.png"
                         ]}
                         title={t("buyer:partner.title")}
                         description={t("buyer:partner.description")}

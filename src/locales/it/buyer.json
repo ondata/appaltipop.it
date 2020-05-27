@@ -1,1 +1,18 @@
-{}
+{
+
+    "search": {
+        "title": "Ricerca le Pubbliche amministrazioni che desideri monitorare",
+        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
+    },
+
+    "counter": {
+        "buyers": "Pubbliche amministrazioni monitorate",
+        "tenders": "Appalti da approfondire"
+    },
+
+    "partner": {
+        "title": "Partner di monitoraggio",
+        "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
+    }
+
+}

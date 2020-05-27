@@ -1,30 +1,46 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 
-const primaryColor = `#021B44`
-const secondaryColor = `#3624E0`
-const errorColor = `#FF0000`
+const baseSpace = 8
+const spacing = d => d*baseSpace
+
+const greyColor = `#f9f9f9`
+const whiteColor = `#ffffff`
+
+const textColor = `#021B44`
+const primaryColor = `#3624e0`
+const secondaryColor = `#ff0000`
 
 const sansFont = `"Montserrat", sans-serif`
 const serifFont = `"PT Serif", serif`
 
 // Create a theme instance.
 export default createMuiTheme({
+    spacing: baseSpace,
     typography: {
         fontFamily: sansFont,
         h1: {
             fontSize: `2.25rem`,
             fontWeight: `bold`,
+            marginBottom: spacing(4),
         },
         h2: {
             fontSize: `2.25rem`,
             fontWeight: `bold`,
+            color: primaryColor,
+            marginBottom: spacing(4),
         },
         body1: {
-            fontFamily: serifFont,
             fontSize: `1.25rem`,
         },
-        body2: {
+        subtitle1: {
             fontSize: `1.25rem`,
+            fontWeight: `bold`,
+            color: primaryColor,
+        },
+        body2: {
+            fontFamily: serifFont,
+            fontSize: `1.25rem`,
+            color: textColor,
         },
         subtitle2: {
             fontSize: `1.25rem`,
@@ -33,7 +49,7 @@ export default createMuiTheme({
     },
     palette: {
         text: {
-            primary: primaryColor,
+            primary: textColor,
         },
         primary: {
             main: primaryColor,
@@ -41,15 +57,33 @@ export default createMuiTheme({
         secondary: {
             main: secondaryColor,
         },
-        error: {
-            main: errorColor,
+        background: {
+            default: whiteColor,
         },
     },
     overrides: {
+        MuiPaper: {
+            root: {
+                backgroundColor: greyColor,
+                padding: spacing(2)
+            },
+        },
+        MuiAppBar: {
+            root: {
+                padding: 0,
+            },
+        },
         MuiButton: {
             root: {
                 textTransform: `none`,
-                color: primaryColor,
+            },
+            contained: {
+                fontWeight: `bold`,
+            },
+        },
+        MuiMenu: {
+            paper: {
+                padding: 0,
             },
         },
         MuiMenuItem: {
