@@ -4,7 +4,10 @@ export default theme => ({
     },
     logo: {
         '& img': {
-            width: `80%`,
+            maxWidth: `50%`,
+            [theme.breakpoints.down('sm')]: {
+                maxWidth: `100%`,
+            },
         },
     },
     menuButton: {

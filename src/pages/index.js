@@ -6,6 +6,7 @@ import i18nConfig from '../config/i18n.json'
 const { defaultLanguage } = i18nConfig
 
 export default function Index() {
+    
     useEffect(() => {
         Router.replace(`/${defaultLanguage}`)
     }, [])

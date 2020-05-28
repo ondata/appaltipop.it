@@ -3,6 +3,8 @@ import Link from 'next/link'
 
 import useTranslation from 'next-translate/useTranslation'
 
+import ReactMarkdown from 'react-markdown'
+
 import {
     Container,
     Typography,
@@ -18,6 +20,8 @@ import {
     withI18n,
 } from '../../utils/i18n'
 
+import { CONTAINER_BREAKPOINT } from '../../config/constants'
+
 import {
     getTendersCount,
     getBuyersCount,
@@ -27,7 +31,7 @@ import {
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 
-function Index({ tenders, buyers, suppliers }) {
+function Index({ tendersCount, buyersCount, suppliersCount }) {
 
     const { t, lang } = useTranslation()
 
@@ -36,22 +40,23 @@ function Index({ tenders, buyers, suppliers }) {
 
             <Head>
                 <title>{t("common:title")}</title>
-                <link rel="icon" href="/favicon.ico" />
             </Head>
 
             <Header />
 
             <main>
 
-                <Container maxWidth="md">
-                    <img src="/logo.png" alt="AlboPOP" title="AlboPOP" />
-                    <Typography variant="subtitle1">
+                <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
+                    <Box component="h1" m={0}>
+                        <img src="/logo.png" alt="AppaltiPOP" title="AppaltiPOP" style={{maxWidth:"100%"}} />
+                    </Box>
+                    <Typography component="span" variant="subtitle1">
                         {t("common:claim")}
                     </Typography>
                 </Container>
 
-                <Container maxWidth="md">
-                    <Box mb={8} mt={16}>
+                <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                    <Box mb={8} mt={8}>
                         <Grid container spacing={4} justify="center">
                             <Grid item xs={12}>
                                 <Paper elevation={0}>
@@ -60,17 +65,19 @@ function Index({ tenders, buyers, suppliers }) {
                                     </Typography>
                                 </Paper>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={12} sm="auto">
                                 <Button
                                     target="_blank" href={t("cta:monitor.url")}
+                                    fullWidth
                                     variant="contained" size="large" color="secondary" disableElevation
                                 >
                                     {t("cta:monitor.title")}
                                 </Button>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={12} sm="auto">
                                 <Button
                                     target="_blank" href={t("cta:search.url")}
+                                    fullWidth
                                     variant="contained" size="large" color="secondary" disableElevation
                                 >
                                     {t("cta:search.title")}
@@ -80,67 +87,67 @@ function Index({ tenders, buyers, suppliers }) {
                     </Box>
                 </Container>
 
-                <Box className="home__band home__band-b">
-                    <Container maxWidth="md">
+                <Box component="section" className="band band-b band-home">
+                    <Container maxWidth={CONTAINER_BREAKPOINT}>
                         <Typography variant="h2">
                             {t("home:ocds.title")}
                         </Typography>
-                        <Typography variant="body2">
-                            {t("home:ocds.description")}
+                        <Typography component="div" variant="body2">
+                            <ReactMarkdown source={t("home:ocds.description")} linkTarget="_blank" />
                         </Typography>
                     </Container>
                 </Box>
 
-                <Box className="home__band home__band-g">
-                    <Container maxWidth="md">
+                <Box component="section" className="band band-g band-home">
+                    <Container maxWidth={CONTAINER_BREAKPOINT}>
+                        <Typography variant="h2">
+                            {t("home:practice.title")}
+                        </Typography>
                         <Grid container spacing={4}>
-                            <Grid item xs={8} sm={6}>
-                                <Typography variant="h2">
-                                    {t("home:practice.title")}
-                                </Typography>
-                                <Typography variant="body2">
-                                    {t("home:practice.description")}
+                            <Grid item xs={12} sm={6}>
+                                <Typography component="div" variant="body2">
+                                    <ReactMarkdown source={t("home:practice.description")} />
                                 </Typography>
                             </Grid>
-                            <Grid item xs={4} sm={6}>
+                            <Grid item xs={12} sm={6}>
                                 <img src="/partners/ocds-logo.png" alt="OCDS" title="OCDS" style={{width:"100%"}} />
                             </Grid>
                         </Grid>
                     </Container>
                 </Box>
 
-                <Box className="home__band home__band-w">
-                    <Container maxWidth="md">
+                <Box component="section" className="band band-w band-home">
+                    <Container maxWidth={CONTAINER_BREAKPOINT}>
                         <Typography variant="h2">
                             {t("home:todo.title")}
                         </Typography>
-                        <Typography variant="body2">
-                            {t("home:todo.description")}
+                        <Typography component="div" variant="body2">
+                            <ReactMarkdown source={t("home:todo.description")} />
                         </Typography>
                     </Container>
                 </Box>
 
-                <Box className="home__band home__band-b">
-                    <Grid container spacing={2} direction="column" alignItems="center">
-                        <Grid item>
-                            <Typography variant="h2" align="center">
-                                {t("home:buyer.title")}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <Typography variant="body2" align="center">
-                                {t("home:buyer.description")}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
+                <Box component="section" className="band band-b band-home">
+                    <Container maxWidth="md">
+
+                        <Typography variant="h2" align="center">
+                            {t("home:buyer.title")}
+                        </Typography>
+
+                        <Typography component="div" variant="body2" align="center">
+                            <ReactMarkdown source={t("home:buyer.description")} linkTarget="_blank" />
+                        </Typography>
+
+                        <Box mt={4} textAlign="center">
                             <Button
                                 target="_blank" href={t("cta:participate.url")}
                                 variant="contained" size="large" color="secondary" disableElevation
                             >
                                 {t("cta:participate.title")}
                             </Button>
-                        </Grid>
-                    </Grid>
+                        </Box>
+
+                    </Container>
                 </Box>
 
             </main>
@@ -154,9 +161,9 @@ function Index({ tenders, buyers, suppliers }) {
 export const getStaticProps = async (ctx) => ({
     props: {
         ...(await getI18nProps(ctx, ['common','home','cta'])),
-        tenders: await getTendersCount(),
-        buyers: await getBuyersCount(),
-        suppliers: await getSuppliersCount(),
+        tendersCount: await getTendersCount(),
+        buyersCount: await getBuyersCount(),
+        suppliersCount: await getSuppliersCount(),
     }
 })
 

@@ -1,5 +1,7 @@
 import useTranslation from 'next-translate/useTranslation'
 
+import ReactMarkdown from 'react-markdown'
+
 import { map } from 'lodash'
 
 import {
@@ -38,8 +40,8 @@ export default function Index({
                 )
             }
             <Grid item xs={12}>
-                <Typography variant="body2" className={classes.description}>
-                    {description}
+                <Typography component="div" variant="body2" className={classes.description}>
+                    <ReactMarkdown source={description} />
                 </Typography>
             </Grid>
         </Grid>

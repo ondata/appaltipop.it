@@ -13,6 +13,7 @@ const useStyles = makeStyles(style)
 export default function Index({
     title = "",
     description = "",
+    inverse = false,
 }) {
 
     const classes = useStyles()
@@ -25,11 +26,23 @@ export default function Index({
                 {title}
             </Typography>
 
+            {
+                inverse
+                &&
+                <Typography variant="body2" className={classes.description}>
+                    {description}
+                </Typography>
+            }
+
             <Box className={classes.chart}></Box>
 
-            <Typography variant="body1" className={classes.description}>
-                {description}
-            </Typography>
+            {
+                !inverse
+                &&
+                <Typography variant="body2" className={classes.description}>
+                    {description}
+                </Typography>
+            }
 
         </>
     )

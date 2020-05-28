@@ -4,12 +4,12 @@
     
     "ocds": {
         "title": "Lo sapevi che esite uno standard mondiale sulla pubblicazione degli appalti pubblici?",
-        "description": "Si chiama OCDS - Open Contracting Data Standard has become a new global norm, recommended and endorsed by global bodies such as the G7, the G20, OECD, the European Commission, the World Bank, and the European Bank of Reconstruction and Development."
+        "description": "[OCDS - Open Contracting Data Standard](https://standard.open-contracting.org/latest/en/) has become a new global norm, recommended and endorsed by global bodies such as the G7, the G20, OECD, the European Commission, the World Bank, and the European Bank of Reconstruction and Development."
     },
     
     "practice": {
         "title": "In pratica",
-        "description": "Raccogliamo i dati degli Appalti dai siti istituzionali che troppo spesso mancano di dati o sono pubblicati in formati differenti tra loro e con un colpo di magia li trasformiamo in OCDS. Questo ci permette di confrontare tra loro gli appalti e, confrontandoli con alcuni indicatori, alzare delle bandierine rosse dove qualcosa non va. Qui tutti i Comuni e le altre Pubbliche Amministrazioni monitorate su AppaltiPOP"
+        "description": "Raccogliamo i dati degli Appalti dai siti istituzionali che troppo spesso mancano di dati o sono pubblicati in formati differenti tra loro e con un colpo di magia li trasformiamo in OCDS.\n\nQuesto ci permette di confrontare tra loro gli appalti e, confrontandoli con alcuni indicatori, alzare delle bandierine rosse dove qualcosa non va.\n\n[Qui](/it/buyers) tutti i Comuni e le altre Pubbliche Amministrazioni monitorate su AppaltiPOP."
     },
     
     "todo": {
@@ -19,7 +19,7 @@
     
     "buyer": {
         "title": "Sei una pubblica amministrazione e ti interessa diventare OCDS compliant?",
-        "description": "Noi attivisti di Ondata abbiamo lavorato a contatto con il team di open-contracting.org per migliorare lo standard e renderlo adatto alla legislazione italiana in ambito di appalti. Saremo felicissimi di aiutarti a diventare più trasparente nei confronti dei cittadini."
+        "description": "Noi attivisti di [Ondata](http://ondata.it/) abbiamo lavorato a contatto con il team di [Open Contracting](https://www.open-contracting.org/) per migliorare lo standard e renderlo adatto alla legislazione italiana in ambito di appalti.\n\nSaremo felicissimi di aiutarti a diventare più trasparente nei confronti dei cittadini."
     }
     
 }

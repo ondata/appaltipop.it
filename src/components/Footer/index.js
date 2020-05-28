@@ -11,7 +11,10 @@ import {
     ListItem,
     ListItemText,
     Grid,
+    Hidden,
 } from '@material-ui/core'
+
+import { CONTAINER_BREAKPOINT } from '../../config/constants'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -24,55 +27,75 @@ export default function Index() {
     const { t, lang } = useTranslation()
 
     return (
-        <AppBar position="sticky" className={classes.root}>
+        <AppBar component="footer" position="sticky" className={classes.root}>
             <Toolbar>
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container alignItems="flex-start">
-                        <Grid item md={6} style={{alignSelf:"center"}}>
+                <Container maxWidth={CONTAINER_BREAKPOINT} className={classes.container}>
+                    <Grid container spacing={2} alignItems="flex-start">
+                        <Grid item xs={12} md={6} style={{alignSelf:"center"}}>
                             <Box p={2} className={classes.logo}>
                                 <Link href="/[lang]" as={`/${lang}`}>
                                     <a><img src="/logo-dark.png" alt="Logo di AppaltiPOP" title="AppaltiPOP" /></a>
                                 </Link>
                             </Box>
                         </Grid>
-                        <Grid item md={3}>
-                            <List>
-                                <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
-                                    <ListItem button className={classes.menuButton}>
-                                        <ListItemText primary={t("common:buyers")} />
-                                    </ListItem>
-                                </Link>
-                                <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
-                                    <ListItem button className={classes.menuButton}>
-                                        <ListItemText primary={t("common:suppliers")} />
-                                    </ListItem>
-                                </Link>
-                                <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
-                                    <ListItem button className={classes.menuButton}>
-                                        <ListItemText primary={t("common:tenders")} />
-                                    </ListItem>
-                                </Link>
-                            </List>
-                        </Grid>
-                        <Grid item md={3}>
-                            <List>
-                                <Link href="/[lang]/get-involved" as={`/${lang}/get-involved`}>
-                                    <ListItem button className={classes.menuButton}>
-                                        <ListItemText primary={t("common:getInvolved")} />
-                                    </ListItem>
-                                </Link>
-                                <Link href="/[lang]/faq" as={`/${lang}/faq`}>
-                                    <ListItem button className={classes.menuButton}>
-                                        <ListItemText primary={t("common:faq")} />
-                                    </ListItem>
-                                </Link>
-                                <Link href="/[lang]/cc" as={`/${lang}/cc`}>
-                                    <ListItem button className={classes.menuButton}>
-                                        <ListItemText primary={t("common:cc")} />
-                                    </ListItem>
-                                </Link>
-                            </List>
-                        </Grid>
+                        <Hidden smDown>
+                            <Grid item md={3}>
+                                <List>
+                                    <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:buyers")} />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:suppliers")} />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:tenders")} />
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </Grid>
+                        </Hidden>
+                        <Hidden smDown>
+                            <Grid item md={3}>
+                                <List>
+                                    <Link href="/[lang]/get-involved" as={`/${lang}/get-involved`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:get-involved")} />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/[lang]/faq" as={`/${lang}/faq`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:faq")} />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/[lang]/cc" as={`/${lang}/cc`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:cc")} />
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </Grid>
+                        </Hidden>
+                        <Hidden mdUp>
+                            <Grid item xs={12}>
+                                <List>
+                                    <Link href="/[lang]/faq" as={`/${lang}/faq`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:faq")} />
+                                        </ListItem>
+                                    </Link>
+                                    <Link href="/[lang]/cc" as={`/${lang}/cc`}>
+                                        <ListItem component="li" button className={classes.menuButton}>
+                                            <ListItemText primary={t("common:cc")} />
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </Grid>
+                        </Hidden>
                     </Grid>
                 </Container>
             </Toolbar>

@@ -21,12 +21,16 @@ import {
     Menu,
     MenuItem,
     ListItemIcon,
+    Grid,
 } from '@material-ui/core'
 
 import {
     Menu as MenuIcon,
     Language as LanguageIcon,
+    Close,
 } from '@material-ui/icons'
+
+import { CONTAINER_BREAKPOINT } from '../../config/constants'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -44,28 +48,28 @@ export default function Index() {
 
     return (
         <AppBar position="sticky" color="inherit" className={classes.root}>
-            <Container maxWidth="lg" className={classes.container}>
-                <Toolbar>
+            <Container maxWidth={CONTAINER_BREAKPOINT} className={classes.container}>
+                <Toolbar component="nav">
                     <Box className={classes.logo}>
                         <Link href="/[lang]" as={`/${lang}`}>
-                            <a><img src="/logo.png" alt="Logo di AppaltiPOP" title="AppaltiPOP" /></a>
+                            <a><img src="/logo.png" alt="AppaltiPOP" title="AppaltiPOP" /></a>
                         </Link>
                     </Box>
                     <Hidden implementation="css" smDown>
                         <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
-                            <Button className={classes.menuButton}>{t("common:buyers")}</Button>
+                            <Button component="a" className={classes.menuButton}>{t("common:buyers")}</Button>
                         </Link>
                         <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
-                            <Button className={classes.menuButton}>{t("common:suppliers")}</Button>
+                            <Button component="a" className={classes.menuButton}>{t("common:suppliers")}</Button>
                         </Link>
                         <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
-                            <Button className={classes.menuButton}>{t("common:tenders")}</Button>
+                            <Button component="a" className={classes.menuButton}>{t("common:tenders")}</Button>
                         </Link>
                         <Link href="/[lang]/get-involved" as={`/${lang}/get-involved`}>
-                            <Button className={classes.menuButton}>{t("common:getInvolved")}</Button>
+                            <Button component="a" variant="contained" color="primary" disableElevation className={classes.menuButton}>{t("common:get-involved")}</Button>
                         </Link>
                         <Link href="/[lang]/about" as={`/${lang}/about`}>
-                            <Button className={classes.menuButton}>{t("common:about")}</Button>
+                            <Button component="a" className={classes.menuButton}>{t("common:about")}</Button>
                         </Link>
                         <IconButton
                             color="inherit" className={classes.menuButton}
@@ -89,12 +93,12 @@ export default function Index() {
                         >
                             <MenuItem onClick={() => setAnchorEl(null)}>
                                 <Link href={router.route} as={router.asPath.replace(`/${lang}`,"/it")}>
-                                    <Button className={classes.langButton}>{t("common:italian")}</Button>
+                                    <Button component="a" className={classes.langButton}>{t("common:italian")}</Button>
                                 </Link>
                             </MenuItem>
                             <MenuItem onClick={() => setAnchorEl(null)}>
                                 <Link href={router.route} as={router.asPath.replace(`/${lang}`,"/en")}>
-                                    <Button className={classes.langButton}>{t("common:english")}</Button>
+                                    <Button component="a" className={classes.langButton}>{t("common:english")}</Button>
                                 </Link>
                             </MenuItem>
                         </Menu>
@@ -104,48 +108,53 @@ export default function Index() {
                             <MenuIcon />
                         </IconButton>
                         <Drawer anchor="right" open={isMenuOpen} onClose={() => toggleMenu(false)}>
-                            <List>
+                            <List component="nav">
                                 <Link href="/[lang]" as={`/${lang}`}>
-                                    <ListItem button>
-                                        <ListItemIcon>
-                                            <Box className={classes.logo}><img src="/logo.png" alt="Logo di AppaltiPOP" title="AppaltiPOP" /></Box>
-                                        </ListItemIcon>
+                                    <ListItem component="a" button>
+                                        <Grid container alignItems="baseline">
+                                            <Grid item xs>
+                                                <ListItemIcon className={classes.logo}>
+                                                    <img src="/logo.png" alt="Logo di AppaltiPOP" title="AppaltiPOP" />
+                                                </ListItemIcon>
+                                            </Grid>
+                                            <Grid item><Close className={classes.close} onClick={() => toggleMenu(false)} /></Grid>
+                                        </Grid>
                                     </ListItem>
                                 </Link>
                                 <Link href="/[lang]/buyers" as={`/${lang}/buyers`}>
-                                    <ListItem button>
+                                    <ListItem component="a" button>
                                         <ListItemText primary={t("common:buyers")} />
                                     </ListItem>
                                 </Link>
                                 <Link href="/[lang]/suppliers" as={`/${lang}/suppliers`}>
-                                    <ListItem button>
+                                    <ListItem component="a" button>
                                         <ListItemText primary={t("common:suppliers")} />
                                     </ListItem>
                                 </Link>
                                 <Link href="/[lang]/tenders" as={`/${lang}/tenders`}>
-                                    <ListItem button>
+                                    <ListItem component="a" button>
                                         <ListItemText primary={t("common:tenders")} />
                                     </ListItem>
                                 </Link>
                                 <Divider />
                                 <Link href="/[lang]/get-involved" as={`/${lang}/get-involved`}>
-                                    <ListItem button>
-                                        <ListItemText primary={t("common:getInvolved")} />
+                                    <ListItem component="a" button>
+                                        <ListItemText primary={t("common:get-involved")} />
                                     </ListItem>
                                 </Link>
                                 <Link href="/[lang]/about" as={`/${lang}/about`}>
-                                    <ListItem button>
+                                    <ListItem component="a" button>
                                         <ListItemText primary={t("common:about")} />
                                     </ListItem>
                                 </Link>
                                 <Divider />
                                 <Link href={router.route} as={router.asPath.replace(`/${lang}`,"/it")}>
-                                    <ListItem button>
+                                    <ListItem component="a" button>
                                         <ListItemText primary={t("common:italian")} />
                                     </ListItem>
                                 </Link>
                                 <Link href={router.route} as={router.asPath.replace(`/${lang}`,"/en")}>
-                                    <ListItem button>
+                                    <ListItem component="a" button>
                                         <ListItemText primary={t("common:english")} />
                                     </ListItem>
                                 </Link>

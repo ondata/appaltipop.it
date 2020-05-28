@@ -58,7 +58,7 @@ export const getTenders = async () => await getItems(`${ES_INDEX_PREFIX}-tenders
 export const searchForTenders = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
-        q && { match_phrase: { [`appalto.${lang}`]: q } },
+        q && { match: { [`appalto.${lang}`]: q } },
         page*PAGE_SIZE
     )
 )
@@ -67,7 +67,7 @@ export const getBuyers = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
 export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-buyers`,
-        q && { match_phrase: { [`denominazione.${lang}`]: q } },
+        q && { match: { [`denominazione.${lang}`]: q } },
         page*PAGE_SIZE
     )
 )
@@ -76,7 +76,7 @@ export const getSuppliers = async () => await getItems(`${ES_INDEX_PREFIX}-suppl
 export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-suppliers`,
-        q && { match_phrase: { [`ragione sociale.${lang}`]: q } },
+        q && { match: { [`ragione sociale.${lang}`]: q } },
         page*PAGE_SIZE
     )
 )

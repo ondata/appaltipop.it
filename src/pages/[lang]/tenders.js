@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 import useTranslation from 'next-translate/useTranslation'
 
+import ReactMarkdown from 'react-markdown'
+
 import axios from 'axios'
 
 import { map, isEmpty } from 'lodash'
@@ -25,12 +27,12 @@ import {
     ListItem,
     ListItemIcon,
     CircularProgress,
+    Divider,
 } from '@material-ui/core'
 
 import {
     HighlightOff,
     ArrowForward,
-    Flag,
 } from '@material-ui/icons'
 
 import {
@@ -44,14 +46,7 @@ import {
 } from '../../utils/i18n'
 
 import {
-    numberFormat,
-    timeFormat,
-} from '../../utils/formats'
-
-import {
-    CURRENCY_FORMAT,
-    DATE_FORMAT,
-    INTEGER_FORMAT,
+    CONTAINER_BREAKPOINT,
     PAGE_SIZE,
     API_VERSION,
 } from '../../config/constants'
@@ -63,7 +58,8 @@ import {
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import Partner from '../../components/Partner'
+import AvatarIcon from '../../components/AvatarIcon'
+import { Tender } from '../../components/SearchResult'
 import { TendersCounter, FlagsCounter } from '../../components/Counter'
 
 function Index({
@@ -74,14 +70,13 @@ function Index({
     const router = useRouter()
     const { t, lang } = useTranslation()
 
-    const nf = numberFormat(lang).format
-    const tf = timeFormat(lang).format
-
     const [ tenders, setTenders ] = useState([])
     const [ results, setResults ] = useState(0)
+    const [ resultsLabel, setResultsLabel ] = useState(<>&nbsp;</>)
     const [ searchString, setSearchString ] = useState("")
     const [ currentSearchString, setCurrentSearchString ] = useState("")
     const [ page, setPage ] = useState(1)
+    const [ pages, setPages ] = useState(1)
     const [ waiting, setWaiting ] = useState(false)
 
     function handleSubmit(e) {
@@ -91,9 +86,10 @@ function Index({
 
     function handleReset() {
         setSearchString("")
-        setCurrentSearchString("")
-        setPage(1)
         setTenders([])
+        setResults(0)
+        setPage(1)
+        setCurrentSearchString("")
     }
 
     function handleChangePage(e, value) {
@@ -102,9 +98,7 @@ function Index({
 
     function handleRequest() {
         if (currentSearchString) {
-
             setWaiting(true)
-
             axios
                 .get(
                     `/api/${API_VERSION}/tenders`,
@@ -120,6 +114,7 @@ function Index({
                     res => {
                         setResults(res.data.total.value)
                         setTenders(map(res.data.hits, "_source"))
+                        setWaiting(false)
                     }
                 )
         } else {
@@ -128,164 +123,162 @@ function Index({
     }
 
     useEffect(() => {
-        handleRequest()
+        setResultsLabel(<>&nbsp;</>)
+        setPage(0)
     }, [currentSearchString])
 
     useEffect(() => {
-        handleRequest()
+        if (page) {
+            handleRequest()
+        } else {
+            setPage(1)
+        }
     }, [page])
 
     useEffect(() => {
-        setWaiting(false)
-    }, [tenders])
+        setResultsLabel(t("search:results", { query: currentSearchString, count: results }))
+        setPages(Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0))
+    }, [results])
 
     return (
         <>
 
             <Head>
-                <title>{t("common:title")}</title>
-                <link rel="icon" href="/favicon.ico" />
+                <title>{`${t("common:tenders")} | ${t("common:title")}`}</title>
             </Head>
 
             <Header />
 
-            <Container component="main" maxWidth="md">
+            <main>
 
-                <Box mb={8}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="subtitle2" color="secondary">
-                                {t("common:tenders")}
-                            </Typography>
-                            <Typography variant="h1">
-                                {t("tender:search.title")}
-                            </Typography>
-                            <Typography>
-                                {t("tender:search.description")}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={3}>
-                            <TendersCounter count={tendersCount} label={t(`common:tender${tendersCount === 1 ? "" : "s"}`)} />
-                        </Grid>
-                        <Grid item xs={12} sm={3}>
-                            <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
-                        </Grid>
-                    </Grid>
-                </Box>
-
-                <Box mb={4}>
-
-                    <Typography variant="subtitle2" color="secondary">{t("common:search.title")}</Typography>
-
-                    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
+                    <Box mb={4}>
                         <Grid container spacing={2}>
-                            <Grid item xs>
-                                <FormControl variant="outlined" fullWidth>
-                                    <InputLabel htmlFor="search-field">{t("common:search.help")}</InputLabel>
-                                    <OutlinedInput
-                                        id="search-field"
-                                        value={searchString}
-                                        onChange={e => setSearchString(e.target.value)}
-                                        endAdornment={
-                                            !!searchString
-                                            &&
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label={t("common:search.reset")}
-                                                    onClick={handleReset}
-                                                    edge="end"
-                                                >
-                                                    { waiting ? <CircularProgress /> : <HighlightOff /> }
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
+                            <Grid item xs={12} sm={6}>
+                                <Typography component="h1" variant="subtitle1">
+                                    {t("common:tenders")}
+                                </Typography>
+                                <Typography component="span" variant="h1">
+                                    {t("tender:search.title")}
+                                </Typography>
                             </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="contained" color="primary" disableElevation
-                                    type="submit"
-                                    style={{ height: "100%" }}
-                                >{t("common:search")}</Button>
+                            <Grid item xs={6} sm={3}>
+                                <TendersCounter count={tendersCount} label={t("tender:counter.tender", { count: tendersCount })} />
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <FlagsCounter count={redflagsCount} label={t("tender:counter.redflag", { count: redflagsCount })} />
+                            </Grid>
+                            <Grid item xs={12} sm={8}>
+                                <Typography component="div" variant="body2">
+                                    <ReactMarkdown source={t("tender:search.description")} />
+                                </Typography>
                             </Grid>
                         </Grid>
-                    </form>
+                    </Box>
+                </Container>
 
+                <Box pb={8} component="section" className="band band-g">
+                    <Container maxWidth={CONTAINER_BREAKPOINT}>
+
+                        <Grid container>
+                            <Grid item xs={12} sm={8}>
+                                <Typography component="label" htmlFor="search-field" variant="subtitle1">{t("tender:search.label")}</Typography>
+                                <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs>
+                                            <FormControl variant="outlined" fullWidth>
+                                                <OutlinedInput
+                                                    id="search-field"
+                                                    placeholder={t("tender:search.help")}
+                                                    value={searchString}
+                                                    onChange={e => setSearchString(e.target.value)}
+                                                    endAdornment={
+                                                        !!searchString
+                                                        &&
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label={t("common:search.reset")}
+                                                                onClick={handleReset}
+                                                                edge="end"
+                                                            >
+                                                                { waiting ? <CircularProgress /> : <HighlightOff /> }
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    }
+                                                />
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item>
+                                            <Button
+                                                variant="contained" color="primary" disableElevation
+                                                type="submit"
+                                                style={{ height: "100%" }}
+                                            >{t("common:search.cta")}</Button>
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                                <Typography component="p" variant="caption">{!!currentSearchString ? resultsLabel : <>&nbsp;</>}</Typography>
+                            </Grid>
+                        </Grid>
+
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <Box mt={4}>
+                                    {
+                                        !!currentSearchString
+                                        &&
+                                        <>
+                                            {
+                                                pages > 1
+                                                &&
+                                                <Pagination
+                                                    variant="outlined" shape="rounded"
+                                                    page={page} count={pages}
+                                                    onChange={handleChangePage}
+                                                />
+                                            }
+
+                                            <List>
+                                                {
+                                                    map(
+                                                        tenders,
+                                                        (tender, index) => (
+                                                            <Box component="li" key={tender["cig"]}>
+                                                                { !!index && <Divider /> }
+                                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
+                                                                    <ListItem button>
+                                                                        <ListItemIcon>
+                                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
+                                                                        </ListItemIcon>
+                                                                        <Tender {...tender} />
+                                                                    </ListItem>
+                                                                </Link>
+                                                            </Box>
+                                                        )
+                                                    )
+                                                }
+                                            </List>
+
+                                            {
+                                                pages > 1
+                                                &&
+                                                <Pagination
+                                                    variant="outlined" shape="rounded"
+                                                    page={page} count={pages}
+                                                    onChange={handleChangePage}
+                                                />
+                                            }
+
+                                        </>
+                                    }
+                                </Box>
+                            </Grid>
+                        </Grid>
+
+                    </Container>
                 </Box>
 
-                <Box mb={8}>
-                    {
-                        !!currentSearchString && !isEmpty(tenders)
-                        ?
-                        <>
-                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
-                            <List>
-                                {
-                                    map(
-                                        tenders,
-                                        tender => (
-                                            <Link key={tender["cig"]} href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
-                                                <ListItem button>
-                                                    <ListItemIcon><ArrowForward color="secondary" /></ListItemIcon>
-                                                    <Grid container spacing={2}>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("tender:cig")}</Typography>
-                                                            <Typography variant="body2">{tender["cig"]}</Typography>
-                                                        </Grid>
-                                                        <Grid item xs>
-                                                            <Typography>{tender["appalto"]}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("tender:startDate")}</Typography>
-                                                            <Typography variant="body2">{tf(DATE_FORMAT)(new Date(tender["data inizio"]))}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("tender:endDate")}</Typography>
-                                                            <Typography variant="body2">{tf(DATE_FORMAT)(new Date(tender["data fine"]))}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("tender:valueAmount")}</Typography>
-                                                            <Typography variant="body2">{nf(CURRENCY_FORMAT)(tender["importo aggiudicazione"])}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("common:redflags")}</Typography>
-                                                            <Typography variant="body2">
-                                                                {
-                                                                    map(
-                                                                        tender.redflags,
-                                                                        redflag => (<Flag color="error" fontSize="small" />)
-                                                                    )
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                </ListItem>
-                                            </Link>
-                                        )
-                                    )
-                                }
-                            </List>
-                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
-                        </>
-                        :
-                        !!currentSearchString && !waiting && <Typography>{t("common:search.noResults")}</Typography>
-                    }
-                </Box>
-
-                <Box mb={8}>
-                    <Partner
-                        images={[
-                            "/partners/transparency-international-italy.png",
-                            "/partners/parliament-watch-italy.png",
-                            "/partners/ondata-italy.png"
-                        ]}
-                        title={t("tender:partner.title")}
-                        description={t("tender:partner.description")}
-                    />
-                </Box>
-
-            </Container>
+            </main>
 
             <Footer />
 
@@ -297,7 +290,7 @@ function Index({
 export const getStaticProps = async ctx => {
     return {
         props: {
-            ...(await getI18nProps(ctx, ['common', 'tender', 'redflags'])),
+            ...(await getI18nProps(ctx, ['common', 'tender','search'])),
             tendersCount: await getTendersCount(),
             redflagsCount: await getRedflagsCount()
         },

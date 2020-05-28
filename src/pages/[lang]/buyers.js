@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 import useTranslation from 'next-translate/useTranslation'
 
+import ReactMarkdown from 'react-markdown'
+
 import axios from 'axios'
 
 import { map, isEmpty } from 'lodash'
@@ -15,22 +17,13 @@ import {
     Box,
     Grid,
     Typography,
-    Button,
-    FormControl,
-    InputLabel,
-    OutlinedInput,
-    InputAdornment,
-    IconButton,
     List,
     ListItem,
     ListItemIcon,
-    CircularProgress,
 } from '@material-ui/core'
 
 import {
-    HighlightOff,
     ArrowForward,
-    Flag,
 } from '@material-ui/icons'
 
 import {
@@ -44,29 +37,25 @@ import {
 } from '../../utils/i18n'
 
 import {
-    numberFormat,
-    timeFormat,
-} from '../../utils/formats'
-
-import {
-    CURRENCY_FORMAT,
-    DATE_FORMAT,
-    INTEGER_FORMAT,
+    CONTAINER_BREAKPOINT,
     PAGE_SIZE,
     API_VERSION,
 } from '../../config/constants'
 
 import {
+    getBuyers,
     getBuyersCount,
     getRedflagsCount,
 } from '../../utils/queries'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import Partner from '../../components/Partner'
+import AvatarIcon from '../../components/AvatarIcon'
+import { Buyer } from '../../components/SearchResult'
 import { BuyersCounter, FlagsCounter } from '../../components/Counter'
 
 function Index({
+    firstBuyers = [],
     buyersCount = 0,
     redflagsCount = 0,
 }) {
@@ -74,207 +63,135 @@ function Index({
     const router = useRouter()
     const { t, lang } = useTranslation()
 
-    const nf = numberFormat(lang).format
-    const tf = timeFormat(lang).format
-
-    const [ buyers, setBuyers ] = useState([])
-    const [ results, setResults ] = useState(0)
-    const [ searchString, setSearchString ] = useState("")
-    const [ currentSearchString, setCurrentSearchString ] = useState("")
+    const [ buyers, setBuyers ] = useState(firstBuyers)
+    const [ results, setResults ] = useState(buyersCount)
     const [ page, setPage ] = useState(1)
-    const [ waiting, setWaiting ] = useState(false)
-
-    function handleSubmit(e) {
-        setCurrentSearchString(searchString)
-        e.preventDefault()
-    }
-
-    function handleReset() {
-        setSearchString("")
-        setCurrentSearchString("")
-        setPage(1)
-        setBuyers([])
-    }
+    const [ pages, setPages ] = useState(1)
 
     function handleChangePage(e, value) {
         setPage(value)
     }
 
     function handleRequest() {
-        if (currentSearchString) {
-
-            setWaiting(true)
-
-            axios
-                .get(
-                    `/api/${API_VERSION}/buyers`,
-                    {
-                        params: {
-                            q: currentSearchString,
-                            lang,
-                            page: page-1,
-                        }
+        axios
+            .get(
+                `/api/${API_VERSION}/buyers`,
+                {
+                    params: {
+                        page: page-1,
                     }
-                )
-                .then(
-                    res => {
-                        setResults(res.data.total.value)
-                        setBuyers(map(res.data.hits, "_source"))
-                    }
-                )
-        } else {
-            setBuyers([])
-        }
+                }
+            )
+            .then(
+                res => {
+                    setResults(res.data.total.value)
+                    setBuyers(map(res.data.hits, "_source"))
+                }
+            )
     }
-
-    useEffect(() => {
-        handleRequest()
-    }, [currentSearchString])
 
     useEffect(() => {
         handleRequest()
     }, [page])
 
     useEffect(() => {
-        setWaiting(false)
-    }, [buyers])
+        setPages(Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0))
+    }, [results])
 
     return (
         <>
 
             <Head>
-                <title>{t("common:title")}</title>
-                <link rel="icon" href="/favicon.ico" />
+                <title>{`${t("common:buyers")} | ${t("common:title")}`}</title>
             </Head>
 
             <Header />
 
-            <Container component="main" maxWidth="md">
+            <main>
 
-                <Box mb={8}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="subtitle1">
-                                {t("common:buyers")}
-                            </Typography>
-                            <Typography variant="h1">
-                                {t("buyer:search.title")}
-                            </Typography>
-                            <Typography variant="body2">
-                                {t("buyer:search.description")}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                            <BuyersCounter count={buyersCount} label={t("buyer:counter.buyers")} />
-                        </Grid>
-                        <Grid item xs={6} sm={3}>
-                            <FlagsCounter count={redflagsCount} label={t("buyer:counter.tenders")} />
-                        </Grid>
-                    </Grid>
-                </Box>
-
-                <Box mb={4}>
-
-                    <Typography variant="subtitle1">{t("common:search.title")}</Typography>
-
-                    <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
+                    <Box mb={4}>
                         <Grid container spacing={2}>
-                            <Grid item xs>
-                                <FormControl variant="outlined" fullWidth>
-                                    <InputLabel htmlFor="search-field">{t("common:search.help")}</InputLabel>
-                                    <OutlinedInput
-                                        id="search-field"
-                                        value={searchString}
-                                        onChange={e => setSearchString(e.target.value)}
-                                        endAdornment={
-                                            !!searchString
-                                            &&
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label={t("common:search.reset")}
-                                                    onClick={handleReset}
-                                                    edge="end"
-                                                >
-                                                    { waiting ? <CircularProgress /> : <HighlightOff /> }
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
+                            <Grid item xs={12} sm={6}>
+                                <Typography component="h1" variant="subtitle1">
+                                    {t("common:buyers")}
+                                </Typography>
+                                <Typography component="span" variant="h1">
+                                    {t("buyer:search.title")}
+                                </Typography>
                             </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="contained" color="primary" disableElevation
-                                    type="submit"
-                                    style={{ height: "100%" }}
-                                >{t("common:search.cta")}</Button>
+                            <Grid item xs={6} sm={3}>
+                                <BuyersCounter count={buyersCount} label={t("buyer:counter.buyer", { count: buyersCount })} />
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                <FlagsCounter count={redflagsCount} label={t("buyer:counter.redflag", { count: redflagsCount })} />
+                            </Grid>
+                            <Grid item xs={12} sm={8}>
+                                <Typography component="div" variant="body2">
+                                    <ReactMarkdown source={t("buyer:search.description")} />
+                                </Typography>
                             </Grid>
                         </Grid>
-                    </form>
+                    </Box>
+                </Container>
 
-                </Box>
-
-                <Box mb={8}>
-                    {
-                        !!currentSearchString && !isEmpty(buyers)
-                        ?
-                        <>
-                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
-                            <List>
+                <Box component="section" className="band band-g">
+                    <Container maxWidth={CONTAINER_BREAKPOINT}>
+                        <Grid container>
+                            <Grid item xs={12} sm={8}>
                                 {
-                                    map(
-                                        buyers,
-                                        buyer => (
-                                            <Link key={buyer["ID"]} href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
-                                                <ListItem button>
-                                                    <ListItemIcon><ArrowForward color="secondary" /></ListItemIcon>
-                                                    <Grid container spacing={2}>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("buyer:ID")}</Typography>
-                                                            <Typography variant="body2">{buyer["ID"]}</Typography>
-                                                        </Grid>
-                                                        <Grid item xs>
-                                                            <Typography>{buyer["denominazione"]}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("common:tenders")}</Typography>
-                                                            <Typography variant="body2">{}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("common:suppliers")}</Typography>
-                                                            <Typography variant="body2">{}</Typography>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Typography variant="caption">{t("common:redflags")}</Typography>
-                                                            <Typography variant="body2">{}</Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                </ListItem>
-                                            </Link>
-                                        )
-                                    )
+                                    !isEmpty(buyers)
+                                    ?
+                                    <>
+
+                                        {
+                                            pages > 1
+                                            &&
+                                            <Pagination
+                                                variant="outlined" shape="rounded"
+                                                page={page} count={pages}
+                                                onChange={handleChangePage}
+                                            />
+                                        }
+
+                                        <List>
+                                            {
+                                                map(
+                                                    buyers,
+                                                    buyer => (
+                                                        <Link key={buyer["ID"]} href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                                            <ListItem button>
+                                                                <ListItemIcon>
+                                                                    <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
+                                                                </ListItemIcon>
+                                                                <Buyer {...buyer} />
+                                                            </ListItem>
+                                                        </Link>
+                                                    )
+                                                )
+                                            }
+                                        </List>
+
+                                        {
+                                            pages > 1
+                                            &&
+                                            <Pagination
+                                                variant="outlined" shape="rounded"
+                                                page={page} count={pages}
+                                                onChange={handleChangePage}
+                                            />
+                                        }
+
+                                    </>
+                                    :
+                                    !!currentSearchString && !waiting && <Typography>{t("common:search.noResults")}</Typography>
                                 }
-                            </List>
-                            <Pagination fullWidth variant="outlined" shape="rounded" count={Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0)} page={page} onChange={handleChangePage} />
-                        </>
-                        :
-                        !!currentSearchString && !waiting && <Typography>{t("common:search.noResults")}</Typography>
-                    }
+                            </Grid>
+                        </Grid>
+                    </Container>
                 </Box>
 
-                <Box mb={8}>
-                    <Partner
-                        images={[
-                            "/partners/transparency-international-italy.png",
-                            "/partners/parliament-watch-italy.png",
-                            "/partners/ondata-italy.png"
-                        ]}
-                        title={t("buyer:partner.title")}
-                        description={t("buyer:partner.description")}
-                    />
-                </Box>
-
-            </Container>
+            </main>
 
             <Footer />
 
@@ -287,6 +204,7 @@ export const getStaticProps = async ctx => {
     return {
         props: {
             ...(await getI18nProps(ctx, ['common', 'buyer'])),
+            firstBuyers: map((await getBuyers()).hits, "_source"),
             buyersCount: await getBuyersCount(),
             redflagsCount: await getRedflagsCount()
         },

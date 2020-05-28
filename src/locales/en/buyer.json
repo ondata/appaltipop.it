@@ -1,18 +1,43 @@
 {
 
+    "province": "Provincia",
+    "region": "Regione",
+    "id": "Codice Fiscale",
+    "valueAmount": "Importo aggiudicazione",
+    "transactionAmount": "Importo somme liquidate",
+
     "search": {
         "title": "Ricerca le Pubbliche amministrazioni che desideri monitorare",
         "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
     },
 
     "counter": {
+
+        "buyer": "Pubblica amministrazione monitorata",
+        "buyer_plural": "Pubbliche amministrazioni monitorate",
         "buyers": "Pubbliche amministrazioni monitorate",
-        "tenders": "Appalti da approfondire"
+
+        "redflag": "Appalto con problemi",
+        "redflag_plural": "Appalti con problemi",
+        "redflags": "Appalti con problemi"
+        
     },
 
-    "partner": {
-        "title": "Partner di monitoraggio",
-        "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
+    "charts": "Grafici di monitoraggio",
+
+    "bar": {
+        "1": {
+            "title": "Appalti per anno",
+            "description": "Numero di appalti e valore degli appalti per anno."
+        },
+        "2": {
+            "title": "Maggiori Fornitori",
+            "description": "Classifica dei maggiori fornitori dell’ultimo anno."
+        },
+        "3": {
+            "title": "Qualità degli appalti rispetto alla media",
+            "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appatli."
+        }
     }
 
 }

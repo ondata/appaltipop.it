@@ -8,30 +8,45 @@ main {
     padding-top: spacing(8);
 }
 
-/*
-a,
-a:hover,
-a:visited,
-a:focus,
-a:active {
-    color: #3624E0 !important;
+p {
+
+    margin-top: 0;
+    margin-bottom: spacing(2);
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    a,
+    a:hover,
+    a:visited,
+    a:focus,
+    a:active {
+        color: #ff0000;
+    }
+    
 }
-*/
 
-.home__band {
+.band {
 
-    padding: spacing(16);
+    & {
+        padding: spacing(4) 0;
+    }
 
-    &.home__band-b {
+    &.band-b {
         background-color: #f3f2ff;
     }
 
-    &.home__band-g {
+    &.band-g {
         background-color: #f9f9f9;
     }
 
-    &.home__band-w {
+    &.band-w {
         background-color: #ffffff;
     }
+
+    &.band-home {
+        padding: spacing(16) spacing(4);
+    }    
 
 }

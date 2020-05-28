@@ -4,20 +4,28 @@ import { useRouter } from 'next/router'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import { map } from 'lodash'
+import ReactMarkdown from 'react-markdown'
+
+import { map, range, padStart } from 'lodash'
 
 import {
     Container,
     Box,
     Grid,
     Typography,
-    Avatar,
+    Paper,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    List,
+    Divider,
 } from '@material-ui/core'
 
 import {
     Print,
     GetApp,
-    Sports,
+    Flag,
+    ArrowForward,
 } from '@material-ui/icons'
 
 import {
@@ -31,6 +39,7 @@ import {
 } from '../../../../utils/formats'
 
 import {
+    CONTAINER_BREAKPOINT,
     CURRENCY_FORMAT,
     DATE_FORMAT,
     INTEGER_FORMAT,
@@ -42,6 +51,8 @@ import {
     getRedflagsCountBySupplier,
     getTendersValueAmountBySupplier,
     getTendersTransactionAmountBySupplier,
+    getTendersBySupplier,
+    getBuyersBySupplier,
 } from '../../../../utils/queries'
 
 import { getSupplierPaths } from '../../../../utils/paths'
@@ -50,15 +61,15 @@ import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
 
 import { FlagsCounter, TendersCounter } from '../../../../components/Counter'
-import FlagsInfo from '../../../../components/FlagsInfo'
+import { Tender, Buyer } from '../../../../components/SearchResult'
 import KeyValue from '../../../../components/KeyValue'
-import DonutChart from '../../../../components/DonutChart'
+import AvatarIcon from '../../../../components/AvatarIcon'
 import BarChart from '../../../../components/BarChart'
-import Cta from '../../../../components/Cta'
-import Partner from '../../../../components/Partner'
 
 function Index({
     supplier = {},
+    tenders = [],
+    buyers = [],
     tendersCount = 0,
     redflagsCount = 0,
     valueAmount = 0,
@@ -78,107 +89,229 @@ function Index({
             <>
 
                 <Head>
-                    <title>{t("common:title")}</title>
-                    <link rel="icon" href="/favicon.ico" />
+                    <title>{`${t("common:supplier")} n. ${supplier["CF"]} | ${t("common:title")}`}</title>
                 </Head>
 
                 <Header />
 
-                <Container component="main" maxWidth="md">
+                <main>
 
-                    <Box mb={8}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant="subtitle2" color="secondary">
-                                    {t("common:supplier")}
+                    <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
+
+                        <Box mb={8}>
+
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography component="span" variant="subtitle1">
+                                        {t("common:supplier")}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <Typography component="div" variant="subtitle1">
+                                        <Grid container spacing={2}>
+                                            <Grid item>
+                                                <a target="_blank" href="#">
+                                                    {t("common:print")}
+                                                </a>
+                                            </Grid>
+                                            <Grid item>
+                                                <AvatarIcon color="primary"><Print /></AvatarIcon>
+                                            </Grid>
+                                        </Grid>
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} sm={3}>
+                                    <Typography component="div" variant="subtitle1">
+                                        <Grid container spacing={2}>
+                                            <Grid item>
+                                                <a target="_blank" href="#">
+                                                    {t("common:download")}
+                                                </a>
+                                            </Grid>
+                                            <Grid item>
+                                                <AvatarIcon color="primary"><GetApp /></AvatarIcon>
+                                            </Grid>
+                                        </Grid>
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <Typography variant="h1">
+                                        {supplier["ragione sociale"]}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={6} sm={3}>
+                                    <TendersCounter count={tendersCount} label={t("common:tender", { count: tendersCount })} />
+                                </Grid>
+                                <Grid item xs={6} sm={3}>
+                                    <FlagsCounter count={redflagsCount} label={t("common:redflag", { count: redflagsCount })} />
+                                </Grid>
+                            </Grid>
+
+                        </Box>
+
+                    </Container>
+
+                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+
+                        <Box mb={8}>
+                            <Grid container spacing={2}>
+
+                                <Grid item xs={12} sm={4}>
+                                    <KeyValue title={t("supplier:cf")} label={supplier["CF"]} />
+                                </Grid>
+
+                                <Grid item xs={6} sm={4}>
+                                    <KeyValue title={t("supplier:province")} label={supplier["province"]} />
+                                </Grid>
+
+                                <Grid item xs={6} sm={4}>
+                                    <KeyValue title={t("supplier:region")} label={supplier["region"]} />
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <KeyValue title={t("supplier:valueAmount")} label={nf(CURRENCY_FORMAT)(valueAmount)} />
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <KeyValue title={t("supplier:transactionAmount")} label={nf(CURRENCY_FORMAT)(transactionAmount)} />
+                                </Grid>
+
+                            </Grid>
+                        </Box>
+
+                    </Container>
+
+                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+
+                        <Box mb={8}>
+                            <Paper elevation={0}>
+                                <Typography component="div" variant="body2">
+                                    <ReactMarkdown source={t("redflags:info")} />
                                 </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <Typography variant="subtitle2" color="secondary">
-                                    <a target="_blank" href="#">
-                                        {t("common:print")}&nbsp;<Print />
-                                    </a>
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <Typography variant="subtitle2" color="secondary">
-                                    <a target="_blank" href="#">
-                                        {t("common:download")}&nbsp;<GetApp />
-                                    </a>
-                                </Typography>
-                            </Grid>
-                        </Grid>
+                            </Paper>
+                        </Box>
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <Typography variant="h1">
-                                    {supplier["ragione sociale"]}
-                                </Typography>
+                        <Box mb={8}>
+
+                            <Typography variant="h2" color="inherit">
+                                {t("redflags:title")}
+                            </Typography>
+
+                            <Grid container spacing={2}>
+
+                                <Grid item xs={12} sm={6}>
+
+                                    <List disablePadding>
+                                        {
+                                            map(
+                                                map(range(1,+t("redflags:flags")+1), redflag => padStart(redflag,2,0)),
+                                                flag => (
+                                                    <ListItem key={flag} style={{backgroundColor:"#f9f9f9",border:"2px solid #E7E5FF",borderRadius:8,marginBottom:16}}>
+                                                        <ListItemIcon><Flag color="secondary" /></ListItemIcon>
+                                                        <ListItemText primary={t(`redflags:${flag}.title`)} secondary={t(`redflags:${flag}.summary`)} />
+                                                    </ListItem>
+                                                )
+                                            )
+                                        }
+                                    </List>
+
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    <Paper elevation={0}>
+                                        Lorem ipsum...
+                                    </Paper>
+                                </Grid>
+
                             </Grid>
-                            <Grid item xs={6} sm={3}>
-                                <TendersCounter count={tendersCount} label={t(`common:tender${tendersCount === 1 ? "" : "s"}`)} />
+
+                        </Box>
+
+                    </Container>
+
+                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                        
+                        <Box mb={8}>
+
+                            <Typography variant="h2" color="inherit">
+                                {t("supplier:charts")}
+                            </Typography>
+
+                            <Grid container spacing={2}>
+
+                                <Grid item xs={12} sm={6}>
+                                    <BarChart title={t("supplier:bar.1.title")} description={t("supplier:bar.1.description")} inverse />
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    <BarChart title={t("supplier:bar.2.title")} description={t("supplier:bar.2.description")} inverse />
+                                </Grid>
+
                             </Grid>
-                            <Grid item xs={6} sm={3}>
-                                <FlagsCounter count={redflagsCount} label={t(`common:redflag${redflagsCount === 1 ? "" : "s"}`)} />
-                            </Grid>
-                        </Grid>
+                        </Box>
+                        
+                        <Box mb={8}>
+                            <BarChart title={t("supplier:bar.3.title")} description={t("supplier:bar.3.description")} inverse />
+                        </Box>
+                        
+                    </Container>
+
+                    <Box mb={8} className="band band-g">
+                        <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                            <Typography variant="h2" color="inherit">{t("common:tenders")}</Typography>
+                            <List>
+                                {
+                                    map(
+                                        tenders,
+                                        (tender, index) => (
+                                            <Box component="li" key={tender["cig"]}>
+                                                { !!index && <Divider /> }
+                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
+                                                    <ListItem button>
+                                                        <ListItemIcon>
+                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
+                                                        </ListItemIcon>
+                                                        <Tender {...tender} />
+                                                    </ListItem>
+                                                </Link>
+                                            </Box>
+                                        )
+                                    )
+                                }
+                            </List>
+                        </Container>
                     </Box>
 
-                    <Box mb={8}>
-                        <Grid container spacing={2}>
-
-                            <Grid item xs={4}>
-                                <KeyValue title={t("supplier:province")} label={supplier["province"]} />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <KeyValue title={t("supplier:region")} label={supplier["region"]} />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <KeyValue title={t("supplier:cf")} label={supplier["CF"]} />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <KeyValue title={t("supplier:valueAmount")} label={nf(CURRENCY_FORMAT)(valueAmount)} />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <KeyValue title={t("supplier:transactionAmount")} label={nf(CURRENCY_FORMAT)(transactionAmount)} />
-                            </Grid>
-
-                        </Grid>
-                    </Box>
-                    
-                    <Box mb={8}>
-                        <Grid container spacing={2}>
-
-                            <Grid item xs={12} sm={6}>
-                                <BarChart title={t("supplier:bar.1.title")} description={t("supplier:bar.1.description")} />
-                            </Grid>
-
-                            <Grid item xs={12} sm={6}>
-                                <BarChart title={t("supplier:bar.2.title")} description={t("supplier:bar.2.description")} />
-                            </Grid>
-
-                        </Grid>
-                    </Box>
-                    
-                    <Box mb={8}>
-                        <BarChart title={t("supplier:bar.3.title")} description={t("supplier:bar.3.description")} />
+                    <Box mb={8} className="band band-g">
+                        <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                            <Typography variant="h2" color="inherit">{t("common:buyers")}</Typography>
+                            <List>
+                                {
+                                    map(
+                                        buyers,
+                                        (buyer, index) => (
+                                            <Box component="li" key={buyer["ID"]}>
+                                                { !!index && <Divider /> }
+                                                <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                                    <ListItem button>
+                                                        <ListItemIcon>
+                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
+                                                        </ListItemIcon>
+                                                        <Buyer {...buyer} />
+                                                    </ListItem>
+                                                </Link>
+                                            </Box>
+                                        )
+                                    )
+                                }
+                            </List>
+                        </Container>
                     </Box>
 
-                    <Box mb={8}>
-                        <Typography variant="h2">{t("common:tenders")}</Typography>
-                        <Typography>...</Typography>
-                    </Box>
-
-                    <Box mb={8}>
-                        <Typography variant="h2">{t("common:buyers")}</Typography>
-                        <Typography>...</Typography>
-                    </Box>
-
-                </Container>
+                </main>
 
                 <Footer />
 
@@ -189,8 +322,10 @@ function Index({
 
 export const getStaticProps = async ctx => ({
     props: {
-        ...(await getI18nProps(ctx, ['common','supplier'])),
+        ...(await getI18nProps(ctx, ['common','supplier','redflags'])),
         supplier: await getSupplierById(ctx.params.id),
+        tenders: map((await getTendersBySupplier(ctx.params.id)).hits, "_source"),
+        buyers: await getBuyersBySupplier(ctx.params.id),
         tendersCount: await getTendersCountBySupplier(ctx.params.id),
         redflagsCount: await getRedflagsCountBySupplier(ctx.params.id),
         valueAmount: await getTendersValueAmountBySupplier(ctx.params.id),

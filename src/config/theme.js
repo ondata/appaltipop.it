@@ -11,7 +11,7 @@ const primaryColor = `#3624e0`
 const secondaryColor = `#ff0000`
 
 const sansFont = `"Montserrat", sans-serif`
-const serifFont = `"PT Serif", serif`
+const serifFont = `Georgia, "PT Serif", serif`
 
 // Create a theme instance.
 export default createMuiTheme({
@@ -28,19 +28,25 @@ export default createMuiTheme({
             fontWeight: `bold`,
             color: primaryColor,
             marginBottom: spacing(4),
+            '@media (max-width:600px)': {
+                fontSize: `1.5rem`,
+                lineHeight: 1.5,
+            },
         },
         body1: {
-            fontSize: `1.25rem`,
+            fontSize: `1.125rem`,
         },
         subtitle1: {
             fontSize: `1.25rem`,
             fontWeight: `bold`,
             color: primaryColor,
+            marginBottom: spacing(2),
         },
         body2: {
             fontFamily: serifFont,
-            fontSize: `1.25rem`,
+            fontSize: `1.125rem`,
             color: textColor,
+            lineHeight: `1.5`,
         },
         subtitle2: {
             fontSize: `1.25rem`,
@@ -53,6 +59,7 @@ export default createMuiTheme({
         },
         primary: {
             main: primaryColor,
+            light: `#F3F2FF`,
         },
         secondary: {
             main: secondaryColor,
@@ -65,7 +72,12 @@ export default createMuiTheme({
         MuiPaper: {
             root: {
                 backgroundColor: greyColor,
-                padding: spacing(2)
+                padding: spacing(4)
+            },
+        },
+        MuiDrawer: {
+            paper: {
+                padding: spacing(2),
             },
         },
         MuiAppBar: {
@@ -76,6 +88,8 @@ export default createMuiTheme({
         MuiButton: {
             root: {
                 textTransform: `none`,
+                textAlign: `center`,
+                height: `100%`,
             },
             contained: {
                 fontWeight: `bold`,
@@ -95,12 +109,40 @@ export default createMuiTheme({
         MuiListItemText: {
             primary: {
                 fontFamily: sansFont,
-                //color: primaryColor,
+                //fontWeight: `bold`,
+            },
+        },
+        MuiInputBase: {
+            root: {
+                backgroundColor: whiteColor,
             },
         },
         MuiPagination: {
             ul: {
                 justifyContent: `center`,
+            },
+        },
+        MuiExpansionPanel: {
+            root: {
+                backgroundColor: whiteColor,
+                paddingLeft: 0,
+                paddingRight: 0,
+            }
+        },
+        MuiExpansionPanelSummary: {
+            root: {
+                border: `${spacing(.5)}px solid #E7E5FF`,
+                borderRadius: spacing(2),
+                padding: `0 ${spacing(2)}px`,
+            },
+        },
+        MuiExpansionPanelDetails: {
+            root: {
+                backgroundColor: greyColor,
+                border: `${spacing(.5)}px solid ${greyColor}`,
+                borderRadius: spacing(2),
+                marginTop: spacing(2),
+                padding: `${spacing(4)}px ${spacing(2)}px`,
             },
         },
     },

@@ -2,12 +2,12 @@ export default theme => ({
     logo: {
         flexGrow: 1,
         '& img': {
-            height: `3rem`,
+            maxHeight: `2rem`,
             maxWidth: `100%`,
         },
     },
     menuButton: {
-        marginLeft: theme.spacing(2),
+        marginLeft: theme.spacing(1),
     },
     langButton: {
         backgroundColor: `transparent`,

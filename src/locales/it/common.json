@@ -3,19 +3,23 @@
     "title": "AppaltiPOP",
     "claim": "Diamo agli Appalti un’aria un po' più POP! Insieme a te.",
 
-    "suppliers": "Aggiudicatari",
     "supplier": "Aggiudicatario",
+    "supplier_plural": "Aggiudicatari",
+    "suppliers": "Aggiudicatari",
 
-    "buyers": "Pubbliche amministrazioni proponenti",
-    "buyer": "Pubblica amministrazione proponente",
+    "buyer": "Pubblica amministrazione",
+    "buyer_plural": "Pubbliche amministrazioni",
+    "buyers": "Pubbliche amministrazioni",
     
-    "tenders": "Appalti",
     "tender": "Appalto",
+    "tender_plural": "Appalti",
+    "tenders": "Appalti",
 
     "redflag": "Red flag",
+    "redflag_plural": "Red flag",
     "redflags": "Red flag",
 
-    "getInvolved": "Partecipa!",
+    "get-involved": "Partecipa!",
     "about": "Chi siamo",
     "faq": "FAQ",
     "cc": "Creative Commons",
@@ -28,7 +32,7 @@
 
     "search": {
         "title": "Cerca",
-        "help": "Prova \"Milano\"...",
+        "help": "es. \"milano\"...",
         "cta": "Cerca",
         "reset": "Annulla"
     }

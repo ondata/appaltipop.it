@@ -1,20 +1,37 @@
 {
 
+    "info": "Per monitorare il rischio di corruzione vengono utilizzate delle “Red flag”        che si alzano quando un indice di controllo viene verificato. Questo aiuta a capire la potenziale presenza di frodi o manipolazioni negli appalti pubblici. Le bandierine inoltre, possono indicare un problema di qualità dei dati, di violazioni della legge, di buone prassi internazionali o altri problemi.",
+
+    "title": "Indici di Controllo",
+    "flags": "5",
+
     "01": {
-        "title": "Redflag 01",
-        "summary": "Low number of mean bidders per tender for competitive processes",
+        "title": "Periodo di offerta breve",
+        "summary": "Appalti con periodo di offerta è inferiore ai 3gg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     },
 
     "02": {
-        "title": "Redflag 02",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        "title": "Offerta vicina alla stima dell'appalto",
+        "summary": "Appalti con l’offerta vincitrice entro l’1% del prezzo stimato",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     },
 
     "03": {
-        "title": "Redflag 03",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        "title": "Singolo offerente",
+        "summary": "Appalti che presentano un singolo offerente",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+    },
+
+    "04": {
+        "title": "Affidamenti diretti multipli",
+        "summary": "Appalti in cui lo stesso fornitore riceve più affidamenti",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+    },
+
+    "05": {
+        "title": "Ritardo nella negoziazione del contratto",
+        "summary": "Appalti con lunghi ritardi (oltre 60 giorni)",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     }
 

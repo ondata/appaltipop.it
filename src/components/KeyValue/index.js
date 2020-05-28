@@ -32,7 +32,7 @@ export default function Index({
                 </Typography>
             }
 
-            <Typography variant="body2">
+            <Typography variant="body1">
                 {
                     !!as && !!href
                     ?

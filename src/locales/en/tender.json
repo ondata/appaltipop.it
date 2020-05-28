@@ -1,38 +1,57 @@
 {
-    
-    "cig": "CIG",
-    "startDate": "Start date",
-    "endDate": "End date",
-    "numberOfParticipants": "Num. of participants",
-    "type": "Type",
-    "valueAmount": "Value amount",
-    "transactionAmount": "Transaction amount",
 
-    "suppliersDescription": "This contract was awarded by an association of companies of n subjects.",
-    "monitoredBy": {
-        "title": "This contract is monitored by:",
+    "cig": "CIG",
+    "title": "Titolo",
+    "startDate": "Data di inizio",
+    "endDate": "Data di fine",
+    "numberOfParticipants": "N. di partecipanti",
+    "type": "Tipo",
+    "valueAmount": "Importo aggiudicazione",
+    "transactionAmount": "Importo somme liquidate",
+    
+    "partner": {
+        "title": "Questo contratto è monitorato da:",
         "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
     },
 
+    "search": {
+        "title": "Ricerca i contratti che desideri monitorare",
+        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+        "help": "es. strade...",
+        "label": "Cerca tra gli appalti"
+    },
+
+    "counter": {
+
+        "tender": "Appalto monitorato",
+        "tender_plural": "Appalti monitorati",
+        "tenders": "Appalti monitorati",
+
+        "redflag": "Appalto con problemi",
+        "redflag_plural": "Appalti con problemi",
+        "redflags": "Appalti con problemi"
+        
+    },
+    
     "donut": {
         "1": {
-            "title": "Number of Participants compared to the average",
+            "title": "Numero di Partecipanti rispetto alla media",
             "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
         },
         "2": {
-            "title": "Number of contracts between companies in this group and the contracting entity",
+            "title": "Numero di contratti tra aziende di questo gruppo e l'ente appaltante",
             "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
         },
         "3": {
-            "title": "% of expenditure of the contracting entity to the companies of the successful group",
+            "title": "% di spesa dell'ente appaltante a le aziende del gruppo aggiudicatario",
             "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
         }
     },
     
     "bar": {
         "1": {
-            "title": "Data quality compared to the average",
-            "description": "Number of contracts with the necessary data published out of the total number of contracts."
+            "title": "Qualità del dato rispetto alla media",
+            "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appalti."
         }
     }
 

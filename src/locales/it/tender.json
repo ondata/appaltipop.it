@@ -1,6 +1,7 @@
 {
 
     "cig": "CIG",
+    "title": "Titolo",
     "startDate": "Data di inizio",
     "endDate": "Data di fine",
     "numberOfParticipants": "N. di partecipanti",
@@ -8,10 +9,28 @@
     "valueAmount": "Importo aggiudicazione",
     "transactionAmount": "Importo somme liquidate",
     
-    "suppliersDescription": "Questo contratto è stato aggiudicato da un'associazione di imprese di n soggetti.",
-    "monitoredBy": {
+    "partner": {
         "title": "Questo contratto è monitorato da:",
         "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
+    },
+
+    "search": {
+        "title": "Ricerca i contratti che desideri monitorare",
+        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+        "help": "es. strade...",
+        "label": "Cerca tra gli appalti"
+    },
+
+    "counter": {
+
+        "tender": "Appalto monitorato",
+        "tender_plural": "Appalti monitorati",
+        "tenders": "Appalti monitorati",
+
+        "redflag": "Appalto con problemi",
+        "redflag_plural": "Appalti con problemi",
+        "redflags": "Appalti con problemi"
+        
     },
     
     "donut": {
