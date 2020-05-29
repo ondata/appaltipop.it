@@ -1,7 +1,1 @@
-{
-    "title": "{{page}}",
-    "body": [
-        "Questa è la pagina \"{{page}}\" in Markdown.",
-        "Io sono il secondo paragrafo."
-    ]
-}
+{}

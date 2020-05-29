@@ -72,9 +72,9 @@ export default function Index() {
                                             <ListItemText primary={t("common:faq")} />
                                         </ListItem>
                                     </Link>
-                                    <Link href="/[lang]/cc" as={`/${lang}/cc`}>
+                                    <Link href="/[lang]/credits" as={`/${lang}/credits`}>
                                         <ListItem component="li" button className={classes.menuButton}>
-                                            <ListItemText primary={t("common:cc")} />
+                                            <ListItemText primary={t("common:credits")} />
                                         </ListItem>
                                     </Link>
                                 </List>
@@ -88,9 +88,9 @@ export default function Index() {
                                             <ListItemText primary={t("common:faq")} />
                                         </ListItem>
                                     </Link>
-                                    <Link href="/[lang]/cc" as={`/${lang}/cc`}>
+                                    <Link href="/[lang]/credits" as={`/${lang}/credits`}>
                                         <ListItem component="li" button className={classes.menuButton}>
-                                            <ListItemText primary={t("common:cc")} />
+                                            <ListItemText primary={t("common:credits")} />
                                         </ListItem>
                                     </Link>
                                 </List>

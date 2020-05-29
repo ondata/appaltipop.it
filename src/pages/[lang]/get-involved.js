@@ -7,9 +7,12 @@ import ReactMarkdown from 'react-markdown'
 
 import {
     Container,
-    Typography,
     Box,
 } from '@material-ui/core'
+
+import {
+    getStaticPage,
+} from '../../utils/pages'
 
 import {
     getI18nPaths,
@@ -22,7 +25,7 @@ import { CONTAINER_BREAKPOINT } from '../../config/constants'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 
-function Index() {
+function Index({ content }) {
 
     const { t, lang } = useTranslation()
 
@@ -39,10 +42,7 @@ function Index() {
 
             <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
                 <Box mb={8} mt={8}>
-                    <Typography variant="h1">{t("get-involved:title", { page: t("common:get-involved") })}</Typography>
-                    <Typography component="div" variant="body2">
-                        <ReactMarkdown source={t("get-involved:body", { page: t("common:get-involved") }, { returnObjects: true }).join("\n\n")} />
-                    </Typography>
+                    <ReactMarkdown source={content} />
                 </Box>
             </Container>
 
@@ -55,7 +55,10 @@ function Index() {
 }
 
 export const getStaticProps = async (ctx) => ({
-    props: await getI18nProps(ctx, ['common','get-involved'])
+    props: {
+        ...(await getI18nProps(ctx, ['common','get-involved'])),
+        content: await getStaticPage(ctx.params.lang, 'get-involved'),
+    }
 })
 
 export const getStaticPaths = async () => ({
