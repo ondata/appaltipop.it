@@ -1,25 +1,25 @@
 {
 
-    "introduction": "Ogni anno le Pubbliche amministrazioni italiane spendono circa 140 miliardi di euro in Appalti Pubblici, per creare infrastrutture e servizi, oppure per acquistare beni. Monitorare i dati degli appalti è difficilissmo anche per loro ed è fondamentale che i cittadini si diano da fare per attivare un controllo civico. Il nostro progetto permette ri rendere più facili queste azioni di monitoraggio. Non ci credi? Prova anche tu!",
+    "introduction": "Ogni anno le Pubbliche amministrazioni italiane spendono una cifra che si aggira intorno ai 150 miliardi di euro in Appalti Pubblici ([info](https://ec.europa.eu/internal_market/scoreboard/performance_by_member_state/index_en.htm)), per creare infrastrutture e servizi, oppure per acquistare beni. Monitorare i dati degli appalti è difficilissmo anche per loro ed è fondamentale che i cittadini si diano da fare per attivare un controllo civico. Il nostro progetto permette di rendere più facili queste azioni di monitoraggio. Non ci credi? Prova anche tu!",
     
     "ocds": {
-        "title": "Lo sapevi che esite uno standard mondiale sulla pubblicazione degli appalti pubblici?",
-        "description": "[OCDS - Open Contracting Data Standard](https://standard.open-contracting.org/latest/en/) has become a new global norm, recommended and endorsed by global bodies such as the G7, the G20, OECD, the European Commission, the World Bank, and the European Bank of Reconstruction and Development."
+        "title": "Di quali dati parliamo?",
+        "description": "La legge impone alle pubbliche amministrazioni italiane di rendere pubblici i dati sugli appalti comunicandoli all'ANAC, l'Autorità Anticorruzione ([più info qui](http://www.anticorruzione.it/portal/public/classic/Attivitadocumentazione/ContrattiPubblici/Normativa)). Esiste poi uno standard internazionale, denominato [Open Contracting Data Standard](https://standard.open-contracting.org/latest/en/) che definisce un modello univoco in tutto il mondo per la pubblicazione dei dati sugli appalti. Questi sono i due ingredienti alla base di questo progetto. AppaltiPOP quindi raccoglie i dati pubblicati dalle PA sugli appalti e li trasforma in Open Contracting Data Standard, rendendoli disponibili su questo sito e liberamente scaricabili."
     },
     
     "practice": {
-        "title": "In pratica",
-        "description": "Raccogliamo i dati degli Appalti dai siti istituzionali che troppo spesso mancano di dati o sono pubblicati in formati differenti tra loro e con un colpo di magia li trasformiamo in OCDS.\n\nQuesto ci permette di confrontare tra loro gli appalti e, confrontandoli con alcuni indicatori, alzare delle bandierine rosse dove qualcosa non va.\n\n[Qui](/it/buyers) tutti i Comuni e le altre Pubbliche Amministrazioni monitorate su AppaltiPOP."
+        "title": "E quindi?",
+        "description": "Implementando questa strategia, da un lato garantiamo il fatto che AppaltiPOP possa essere alimentato con dati reali ed aggiornati secondo i requisiti di legge. Dall'altro rendiamo i dati degli appalti pubblici italiani confrontabili con gli appalti pubblici di tutti gli altri Paesi del mondo che adottano questo standard. Se non conosci questo standard, sappi che Open Contracting Data Standard (che si abbrevina in OCDS, e lo troverai citato così in questo sito) nasce in seno alla World Bank ed è riconosciuto in tutto il mondo come il principale (se non l'unico) standard per la formattazione dei dati sui contratti pubblici, con un'importanza crescente anche in Europa ([più info qui](https://www.open-contracting.org/2020/01/23/open-contracting-the-eu-in-2020-what-to-expect/)). OCDS è uno standard oggi raccomandato e approvato da organismi globali come il G7, il G20, l'OCSE, la Commissione europea, la Banca mondiale e la Banca europea per la ricostruzione e lo sviluppo."
     },
     
     "todo": {
-        "title": "Cosa si può fare utilizzando un formato standard per i dati della PA?",
-        "description": "Il grafico qui sotto, per esempio, si può fare in un attimo! Avere i dati pubblicati tutti nello stesso modo permette trasparenza e consente alla società civile e alle stesse autorità istituzionali di monitorare e controllare che la macchina pubblica funzioni al meglio."
+        "title": "Gli indicatori di monitoraggio: red flags",
+        "description": "Quella bandierina rossa accanto al nome del sito non è lì per caso. Anzi, la troverai spesso in varie parti di AppaltiPOP. Quella bandierina indica una \"red flag\", e cioè un indicatore di controllo che sottolinea il fatto che quell'appalto non è al 100% trasparente. Per assegnare ad ogni appalto una o più red flag, il sistema analizza i dati e costruisce questi indicatori (rappresentati proprio con la bandierina) grazie allo standard OCDS. Al momento le bandierine rosse segnalano i seguenti indicatori: Periodo di offerta breve, Offerta vicina alla stima dell'appalto, Singolo offerente, Affidamenti diretti multipli, Ritardo nella negoziazione del contratto. Se una o più di queste bandierine compaiono su un appalto, questo non vuul dire che l'appalto sia irregolare, ma vuol dire che vale la pena approfondire perché questi elementi contraddistinti da bandierine rosse sono indicati in tutto il mondo come lampadine che si accendono quando un appalto pubblico è poco trasparente o anche ad esempio poco competitivo."
     },
     
     "buyer": {
-        "title": "Sei una pubblica amministrazione e ti interessa diventare OCDS compliant?",
-        "description": "Noi attivisti di [Ondata](http://ondata.it/) abbiamo lavorato a contatto con il team di [Open Contracting](https://www.open-contracting.org/) per migliorare lo standard e renderlo adatto alla legislazione italiana in ambito di appalti.\n\nSaremo felicissimi di aiutarti a diventare più trasparente nei confronti dei cittadini."
+        "title": "Ti interessa approfondire e capire come puoi lavorare anche tu con lo standard OCDS?",
+        "description": "Per creare AppaltiPOP stiamo studiando e sperimentando lo standard OCDS dal 2019, lavorando a stretto contatto con il team di [Open Contracting Partnership](https://www.open-contracting.org/). Se sei una Pubblica Amministrazione e ti interessa rendere i dati dei tuoi appalti più trasparenti, contattaci per scoprire di più. Se sei un'associazione e ti interessa collaborare con questo progetto o usarlo nelle tue attività di monitoraggio civico, contattaci per esplorare possibili collaborazioni. Per farlo puoi inviarci una semplice email all'indirizzo info@ondata.it. Ti aspettiamo!"
     }
     
 }
