@@ -7,8 +7,8 @@
     "transactionAmount": "Importo somme liquidate",
 
     "search": {
-        "title": "Ricerca le Pubbliche amministrazioni che desideri monitorare",
-        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
+        "title": "Pubbliche amministrazioni attualmente disponibili",
+        "description": "In questa pagina trovi l'elenco delle Pubbliche amministrazioni incluse in AppaltiPOP. Al momento AppaltiPOP è online in fase sperimentale e le Pubbliche amministrazioni disponibili sono poco. Se hai interessa ad aggiungere una pubblica amministrazione, clicca su **[Partecipa](./get-involved)** per scoprire come andare avanti."
     },
 
     "counter": {
@@ -17,9 +17,9 @@
         "buyer_plural": "Pubbliche amministrazioni monitorate",
         "buyers": "Pubbliche amministrazioni monitorate",
 
-        "redflag": "Appalto con problemi",
-        "redflag_plural": "Appalti con problemi",
-        "redflags": "Appalti con problemi"
+        "redflag": "Appalto con red flag",
+        "redflag_plural": "Appalti con red flags",
+        "redflags": "Appalti con red flags"
         
     },
 
@@ -35,7 +35,7 @@
             "description": "Classifica dei maggiori fornitori dell’ultimo anno."
         },
         "3": {
-            "title": "Qualità degli appalti rispetto alla media",
+            "title": "Qualità dei dati sugli appalti rispetto alla media",
             "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appatli."
         }
     }
