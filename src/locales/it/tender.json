@@ -15,8 +15,8 @@
     },
 
     "search": {
-        "title": "Ricerca i contratti che desideri monitorare",
-        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+        "title": "Ricerca i contratti che vuoi monitorare",
+        "description": "In questa pagina puoi cercare un appalto assegnato ad una delle pubbliche amministrazioni presenti in AppaltiPOP. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](./buyers)**",
         "help": "es. strade...",
         "label": "Cerca tra gli appalti"
     },
