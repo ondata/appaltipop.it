@@ -78,7 +78,7 @@ function Index({
             <>
 
                 <Head>
-                    <title>{`${t("common:tender")} n. ${tender["cig"]} | ${t("common:title")}`}</title>
+                    <title>{`${t("common:tender")} n. ${tender["ocds:releases/0/id"]} | ${t("common:title")}`}</title>
                 </Head>
 
                 <Header />
@@ -126,7 +126,7 @@ function Index({
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={8}>
                                 <Typography variant="h1">
-                                    {tender["appalto"]}
+                                    {tender["ocds:releases/0/tender/title"]}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={4}>
@@ -140,31 +140,31 @@ function Index({
                         <Grid container spacing={2}>
 
                             <Grid item xs={6} sm={3}>
-                                <KeyValue title={t("tender:cig")} label={tender["cig"]} />
+                                <KeyValue title={t("tender:ocds/releases/0/id")} label={tender["ocds:releases/0/id"]} />
                             </Grid>
 
                             <Grid item xs={6} sm={3}>
-                                <KeyValue title={t("tender:startDate")} label={tf(DATE_FORMAT)(new Date(tender["data inizio"]))} />
+                                <KeyValue title={t("tender:ocds/releases/0/tender/contractPeriod/startDate")} label={tf(DATE_FORMAT)(new Date(tender["ocds:releases/0/tender/contractPeriod/startDate"]))} />
                             </Grid>
 
                             <Grid item xs={6} sm={3}>
-                                <KeyValue title={t("tender:endDate")} label={tf(DATE_FORMAT)(new Date(tender["data fine"]))} />
+                                <KeyValue title={t("tender:ocds/releases/0/tender/contractPeriod/endDate")} label={tf(DATE_FORMAT)(new Date(tender["ocds:releases/0/tender/contractPeriod/endDate"]))} />
                             </Grid>
 
                             <Grid item xs={6} sm={3}>
-                                <KeyValue title={t("tender:numberOfParticipants")} label={nf(INTEGER_FORMAT)(suppliers.length)} />
+                                <KeyValue title={t("tender:appaltipop/releases/0/tender/participants/total")} label={nf(INTEGER_FORMAT)(suppliers.length)} />
                             </Grid>
 
                             <Grid item xs={12}>
-                                <KeyValue title={t("tender:type")} label={tender["tipo"]} />
+                                <KeyValue title={t("tender:ocds/releases/0/tender/procurementMethodDetails")} label={tender["ocds:releases/0/tender/procurementMethodDetails"]} />
                             </Grid>
 
                             <Grid item xs={6}>
-                                <KeyValue title={t("tender:valueAmount")} label={nf(CURRENCY_FORMAT)(tender["importo aggiudicazione"])} />
+                                <KeyValue title={t("tender:ocds/releases/0/awards/0/value/amount")} label={nf(CURRENCY_FORMAT)(tender["ocds:releases/0/awards/0/value/amount"])} />
                             </Grid>
 
                             <Grid item xs={6}>
-                                <KeyValue title={t("tender:transactionAmount")} label={nf(CURRENCY_FORMAT)(tender["importo somme liquidate"])} />
+                                <KeyValue title={t("tender:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount")} label={nf(CURRENCY_FORMAT)(tender["ocds:releases/0/contracts/0/implementation/transactions/0/value/amount"])} />
                             </Grid>
 
                         </Grid>
@@ -180,9 +180,9 @@ function Index({
                                 map(
                                     buyers,
                                     (buyer, index) => (
-                                        <Box component="li" key={buyer["ID"]}>
+                                        <Box component="li" key={buyer["ocds:releases/0/buyer/id"]}>
                                             { !!index && <Divider /> }
-                                            <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                            <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}>
                                                 <ListItem button>
                                                     <ListItemIcon>
                                                         <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
@@ -201,7 +201,7 @@ function Index({
                 <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
                     
                     <Box mb={8}>
-                        <FlagsInfo flags={map(redflags, "codice redflag")} />
+                        <FlagsInfo flags={map(redflags, "appaltipop:releases/0/redflag/code")} />
                     </Box>
 
                     <Box mb={8}>
@@ -225,9 +225,9 @@ function Index({
                                 map(
                                     suppliers,
                                     (supplier, index) => (
-                                        <Box component="li" key={supplier["CF"]}>
+                                        <Box component="li" key={supplier["ocds:releases/0/parties/0/id"]}>
                                             { !!index && <Divider /> }
-                                            <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["CF"]}`}>
+                                            <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}>
                                                 <ListItem button>
                                                     <ListItemIcon>
                                                         <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
@@ -292,9 +292,9 @@ export const getStaticProps = async ctx => {
         props: {
             ...(await getI18nProps(ctx, ['common','tender','supplier','redflags','cta'])),
             tender,
-            buyers: tender["pubblica amministrazione proponente"] || [],
-            suppliers: tender["aggiudicatari"] || [],
-            redflags: tender["redflags"] || [],
+            buyers: tender["appaltipop:releases/0/buyers"] || [],
+            suppliers: tender["appaltipop:releases/0/suppliers"] || [],
+            redflags: tender["appaltipop:releases/0/redflags"] || [],
         }
     }
 }

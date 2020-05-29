@@ -243,9 +243,9 @@ function Index({
                                                     map(
                                                         tenders,
                                                         (tender, index) => (
-                                                            <Box component="li" key={tender["cig"]}>
+                                                            <Box component="li" key={tender["ocds:releases/0/id"]}>
                                                                 { !!index && <Divider /> }
-                                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
+                                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["ocds:releases/0/id"]}`}>
                                                                     <ListItem button>
                                                                         <ListItemIcon>
                                                                             <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>

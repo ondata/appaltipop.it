@@ -254,9 +254,9 @@ function Index({
                                                     map(
                                                         suppliers,
                                                         (supplier, index) => (
-                                                            <Box component="li" key={supplier["CF"]}>
+                                                            <Box component="li" key={supplier["ocds:releases/0/parties/0/id"]}>
                                                                 { !!index && <Divider /> }
-                                                                <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["CF"]}`}>
+                                                                <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}>
                                                                     <ListItem button>
                                                                         <ListItemIcon>
                                                                             <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>

@@ -32,7 +32,7 @@
 
     "search": {
         "title": "Cerca",
-        "help": "es. \"milano\"...",
+        "help": "es. \"Comune di Milano\"...",
         "cta": "Cerca",
         "reset": "Annulla"
     }

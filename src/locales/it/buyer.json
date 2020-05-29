@@ -1,10 +1,11 @@
 {
 
-    "province": "Provincia",
-    "region": "Regione",
-    "id": "Codice Fiscale",
-    "valueAmount": "Importo aggiudicazione",
-    "transactionAmount": "Importo somme liquidate",
+    "ocds/releases/0/buyer/id": "Codice Fiscale",
+    "ocds/releases/0/buyer/name": "Denominazione",
+    "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
+    "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
+    "appaltipop/releases/0/buyer/province": "Provincia",
+    "appaltipop/releases/0/buyer/region": "Regione",
 
     "search": {
         "title": "Ricerca le Pubbliche amministrazioni che desideri monitorare",

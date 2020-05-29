@@ -60,8 +60,8 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                         <Grid container spacing={4} justify="center">
                             <Grid item xs={12}>
                                 <Paper elevation={0}>
-                                    <Typography variant="body2">
-                                        {t("home:introduction")}
+                                    <Typography component="div" variant="body2">
+                                        <ReactMarkdown source={t("home:introduction")} />
                                     </Typography>
                                 </Paper>
                             </Grid>

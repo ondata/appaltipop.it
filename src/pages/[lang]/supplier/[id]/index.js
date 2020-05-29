@@ -89,7 +89,7 @@ function Index({
             <>
 
                 <Head>
-                    <title>{`${t("common:supplier")} n. ${supplier["CF"]} | ${t("common:title")}`}</title>
+                    <title>{`${t("common:supplier")} n. ${supplier["ocds:releases/0/parties/0/id"]} | ${t("common:title")}`}</title>
                 </Head>
 
                 <Header />
@@ -139,7 +139,7 @@ function Index({
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="h1">
-                                        {supplier["ragione sociale"]}
+                                        {supplier["ocds:releases/0/parties/0/name"]}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} sm={3}>
@@ -160,23 +160,23 @@ function Index({
                             <Grid container spacing={2}>
 
                                 <Grid item xs={12} sm={4}>
-                                    <KeyValue title={t("supplier:cf")} label={supplier["CF"]} />
+                                    <KeyValue title={t("supplier:ocds/releases/0/parties/0/id")} label={supplier["ocds:releases/0/parties/0/id"]} />
                                 </Grid>
 
                                 <Grid item xs={6} sm={4}>
-                                    <KeyValue title={t("supplier:province")} label={supplier["province"]} />
+                                    <KeyValue title={t("supplier:appaltipop/releases/0/supplier/province")} label={supplier["appaltipop:releases/0/supplier/province"]} />
                                 </Grid>
 
                                 <Grid item xs={6} sm={4}>
-                                    <KeyValue title={t("supplier:region")} label={supplier["region"]} />
+                                    <KeyValue title={t("supplier:appaltipop/releases/0/supplier/region")} label={supplier["appaltipop:releases/0/supplier/region"]} />
                                 </Grid>
 
                                 <Grid item xs={6}>
-                                    <KeyValue title={t("supplier:valueAmount")} label={nf(CURRENCY_FORMAT)(valueAmount)} />
+                                    <KeyValue title={t("supplier:ocds/releases/0/awards/0/value/amount")} label={nf(CURRENCY_FORMAT)(valueAmount)} />
                                 </Grid>
 
                                 <Grid item xs={6}>
-                                    <KeyValue title={t("supplier:transactionAmount")} label={nf(CURRENCY_FORMAT)(transactionAmount)} />
+                                    <KeyValue title={t("supplier:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount")} label={nf(CURRENCY_FORMAT)(transactionAmount)} />
                                 </Grid>
 
                             </Grid>
@@ -267,9 +267,9 @@ function Index({
                                     map(
                                         tenders,
                                         (tender, index) => (
-                                            <Box component="li" key={tender["cig"]}>
+                                            <Box component="li" key={tender["ocds:releases/0/id"]}>
                                                 { !!index && <Divider /> }
-                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["cig"]}`}>
+                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["ocds:releases/0/id"]}`}>
                                                     <ListItem button>
                                                         <ListItemIcon>
                                                             <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
@@ -293,9 +293,9 @@ function Index({
                                     map(
                                         buyers,
                                         (buyer, index) => (
-                                            <Box component="li" key={buyer["ID"]}>
+                                            <Box component="li" key={buyer["ocds:releases/0/buyer/id"]}>
                                                 { !!index && <Divider /> }
-                                                <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                                <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}>
                                                     <ListItem button>
                                                         <ListItemIcon>
                                                             <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
@@ -322,7 +322,7 @@ function Index({
 
 export const getStaticProps = async ctx => ({
     props: {
-        ...(await getI18nProps(ctx, ['common','supplier','redflags'])),
+        ...(await getI18nProps(ctx, ['common','supplier','buyer','tender','redflags'])),
         supplier: await getSupplierById(ctx.params.id),
         tenders: map((await getTendersBySupplier(ctx.params.id)).hits, "_source"),
         buyers: await getBuyersBySupplier(ctx.params.id),

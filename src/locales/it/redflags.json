@@ -6,30 +6,35 @@
     "flags": "5",
 
     "01": {
+        "appaltipop/releases/0/redflag/code": "01",
         "title": "Periodo di offerta breve",
         "summary": "Appalti con periodo di offerta è inferiore ai 3gg",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     },
 
     "02": {
+        "appaltipop/releases/0/redflag/code": "02",
         "title": "Offerta vicina alla stima dell'appalto",
         "summary": "Appalti con l’offerta vincitrice entro l’1% del prezzo stimato",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     },
 
     "03": {
+        "appaltipop/releases/0/redflag/code": "03",
         "title": "Singolo offerente",
         "summary": "Appalti che presentano un singolo offerente",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     },
 
     "04": {
+        "appaltipop/releases/0/redflag/code": "04",
         "title": "Affidamenti diretti multipli",
         "summary": "Appalti in cui lo stesso fornitore riceve più affidamenti",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     },
 
     "05": {
+        "appaltipop/releases/0/redflag/code": "05",
         "title": "Ritardo nella negoziazione del contratto",
         "summary": "Appalti con lunghi ritardi (oltre 60 giorni)",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."

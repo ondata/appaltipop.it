@@ -41,7 +41,8 @@ export function Buyer(buyer) {
     return (
         <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm>
-                <Typography variant="body1">{startCase(toLower(buyer["denominazione"]))}</Typography>
+                {/*<Typography variant="caption">{t("buyer:ocds/releases/0/buyer/name")}</Typography>*/}
+                <Typography variant="body1">{startCase(toLower(buyer["ocds:releases/0/buyer/name"]))}</Typography>
             </Grid>
             <Grid item xs={6} sm="auto">
                 <Typography variant="caption">{t("common:tenders")}</Typography>
@@ -63,12 +64,12 @@ export function Supplier(supplier) {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} sm="auto">
-                <Typography variant="caption">{t("supplier:cf")}</Typography>
-                <Typography variant="body1">{supplier["CF"]}</Typography>
+                <Typography variant="caption">{t("supplier:ocds/releases/0/parties/0/id")}</Typography>
+                <Typography variant="body1">{supplier["ocds:releases/0/parties/0/id"]}</Typography>
             </Grid>
             <Grid item xs={12} sm>
-                <Typography variant="caption">{t("supplier:name")}</Typography>
-                <Typography variant="body2">{startCase(toLower(supplier["ragione sociale"]))}</Typography>
+                <Typography variant="caption">{t("supplier:ocds/releases/0/parties/0/name")}</Typography>
+                <Typography variant="body2">{startCase(toLower(supplier["ocds:releases/0/parties/0/name"]))}</Typography>
             </Grid>
             <Grid item xs={4} sm="auto">
                 <Typography variant="caption">{t("common:tenders")}</Typography>
@@ -94,32 +95,37 @@ export function Tender(tender) {
         <Grid container spacing={2} alignItems="center">
 
             <Grid item xs={12} sm="auto">
-                <Typography variant="caption">{t("tender:cig")}</Typography>
-                <Typography variant="body1">{tender["cig"]}</Typography>
+                <Typography variant="caption">{t("tender:ocds/releases/0/id")}</Typography>
+                <Typography variant="body1">{tender["ocds:releases/0/id"]}</Typography>
             </Grid>
 
             <Grid item xs={12} sm>
-                <Typography variant="caption">{t("tender:title")}</Typography>
-                <Typography variant="body2">{upperFirst(toLower(tender["appalto"]))}</Typography>
+                <Typography variant="caption">{t("tender:ocds/releases/0/tender/title")}</Typography>
+                <Typography variant="body2">{upperFirst(toLower(tender["ocds:releases/0/tender/title"]))}</Typography>
             </Grid>
 
             <Grid item xs={6} sm="auto">
 
-                <Typography variant="caption">{t("tender:startDate")}</Typography>
-                <Typography variant="body1">{tf(DATE_FORMAT)(new Date(tender["data inizio"]))}</Typography>
+                <Typography variant="caption">{t("tender:ocds/releases/0/tender/contractPeriod/startDate")}</Typography>
+                <Typography variant="body1">{tf(DATE_FORMAT)(new Date(tender["ocds:releases/0/tender/contractPeriod/startDate"]))}</Typography>
 
-                <Typography variant="caption">{t("common:buyer")}</Typography>
-                <Typography variant="body1">{startCase(toLower(tender["pubblica amministrazione proponente"][0]["denominazione"]))}</Typography>
+                <Typography variant="caption">{t("common:buyer", { count: tender["appaltipop:releases/0/buyers"].length })}</Typography>
+                {
+                    map(
+                        tender["appaltipop:releases/0/buyers"],
+                        buyer => <Typography key={buyer["ocds:releases/0/buyer/id"]} variant="body1">{startCase(toLower(buyer["ocds:releases/0/buyer/name"]))}</Typography>
+                    )
+                }
 
             </Grid>
 
             <Grid item xs={6} sm="auto">
 
-                <Typography variant="caption">{t("tender:endDate")}</Typography>
-                <Typography variant="body1">{tf(DATE_FORMAT)(new Date(tender["data fine"]))}</Typography>
+                <Typography variant="caption">{t("tender:ocds/releases/0/tender/contractPeriod/endDate")}</Typography>
+                <Typography variant="body1">{tf(DATE_FORMAT)(new Date(tender["ocds:releases/0/tender/contractPeriod/endDate"]))}</Typography>
 
-                <Typography variant="caption">{t("tender:valueAmount")}</Typography>
-                <Typography variant="body1">{nf(CURRENCY_FORMAT)(tender["importo aggiudicazione"])}</Typography>
+                <Typography variant="caption">{t("tender:ocds/releases/0/awards/0/value/amount")}</Typography>
+                <Typography variant="body1">{nf(CURRENCY_FORMAT)(tender["ocds:releases/0/awards/0/value/amount"])}</Typography>
 
             </Grid>
 

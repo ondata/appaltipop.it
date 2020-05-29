@@ -1,13 +1,13 @@
 {
 
-    "cig": "CIG",
-    "title": "Titolo",
-    "startDate": "Data di inizio",
-    "endDate": "Data di fine",
-    "numberOfParticipants": "N. di partecipanti",
-    "type": "Tipo",
-    "valueAmount": "Importo aggiudicazione",
-    "transactionAmount": "Importo somme liquidate",
+    "ocds/releases/0/id": "CIG",
+    "ocds/releases/0/tender/title": "Titolo",
+    "ocds/releases/0/tender/procurementMethodDetails": "Tipo",
+    "ocds/releases/0/tender/contractPeriod/startDate": "Data di inizio",
+    "ocds/releases/0/tender/contractPeriod/endDate": "Data di fine",
+    "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
+    "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
+    "appaltipop/releases/0/tender/participants/total": "N. di partecipanti",
     
     "partner": {
         "title": "Questo contratto è monitorato da:",

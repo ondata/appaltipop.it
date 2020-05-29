@@ -21,7 +21,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import {
     Flag,
-    LiveHelpOutlined,
+    ArrowDropDownCircleOutlined,
 } from '@material-ui/icons'
 
 import style from './style'
@@ -45,7 +45,7 @@ export default function Index({
                         <ExpansionPanel elevation={0} key={flag} expanded={expanded === flag} onChange={(e, isExpanded) => setExpanded(isExpanded ? flag : false)}>
                             <ExpansionPanelSummary
                                 className={classes.panel}
-                                expandIcon={<LiveHelpOutlined color="primary" />}
+                                expandIcon={<ArrowDropDownCircleOutlined color="primary" />}
                                 aria-controls={`panel${flag}-content`}
                                 id={`panel${flag}-header`}
                             >

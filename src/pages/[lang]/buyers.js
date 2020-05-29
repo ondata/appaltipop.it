@@ -159,7 +159,7 @@ function Index({
                                                 map(
                                                     buyers,
                                                     buyer => (
-                                                        <Link key={buyer["ID"]} href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ID"]}`}>
+                                                        <Link key={buyer["ocds:releases/0/buyer/id"]} href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}>
                                                             <ListItem button>
                                                                 <ListItemIcon>
                                                                     <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>

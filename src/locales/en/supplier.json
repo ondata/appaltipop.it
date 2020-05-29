@@ -1,12 +1,13 @@
 {
 
-    "province": "Provincia",
-    "region": "Regione",
-    "cf": "Codice Fiscale",
-    "name": "Ragione sociale",
-    "valueAmount": "Importo aggiudicazione",
-    "transactionAmount": "Importo somme liquidate",
-    "importoTotaleAppaltiConStessoEnte": "importoTotaleAppaltiConStessoEnte",
+    "ocds/releases/0/parties/0/id": "Codice Fiscale",
+    "ocds/releases/0/parties/0/name": "Ragione sociale",
+    "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
+    "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
+    "appaltipop/releases/0/supplier/tendersByBuyers/total": "appaltiConStessoEnte",
+    "appaltipop/releases/0/supplier/amountByBuyers/total": "importoTotaleAppaltiConStessoEnte",
+    "appaltipop/releases/0/supplier/province": "Provincia",
+    "appaltipop/releases/0/supplier/region": "Regione",
 
     "search": {
         "title": "Ricerca gli aggiudicatari che desideri monitorare",
