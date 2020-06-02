@@ -10,8 +10,8 @@
     "appaltipop/releases/0/supplier/region": "Regione",
 
     "search": {
-        "title": "Ricerca gli aggiudicatari che desideri monitorare",
-        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
+        "title": "Ricerca gli aggiudicatari che vuoi monitorare",
+        "description": "In questa pagina puoi cercare un aggiudicatario che vuoi monitorare. Attualmente AppaltiPOP è onlne in fase sperimentale, di conseguenza qui sono presenti esclusivamente gli aggiudicatari di appalti assegnati dalle pubbliche amministrazioni disponibili.  L'elenco delle Pubbliche amministrazioni incluse in AppaltiPOP è disponibile nella pagina **[Pubbliche amministrazioni](./buyers)**.",
         "help": "es. engineering...",
         "label": "Cerca tra gli aggiudicatari"
     },
@@ -22,9 +22,9 @@
         "supplier_plural": "Aggiudicatari",
         "suppliers": "Aggiudicatari",
 
-        "redflag": "Appalto con problemi",
-        "redflag_plural": "Appalti con problemi",
-        "redflags": "Appalti con problemi"
+        "redflag": "Appalto con red flag",
+        "redflag_plural": "Appalti con red flag",
+        "redflags": "Appalti con red flag"
         
     },
 
