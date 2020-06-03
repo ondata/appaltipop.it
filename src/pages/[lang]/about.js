@@ -8,6 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import {
     Container,
     Box,
+    Typography,
 } from '@material-ui/core'
 
 import {
@@ -25,7 +26,7 @@ import { CONTAINER_BREAKPOINT } from '../../config/constants'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 
-function Index({ content }) {
+function Index({ contents }) {
 
     const { t, lang } = useTranslation()
 
@@ -40,11 +41,16 @@ function Index({ content }) {
 
             <main>
 
-            <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
-                <Box mb={8} mt={8}>
-                    <ReactMarkdown source={content} />
-                </Box>
-            </Container>
+                <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
+                    <Box mb={8} mt={8}>
+                        <Typography variant="h1">
+                            {t("about:title")}
+                        </Typography>
+                        <Typography component="div" variant="body2">
+                            <ReactMarkdown source={contents["about"].content} />
+                        </Typography>
+                    </Box>
+                </Container>
 
             </main>
 
@@ -54,12 +60,18 @@ function Index({ content }) {
     )
 }
 
-export const getStaticProps = async (ctx) => ({
-    props: {
-        ...(await getI18nProps(ctx, ['common','about'])),
-        content: await getStaticPage(ctx.params.lang, 'about'),
-    }
-})
+export const getStaticProps = async (ctx) => {
+    const { lang, namespaces } = await getI18nProps(ctx, ['common','about'])
+    return ({
+        props: {
+            lang,
+            namespaces,
+            contents: {
+                "about": await getStaticPage(namespaces["about"]),
+            }
+        }
+    })
+}
 
 export const getStaticPaths = async () => ({
     paths: getI18nPaths(),

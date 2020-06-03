@@ -1,5 +1,3 @@
-# About
-
 AppaltiPOP è un progetto dell'[associazione Ondata](https://www.ondata.it). Se non la conosci, forse ti interessa sapere che la nostra associazione promuove l’apertura dei dati pubblici per renderli accessibili a tutti. Dal 2015 lavoriamo per rendere il nostro Paese più trasparente ed aperto a tutti. Tutti i contenuti di questo sito sono rilasciati con licenza [CC-by SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ## L'obiettivo di questo progetto

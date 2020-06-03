@@ -1,5 +1,3 @@
-# Partecipa!
-
 Per fare crescere questo progetto e dare modo a tutti di compiere o favorire un'azione di monitoraggio degli appalti pubblici, Ondata ha bisogno del tuo aiuto. In particolare:
 
 - **Nuovi finanziamenti**: per avere risorse per lavorare sui dati e includere gli appalti di altre pubbliche amministrazioni.

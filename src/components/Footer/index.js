@@ -72,11 +72,6 @@ export default function Index() {
                                             <ListItemText primary={t("common:faq")} />
                                         </ListItem>
                                     </Link>
-                                    <Link href="/[lang]/credits" as={`/${lang}/credits`}>
-                                        <ListItem component="li" button className={classes.menuButton}>
-                                            <ListItemText primary={t("common:credits")} />
-                                        </ListItem>
-                                    </Link>
                                 </List>
                             </Grid>
                         </Hidden>

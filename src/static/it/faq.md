@@ -1,5 +1,3 @@
-# FAQ
-
 In questa pagina riepiloghiamo alcune delle domande frequente che ci vengono poste e le aggiorniamo nel tempo.
 
 

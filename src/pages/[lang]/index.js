@@ -23,6 +23,10 @@ import {
 import { CONTAINER_BREAKPOINT } from '../../config/constants'
 
 import {
+    getStaticPage,
+} from '../../utils/pages'
+
+import {
     getTendersCount,
     getBuyersCount,
     getSuppliersCount,
@@ -31,7 +35,7 @@ import {
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 
-function Index({ tendersCount, buyersCount, suppliersCount }) {
+function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
 
     const { t, lang } = useTranslation()
 
@@ -61,7 +65,7 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                             <Grid item xs={12}>
                                 <Paper elevation={0}>
                                     <Typography component="div" variant="body2">
-                                        <ReactMarkdown source={t("home:introduction")} />
+                                        <ReactMarkdown source={contents.introduction.content} />
                                     </Typography>
                                 </Paper>
                             </Grid>
@@ -71,7 +75,7 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                                     fullWidth
                                     variant="contained" size="large" color="secondary" disableElevation
                                 >
-                                    {t("cta:monitor.title")}
+                                    {t("home:ocds.title")}
                                 </Button>
                             </Grid>
                             <Grid item xs={12} sm="auto">
@@ -93,7 +97,7 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                             {t("home:ocds.title")}
                         </Typography>
                         <Typography component="div" variant="body2">
-                            <ReactMarkdown source={t("home:ocds.description")} linkTarget="_blank" />
+                            <ReactMarkdown source={contents.ocds.content} linkTarget="_blank" />
                         </Typography>
                     </Container>
                 </Box>
@@ -101,16 +105,16 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                 <Box component="section" className="band band-g band-home">
                     <Container maxWidth={CONTAINER_BREAKPOINT}>
                         <Typography variant="h2">
-                            {t("home:practice.title")}
+                            {t("home:interoperability.title")}
                         </Typography>
                         <Grid container spacing={4}>
                             <Grid item xs={12} sm={6}>
                                 <Typography component="div" variant="body2">
-                                    <ReactMarkdown source={t("home:practice.description")} />
+                                    <ReactMarkdown source={contents.interoperability.content} />
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <img src="/partners/ocds-logo.png" alt="OCDS" title="OCDS" style={{width:"100%"}} />
+                                <img src={t("home:interoperability.image")} alt="OCDS" title="OCDS" style={{width:"100%"}} />
                             </Grid>
                         </Grid>
                     </Container>
@@ -119,10 +123,10 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                 <Box component="section" className="band band-w band-home">
                     <Container maxWidth={CONTAINER_BREAKPOINT}>
                         <Typography variant="h2">
-                            {t("home:todo.title")}
+                            {t("home:redflag.title")}
                         </Typography>
                         <Typography component="div" variant="body2">
-                            <ReactMarkdown source={t("home:todo.description")} />
+                            <ReactMarkdown source={contents.redflag.content} />
                         </Typography>
                     </Container>
                 </Box>
@@ -131,11 +135,11 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
                     <Container maxWidth="md">
 
                         <Typography variant="h2" align="center">
-                            {t("home:buyer.title")}
+                            {t("home:partnership.title")}
                         </Typography>
 
                         <Typography component="div" variant="body2" align="center">
-                            <ReactMarkdown source={t("home:buyer.description")} linkTarget="_blank" />
+                            <ReactMarkdown source={contents.partnership.content} linkTarget="_blank" />
                         </Typography>
 
                         <Box mt={4} textAlign="center">
@@ -158,14 +162,25 @@ function Index({ tendersCount, buyersCount, suppliersCount }) {
     )
 }
 
-export const getStaticProps = async (ctx) => ({
-    props: {
-        ...(await getI18nProps(ctx, ['common','home','cta'])),
-        tendersCount: await getTendersCount(),
-        buyersCount: await getBuyersCount(),
-        suppliersCount: await getSuppliersCount(),
-    }
-})
+export const getStaticProps = async (ctx) => {
+    const { lang, namespaces } = await getI18nProps(ctx, ['common','home','cta'])
+    return ({
+        props: {
+            lang,
+            namespaces,
+            tendersCount: await getTendersCount(),
+            buyersCount: await getBuyersCount(),
+            suppliersCount: await getSuppliersCount(),
+            contents: {
+                introduction: await getStaticPage(namespaces.home.introduction),
+                ocds: await getStaticPage(namespaces.home.ocds),
+                interoperability: await getStaticPage(namespaces.home.interoperability),
+                redflag: await getStaticPage(namespaces.home.redflag),
+                partnership: await getStaticPage(namespaces.home.partnership),
+            }
+        }
+    })
+}
 
 export const getStaticPaths = async () => ({
     paths: getI18nPaths(),
