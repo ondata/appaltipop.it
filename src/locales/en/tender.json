@@ -1,5 +1,4 @@
 {
-
     "ocds/releases/0/id": "CIG",
     "ocds/releases/0/tender/title": "Titolo",
     "ocds/releases/0/tender/procurementMethodDetails": "Tipo",
@@ -8,31 +7,24 @@
     "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
     "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
     "appaltipop/releases/0/tender/participants/total": "N. di partecipanti",
-    
     "partner": {
         "title": "Questo contratto è monitorato da:",
         "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
     },
-
     "search": {
         "title": "Ricerca i contratti che desideri monitorare",
         "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
-        "help": "es. strade...",
+        "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
         "label": "Cerca tra gli appalti"
     },
-
     "counter": {
-
         "tender": "Appalto monitorato",
         "tender_plural": "Appalti monitorati",
         "tenders": "Appalti monitorati",
-
         "redflag": "Appalto con problemi",
         "redflag_plural": "Appalti con problemi",
         "redflags": "Appalti con problemi"
-        
     },
-    
     "donut": {
         "1": {
             "title": "Numero di Partecipanti rispetto alla media",
@@ -47,12 +39,10 @@
             "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
         }
     },
-    
     "bar": {
         "1": {
             "title": "Qualità del dato rispetto alla media",
             "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appalti."
         }
     }
-
 }

@@ -1,5 +1,4 @@
 {
-
     "ocds/releases/0/parties/0/id": "Codice Fiscale",
     "ocds/releases/0/parties/0/name": "Ragione sociale",
     "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
@@ -8,28 +7,21 @@
     "appaltipop/releases/0/supplier/amountByBuyers/total": "importoTotaleAppaltiConStessoEnte",
     "appaltipop/releases/0/supplier/province": "Provincia",
     "appaltipop/releases/0/supplier/region": "Regione",
-
     "search": {
         "title": "Ricerca gli aggiudicatari che vuoi monitorare",
-        "description": "In questa pagina puoi cercare un aggiudicatario che vuoi monitorare. Attualmente AppaltiPOP è onlne in fase sperimentale, di conseguenza qui sono presenti esclusivamente gli aggiudicatari di appalti assegnati dalle pubbliche amministrazioni disponibili.  L'elenco delle Pubbliche amministrazioni incluse in AppaltiPOP è disponibile nella pagina **[Pubbliche amministrazioni](./buyers)**.",
-        "help": "es. engineering...",
+        "description": "In questa pagina puoi cercare un aggiudicatario che vuoi monitorare. Cerca per nome dell'aggiudicatario oppure inserisci il suo Codice Fiscale o la Partita IVA.  Attualmente AppaltiPOP è online in fase sperimentale, di conseguenza qui sono presenti esclusivamente gli aggiudicatari di appalti assegnati dalle pubbliche amministrazioni disponibili. L'elenco delle pubbliche amministrazioni incluse in AppaltiPOP è disponibile nella pagina **[Pubbliche amministrazioni](/it/buyers)**.",
+        "help": "es. \"engineering\" oppure \"02428100982\"...",
         "label": "Cerca tra gli aggiudicatari"
     },
-
     "counter": {
-
         "supplier": "Aggiudicatario",
         "supplier_plural": "Aggiudicatari",
         "suppliers": "Aggiudicatari",
-
         "redflag": "Appalto con red flag",
         "redflag_plural": "Appalti con red flag",
         "redflags": "Appalti con red flag"
-        
     },
-
     "charts": "Grafici di monitoraggio",
-
     "bar": {
         "1": {
             "title": "Appalti per anno",
@@ -44,5 +36,4 @@
             "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appatli."
         }
     }
-
 }

@@ -58,7 +58,7 @@ export const getTenders = async () => await getItems(`${ES_INDEX_PREFIX}-tenders
 export const searchForTenders = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
-        q && { match: { [`ocds:releases/0/tender/title.${lang}`]: q } },
+        q && { multi_match: { query: q, fields: [`ocds:releases/0/tender/title.${lang}`, `ocds:releases/0/parties/0/id`] } },
         page * PAGE_SIZE
     )
 )
@@ -67,7 +67,7 @@ export const getBuyers = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
 export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-buyers`,
-        q && { match: { [`ocds:releases/0/buyer/name.${lang}`]: q } },
+        q && { multi_match: { query: q, fields: [`ocds:releases/0/buyer/name.${lang}`, `ocds:releases/0/buyer/id`] } },
         page * PAGE_SIZE
     )
 )
@@ -76,7 +76,7 @@ export const getSuppliers = async () => await getItems(`${ES_INDEX_PREFIX}-suppl
 export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-suppliers`,
-        q && { match: { [`ocds:releases/0/parties/0/name.${lang}`]: q } },
+        q && { multi_match: { query: q, fields: [`ocds:releases/0/parties/0/name.${lang}`, ``] } },
         page * PAGE_SIZE
     )
 )

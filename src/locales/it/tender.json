@@ -1,5 +1,4 @@
 {
-
     "ocds/releases/0/id": "CIG",
     "ocds/releases/0/tender/title": "Titolo",
     "ocds/releases/0/tender/procurementMethodDetails": "Tipo",
@@ -8,31 +7,24 @@
     "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
     "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
     "appaltipop/releases/0/tender/participants/total": "N. di partecipanti",
-    
     "partner": {
         "title": "Questo contratto è monitorato da:",
         "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
     },
-
     "search": {
         "title": "Ricerca i contratti che vuoi monitorare",
-        "description": "In questa pagina puoi cercare un appalto assegnato ad una delle pubbliche amministrazioni presenti in AppaltiPOP. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](./buyers)**",
-        "help": "es. strade...",
+        "description": "In questa pagina puoi cercare un appalto assegnato a una delle pubbliche amministrazioni presenti in AppaltiPOP. Cerca per titolo dell'appalto oppure inserisci il CIG completo. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](/it/buyers)**.",
+        "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
         "label": "Cerca tra gli appalti"
     },
-
     "counter": {
-
         "tender": "Appalto monitorato",
         "tender_plural": "Appalti monitorati",
         "tenders": "Appalti monitorati",
-
         "redflag": "Appalto con problemi",
         "redflag_plural": "Appalti con problemi",
         "redflags": "Appalti con problemi"
-        
     },
-    
     "donut": {
         "1": {
             "title": "Numero di Partecipanti rispetto alla media",
@@ -47,12 +39,10 @@
             "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas faucibus mollis interdum."
         }
     },
-    
     "bar": {
         "1": {
             "title": "Qualità del dato rispetto alla media",
             "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appalti."
         }
     }
-
 }
