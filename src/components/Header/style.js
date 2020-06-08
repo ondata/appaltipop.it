@@ -18,4 +18,7 @@ export default theme => ({
             backgroundColor: `transparent`,
         },
     },
+    selected: {
+        textDecoration: `underline`,
+    },
 })
