@@ -52,7 +52,7 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
 
                 <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
                     <Box component="h1" m={0}>
-                        <img src="/logo.png" alt="AppaltiPOP" title="AppaltiPOP" style={{maxWidth:"100%"}} />
+                        <img src="/logo.png" alt="AppaltiPOP" title="AppaltiPOP" style={{ maxWidth: "100%" }} />
                     </Box>
                     <Typography component="span" variant="subtitle1">
                         {t("common:claim")}
@@ -71,16 +71,16 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
                             </Grid>
                             <Grid item xs={12} sm="auto">
                                 <Button
-                                    target="_blank" href={t("cta:monitor.url")}
+                                    href={t("cta:monitor.url", { lang })}
                                     fullWidth
                                     variant="contained" size="large" color="secondary" disableElevation
                                 >
-                                    {t("home:ocds.title")}
+                                    {t("cta:monitor.title")}
                                 </Button>
                             </Grid>
                             <Grid item xs={12} sm="auto">
                                 <Button
-                                    target="_blank" href={t("cta:search.url")}
+                                    href={t("cta:search.url", { lang })}
                                     fullWidth
                                     variant="contained" size="large" color="secondary" disableElevation
                                 >
@@ -114,7 +114,7 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
                                 </Typography>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <img src={t("home:interoperability.image")} alt="OCDS" title="OCDS" style={{width:"100%"}} />
+                                <img src={t("home:interoperability.image")} alt="OCDS" title="OCDS" style={{ width: "100%" }} />
                             </Grid>
                         </Grid>
                     </Container>
@@ -144,10 +144,10 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
 
                         <Box mt={4} textAlign="center">
                             <Button
-                                target="_blank" href={t("cta:participate.url")}
+                                href={t("cta:getInvolved.url", { lang })}
                                 variant="contained" size="large" color="secondary" disableElevation
                             >
-                                {t("cta:participate.title")}
+                                {t("cta:getInvolved.title")}
                             </Button>
                         </Box>
 
@@ -163,7 +163,7 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
 }
 
 export const getStaticProps = async (ctx) => {
-    const { lang, namespaces } = await getI18nProps(ctx, ['common','home','cta'])
+    const { lang, namespaces } = await getI18nProps(ctx, ['common', 'home', 'cta'])
     return ({
         props: {
             lang,

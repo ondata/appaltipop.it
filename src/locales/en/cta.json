@@ -1,28 +1,22 @@
 {
-
-    "participate": {
+    "getInvolved": {
         "title": "Partecipa",
-        "url": "#"
+        "url": "/{{lang}}/get-involved"
     },
-
     "monitor": {
         "title": "Monitora la tua PA",
-        "url": "#"
+        "url": "/{{lang}}/buyers"
     },
-
     "search": {
         "title": "Cerca un appalto",
-        "url": "#"
+        "url": "/{{lang}}/tenders"
     },
-
     "foia": {
         "title": "Fai una richiesta FOIA all'ente appaltante",
         "url": "#"
     },
-
     "whistle": {
         "title": "Soffia il fischio di errori su questo tenero",
         "url": "#"
     }
-      
 }
