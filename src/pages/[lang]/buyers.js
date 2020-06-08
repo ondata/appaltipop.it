@@ -8,27 +8,12 @@ import useTranslation from 'next-translate/useTranslation'
 
 import ReactMarkdown from 'react-markdown'
 
-import axios from 'axios'
-
-import { map, isEmpty } from 'lodash'
-
 import {
     Container,
     Box,
     Grid,
     Typography,
-    List,
-    ListItem,
-    ListItemIcon,
 } from '@material-ui/core'
-
-import {
-    ArrowForward,
-} from '@material-ui/icons'
-
-import {
-    Pagination,
-} from '@material-ui/lab'
 
 import {
     getI18nPaths,
@@ -43,60 +28,23 @@ import {
 } from '../../config/constants'
 
 import {
-    getBuyers,
     getBuyersCount,
     getRedflagsCount,
 } from '../../utils/queries'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
-import AvatarIcon from '../../components/AvatarIcon'
+import SearchResults from '../../components/SearchResults'
 import { Buyer } from '../../components/SearchResult'
 import { BuyersCounter, FlagsCounter } from '../../components/Counter'
 
 function Index({
-    firstBuyers = [],
     buyersCount = 0,
     redflagsCount = 0,
 }) {
 
     const router = useRouter()
     const { t, lang } = useTranslation()
-
-    const [ buyers, setBuyers ] = useState(firstBuyers)
-    const [ results, setResults ] = useState(buyersCount)
-    const [ page, setPage ] = useState(1)
-    const [ pages, setPages ] = useState(1)
-
-    function handleChangePage(e, value) {
-        setPage(value)
-    }
-
-    function handleRequest() {
-        axios
-            .get(
-                `/api/${API_VERSION}/buyers`,
-                {
-                    params: {
-                        page: page-1,
-                    }
-                }
-            )
-            .then(
-                res => {
-                    setResults(res.data.total.value)
-                    setBuyers(map(res.data.hits, "_source"))
-                }
-            )
-    }
-
-    useEffect(() => {
-        handleRequest()
-    }, [page])
-
-    useEffect(() => {
-        setPages(Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0))
-    }, [results])
 
     return (
         <>
@@ -137,57 +85,13 @@ function Index({
 
                 <Box component="section" className="band band-g">
                     <Container maxWidth={CONTAINER_BREAKPOINT}>
-                        <Grid container>
-                            <Grid item xs={12} sm={8}>
-                                {
-                                    !isEmpty(buyers)
-                                    ?
-                                    <>
-
-                                        {
-                                            pages > 1
-                                            &&
-                                            <Pagination
-                                                variant="outlined" shape="rounded"
-                                                page={page} count={pages}
-                                                onChange={handleChangePage}
-                                            />
-                                        }
-
-                                        <List>
-                                            {
-                                                map(
-                                                    buyers,
-                                                    buyer => (
-                                                        <Link key={buyer["ocds:releases/0/buyer/id"]} href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}>
-                                                            <ListItem button>
-                                                                <ListItemIcon>
-                                                                    <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
-                                                                </ListItemIcon>
-                                                                <Buyer {...buyer} />
-                                                            </ListItem>
-                                                        </Link>
-                                                    )
-                                                )
-                                            }
-                                        </List>
-
-                                        {
-                                            pages > 1
-                                            &&
-                                            <Pagination
-                                                variant="outlined" shape="rounded"
-                                                page={page} count={pages}
-                                                onChange={handleChangePage}
-                                            />
-                                        }
-
-                                    </>
-                                    :
-                                    !!currentSearchString && !waiting && <Typography>{t("common:search.noResults")}</Typography>
-                                }
-                            </Grid>
-                        </Grid>
+                        <SearchResults
+                            endpoint={`/api/${API_VERSION}/buyers`}
+                            itemId="ocds:releases/0/buyer/id"
+                            itemType="buyer"
+                        >
+                            <Buyer />
+                        </SearchResults>
                     </Container>
                 </Box>
 
@@ -204,7 +108,6 @@ export const getStaticProps = async ctx => {
     return {
         props: {
             ...(await getI18nProps(ctx, ['common', 'buyer'])),
-            firstBuyers: map((await getBuyers()).hits, "_source"),
             buyersCount: await getBuyersCount(),
             redflagsCount: await getRedflagsCount()
         },

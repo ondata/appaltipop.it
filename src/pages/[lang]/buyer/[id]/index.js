@@ -18,14 +18,12 @@ import {
     ListItemIcon,
     ListItemText,
     List,
-    Divider,
 } from '@material-ui/core'
 
 import {
     Print,
     GetApp,
     Flag,
-    ArrowForward,
 } from '@material-ui/icons'
 
 import {
@@ -43,6 +41,7 @@ import {
     CURRENCY_FORMAT,
     DATE_FORMAT,
     INTEGER_FORMAT,
+    API_VERSION,
 } from '../../../../config/constants'
 
 import {
@@ -51,8 +50,6 @@ import {
     getRedflagsCountByBuyer,
     getTendersValueAmountByBuyer,
     getTendersTransactionAmountByBuyer,
-    getSuppliersByBuyer,
-    getTendersByBuyer,
 } from '../../../../utils/queries'
 
 import { getBuyerPaths } from '../../../../utils/paths'
@@ -61,15 +58,14 @@ import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
 
 import { FlagsCounter, TendersCounter } from '../../../../components/Counter'
-import { Tender, Supplier } from '../../../../components/SearchResult'
+import SearchResults from '../../../../components/SearchResults'
+import { Tender } from '../../../../components/SearchResult'
 import KeyValue from '../../../../components/KeyValue'
 import AvatarIcon from '../../../../components/AvatarIcon'
 import BarChart from '../../../../components/BarChart'
 
 function Index({
     buyer = {},
-    tenders = [],
-    suppliers = [],
     tendersCount = 0,
     redflagsCount = 0,
     valueAmount = 0,
@@ -207,9 +203,9 @@ function Index({
                                     <List disablePadding>
                                         {
                                             map(
-                                                map(range(1,+t("redflags:flags")+1), redflag => padStart(redflag,2,0)),
+                                                map(range(1, +t("redflags:flags") + 1), redflag => padStart(redflag, 2, 0)),
                                                 flag => (
-                                                    <ListItem key={flag} style={{backgroundColor:"#f9f9f9",border:"2px solid #E7E5FF",borderRadius:8,marginBottom:16}}>
+                                                    <ListItem key={flag} style={{ backgroundColor: "#f9f9f9", border: "2px solid #E7E5FF", borderRadius: 8, marginBottom: 16 }}>
                                                         <ListItemIcon><Flag color="secondary" /></ListItemIcon>
                                                         <ListItemText primary={t(`redflags:${flag}.title`)} secondary={t(`redflags:${flag}.summary`)} />
                                                     </ListItem>
@@ -233,7 +229,7 @@ function Index({
                     </Container>
 
                     <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-                        
+
                         <Box mb={8}>
 
                             <Typography variant="h2" color="inherit">
@@ -252,62 +248,23 @@ function Index({
 
                             </Grid>
                         </Box>
-                        
+
                         <Box mb={8}>
                             <BarChart title={t("buyer:bar.3.title")} description={t("buyer:bar.3.description")} inverse />
                         </Box>
-                        
+
                     </Container>
 
                     <Box mb={8} className="band band-g">
                         <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
                             <Typography variant="h2" color="inherit">{t("common:tenders")}</Typography>
-                            <List>
-                                {
-                                    map(
-                                        tenders,
-                                        (tender, index) => (
-                                            <Box component="li" key={tender["ocds:releases/0/id"]}>
-                                                { !!index && <Divider /> }
-                                                <Link href="/[lang]/tender/[id]" as={`/${lang}/tender/${tender["ocds:releases/0/id"]}`}>
-                                                    <ListItem button>
-                                                        <ListItemIcon>
-                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
-                                                        </ListItemIcon>
-                                                        <Tender {...tender} />
-                                                    </ListItem>
-                                                </Link>
-                                            </Box>
-                                        )
-                                    )
-                                }
-                            </List>
-                        </Container>
-                    </Box>
-
-                    <Box mb={8} className="band band-g">
-                        <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-                            <Typography variant="h2" color="inherit">{t("common:suppliers")}</Typography>
-                            <List>
-                                {
-                                    map(
-                                        suppliers,
-                                        (supplier, index) => (
-                                            <Box component="li" key={supplier["ocds:releases/0/parties/0/id"]}>
-                                                { !!index && <Divider /> }
-                                                <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}>
-                                                    <ListItem button>
-                                                        <ListItemIcon>
-                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
-                                                        </ListItemIcon>
-                                                        <Supplier {...supplier} />
-                                                    </ListItem>
-                                                </Link>
-                                            </Box>
-                                        )
-                                    )
-                                }
-                            </List>
+                            <SearchResults
+                                endpoint={`/api/${API_VERSION}/buyers/${buyer["ocds:releases/0/buyer/id"]}/tenders`}
+                                itemId="ocds:releases/0/id"
+                                itemType="tender"
+                            >
+                                <Tender />
+                            </SearchResults>
                         </Container>
                     </Box>
 
@@ -322,10 +279,8 @@ function Index({
 
 export const getStaticProps = async ctx => ({
     props: {
-        ...(await getI18nProps(ctx, ['common','buyer','supplier','tender','redflags'])),
+        ...(await getI18nProps(ctx, ['common', 'buyer', 'supplier', 'tender', 'redflags'])),
         buyer: await getBuyerById(ctx.params.id),
-        tenders: map((await getTendersByBuyer(ctx.params.id)).hits, "_source"),
-        suppliers: await getSuppliersByBuyer(ctx.params.id),
         tendersCount: await getTendersCountByBuyer(ctx.params.id),
         redflagsCount: await getRedflagsCountByBuyer(ctx.params.id),
         valueAmount: await getTendersValueAmountByBuyer(ctx.params.id),

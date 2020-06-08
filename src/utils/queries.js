@@ -59,7 +59,7 @@ export const searchForTenders = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
         q && { match: { [`ocds:releases/0/tender/title.${lang}`]: q } },
-        page*PAGE_SIZE
+        page * PAGE_SIZE
     )
 )
 
@@ -68,7 +68,7 @@ export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) => (
     await getItems(
         `${ES_INDEX_PREFIX}-buyers`,
         q && { match: { [`ocds:releases/0/buyer/name.${lang}`]: q } },
-        page*PAGE_SIZE
+        page * PAGE_SIZE
     )
 )
 
@@ -77,7 +77,7 @@ export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) =>
     await getItems(
         `${ES_INDEX_PREFIX}-suppliers`,
         q && { match: { [`ocds:releases/0/parties/0/name.${lang}`]: q } },
-        page*PAGE_SIZE
+        page * PAGE_SIZE
     )
 )
 
@@ -89,7 +89,7 @@ export const getTendersByBuyer = async (buyer, page = 0) => (
                 "appaltipop:releases/0/buyers.ocds:releases/0/buyer/id": { value: buyer }
             }
         },
-        page*PAGE_SIZE
+        page * PAGE_SIZE
     )
 )
 
@@ -132,7 +132,7 @@ export const getTendersBySupplier = async (supplier, page = 0) => (
                 "appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id": { value: supplier }
             }
         },
-        page*PAGE_SIZE
+        page * PAGE_SIZE
     )
 )
 
@@ -217,14 +217,14 @@ async function getSum(filterKey, filterValue, aggKey) {
     })
 
     return body.aggregations.items.sum.value
-    
+
 }
 
-export const getTendersValueAmountByBuyer = async buyer => await getSum(["appaltipop:releases/0/buyers","ocds:releases/0/buyer/id"], buyer, "ocds:releases/0/awards/0/value/amount")
-export const getTendersTransactionAmountByBuyer = async buyer => await getSum(["appaltipop:releases/0/buyers","ocds:releases/0/buyer/id"], buyer, "ocds:releases/0/contracts/0/implementation/transactions/0/value/amount")
+export const getTendersValueAmountByBuyer = async buyer => await getSum(["appaltipop:releases/0/buyers", "ocds:releases/0/buyer/id"], buyer, "ocds:releases/0/awards/0/value/amount")
+export const getTendersTransactionAmountByBuyer = async buyer => await getSum(["appaltipop:releases/0/buyers", "ocds:releases/0/buyer/id"], buyer, "ocds:releases/0/contracts/0/implementation/transactions/0/value/amount")
 
-export const getTendersValueAmountBySupplier = async supplier => await getSum(["appaltipop:releases/0/suppliers","ocds:releases/0/parties/0/id"], supplier, "ocds:releases/0/awards/0/value/amount")
-export const getTendersTransactionAmountBySupplier = async supplier => await getSum(["appaltipop:releases/0/suppliers","ocds:releases/0/parties/0/id"], supplier, "ocds:releases/0/contracts/0/implementation/transactions/0/value/amount")
+export const getTendersValueAmountBySupplier = async supplier => await getSum(["appaltipop:releases/0/suppliers", "ocds:releases/0/parties/0/id"], supplier, "ocds:releases/0/awards/0/value/amount")
+export const getTendersTransactionAmountBySupplier = async supplier => await getSum(["appaltipop:releases/0/suppliers", "ocds:releases/0/parties/0/id"], supplier, "ocds:releases/0/contracts/0/implementation/transactions/0/value/amount")
 
 async function getAggs(index, filterKey, filterValue, aggValue) {
 
@@ -269,18 +269,18 @@ async function getAggs(index, filterKey, filterValue, aggValue) {
 export const getSuppliersByBuyer = async buyer => (
     await getAggs(
         `${ES_INDEX_PREFIX}-tenders-*`,
-        ["appaltipop:releases/0/buyers","ocds:releases/0/buyer/id"],
+        ["appaltipop:releases/0/buyers", "ocds:releases/0/buyer/id"],
         buyer,
-        ["appaltipop:releases/0/suppliers","ocds:releases/0/parties/0/id"]
+        ["appaltipop:releases/0/suppliers", "ocds:releases/0/parties/0/id"]
     )
 )
 
 export const getBuyersBySupplier = async supplier => (
     await getAggs(
         `${ES_INDEX_PREFIX}-tenders-*`,
-        ["appaltipop:releases/0/suppliers","ocds:releases/0/parties/0/id"],
+        ["appaltipop:releases/0/suppliers", "ocds:releases/0/parties/0/id"],
         supplier,
-        ["appaltipop:releases/0/buyers","ocds:releases/0/buyer/id"]
+        ["appaltipop:releases/0/buyers", "ocds:releases/0/buyer/id"]
     )
 )
 
@@ -296,7 +296,7 @@ export async function getTenderById(id, index) {
         })
 
         return body["_source"] || {}
-    
+
     } else {
 
         const { body } = await es.search({
