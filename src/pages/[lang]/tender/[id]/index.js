@@ -133,8 +133,38 @@ function Index({
                                 <FlagsCounter count={redflags.length} label={t("common:redflag", { count: redflags.length })} />
                             </Grid>
                         </Grid>
-                        
+
                     </Box>
+
+                </Container>
+
+                <Box mb={2} className="band band-g">
+                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                        <Typography variant="h2" color="inherit">{t("common:buyers")}</Typography>
+                        <List>
+                            {
+                                map(
+                                    buyers,
+                                    (buyer, index) => (
+                                        <Box component="li" key={buyer["ocds:releases/0/buyer/id"]}>
+                                            {!!index && <Divider />}
+                                            <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}>
+                                                <ListItem button>
+                                                    <ListItemIcon>
+                                                        <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
+                                                    </ListItemIcon>
+                                                    <Buyer {...buyer} />
+                                                </ListItem>
+                                            </Link>
+                                        </Box>
+                                    )
+                                )
+                            }
+                        </List>
+                    </Container>
+                </Box>
+
+                <Container component="main" maxWidth={CONTAINER_BREAKPOINT}>
 
                     <Box mb={8}>
                         <Grid container spacing={2}>
@@ -174,51 +204,6 @@ function Index({
 
                 <Box mb={8} className="band band-g">
                     <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-                        <Typography variant="h2" color="inherit">{t("common:buyers")}</Typography>
-                        <List>
-                            {
-                                map(
-                                    buyers,
-                                    (buyer, index) => (
-                                        <Box component="li" key={buyer["ocds:releases/0/buyer/id"]}>
-                                            { !!index && <Divider /> }
-                                            <Link href="/[lang]/buyer/[id]" as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}>
-                                                <ListItem button>
-                                                    <ListItemIcon>
-                                                        <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
-                                                    </ListItemIcon>
-                                                    <Buyer {...buyer} />
-                                                </ListItem>
-                                            </Link>
-                                        </Box>
-                                    )
-                                )
-                            }
-                        </List>
-                    </Container>
-                </Box>
-
-                <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-                    
-                    <Box mb={8}>
-                        <FlagsInfo flags={map(redflags, "appaltipop:releases/0/redflag/code")} />
-                    </Box>
-
-                    <Box mb={8}>
-                        <Grid container spacing={2} justify="center">
-                            <Grid item xs={6} sm={4}>
-                                <Cta icon={<Avatar>FOIA</Avatar>} title={t("cta:foia.title")} href={t("cta:foia.url")} />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <Cta icon={<Avatar><Sports /></Avatar>} title={t("cta:whistle.title")} href={t("cta:whistle.url")} />
-                            </Grid>
-                        </Grid>
-                    </Box>
-
-                </Container>
-
-                <Box mb={8} className="band band-g">
-                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
                         <Typography variant="h2" color="inherit">{t("common:suppliers")}</Typography>
                         <List>
                             {
@@ -226,7 +211,7 @@ function Index({
                                     suppliers,
                                     (supplier, index) => (
                                         <Box component="li" key={supplier["ocds:releases/0/parties/0/id"]}>
-                                            { !!index && <Divider /> }
+                                            {!!index && <Divider />}
                                             <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}>
                                                 <ListItem button>
                                                     <ListItemIcon>
@@ -244,6 +229,25 @@ function Index({
                 </Box>
 
                 <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+
+                    <Box mb={8}>
+                        <FlagsInfo flags={map(redflags, "appaltipop:releases/0/redflag/code")} />
+                    </Box>
+
+                    <Box mb={8}>
+                        <Grid container spacing={2} justify="center">
+                            <Grid item xs={6} sm={4}>
+                                <Cta icon={<Avatar>FOIA</Avatar>} title={t("cta:foia.title")} href={t("cta:foia.url")} />
+                            </Grid>
+                            <Grid item xs={6} sm={4}>
+                                <Cta icon={<Avatar><Sports /></Avatar>} title={t("cta:whistle.title")} href={t("cta:whistle.url")} />
+                            </Grid>
+                        </Grid>
+                    </Box>
+
+                </Container>
+
+                {/*<Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
 
                     <Box mb={8}>
                         <Grid container spacing={2}>
@@ -267,7 +271,6 @@ function Index({
                         <BarChart title={t("tender:bar.1.title")} description={t("tender:bar.1.description")} />
                     </Box>
 
-                    {/*
                     <Box mb={8}>
                         <Partner
                             images={["/partners/transparency-international-italy.png"]}
@@ -275,9 +278,8 @@ function Index({
                             description={t("tender:monitoredBy.description")}
                         />
                     </Box>
-                    */}
 
-                </Container>
+                </Container>*/}
 
                 <Footer />
 
@@ -290,7 +292,7 @@ export const getStaticProps = async ctx => {
     const tender = await getTenderById(ctx.params.id)
     return {
         props: {
-            ...(await getI18nProps(ctx, ['common','tender','supplier','redflags','cta'])),
+            ...(await getI18nProps(ctx, ['common', 'tender', 'supplier', 'redflags', 'cta'])),
             tender,
             buyers: tender["appaltipop:releases/0/buyers"] || [],
             suppliers: tender["appaltipop:releases/0/suppliers"] || [],

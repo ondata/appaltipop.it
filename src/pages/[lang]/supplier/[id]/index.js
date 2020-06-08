@@ -182,7 +182,7 @@ function Index({
 
                     </Container>
 
-                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                    {/*<Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
 
                         <Box mb={8}>
                             <Paper elevation={0}>
@@ -228,9 +228,9 @@ function Index({
 
                         </Box>
 
-                    </Container>
+                    </Container>*/}
 
-                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+                    {/*<Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
 
                         <Box mb={8}>
 
@@ -255,7 +255,7 @@ function Index({
                             <BarChart title={t("supplier:bar.3.title")} description={t("supplier:bar.3.description")} inverse />
                         </Box>
 
-                    </Container>
+                    </Container>*/}
 
                     <Box mb={8} className="band band-g">
                         <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
