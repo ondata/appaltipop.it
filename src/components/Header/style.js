@@ -1,4 +1,7 @@
 export default theme => ({
+    container: {
+        padding: 0,
+    },
     logo: {
         flexGrow: 1,
         '& img': {
