@@ -125,9 +125,16 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
                         <Typography variant="h2">
                             {t("home:redflag.title")}
                         </Typography>
-                        <Typography component="div" variant="body2">
-                            <ReactMarkdown source={contents.redflag.content} />
-                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={8}>
+                                <Typography component="div" variant="body2">
+                                    <ReactMarkdown source={contents.redflag.content} />
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <img src={t("home:redflag.image")} alt="Redflag" title="Redflag" style={{ width: "100%" }} />
+                            </Grid>
+                        </Grid>
                     </Container>
                 </Box>
 

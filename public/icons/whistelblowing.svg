@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/whistelblowing</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/whistelblowing">
+            <g id="Group-28">
+                <g id="Group-26" fill="#F3F2FF">
+                    <circle id="Oval" cx="23" cy="23" r="23"></circle>
+                </g>
+                <polygon id="Rectangle" fill="#3624E0" points="5 14 17.9375 14 22.25 17 22.25 14 28 14 28 23 16.5 21.5 5 20"></polygon>
+                <path d="M28,34 C33.5228475,34 38,29.5228475 38,24 C38,18.4771525 33.5228475,14 28,14 C26.4391041,14 24.9617353,14.3576215 23.6453594,14.9953985 C23.0971901,15.2609836 24.2010261,17.9285606 23.7142857,18.2857143 C23.1924904,18.6685901 21.0851195,16.7474574 20.6472403,17.2222458 C19.0038528,19.004156 18,21.3848468 18,24 C18,29.5228475 22.4771525,34 28,34 Z" id="Oval" fill="#3624E0"></path>
+            </g>
+        </g>
+    </g>
+</svg>

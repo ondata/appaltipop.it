@@ -1,28 +1,23 @@
 {
-
     "introduction": {
         "source": "en/home/introduction.md"
     },
-    
     "ocds": {
         "title": "What about data?",
         "source": "en/home/ocds.md"
     },
-    
     "interoperability": {
         "title": "And so?",
         "source": "en/home/interoperability.md",
-        "image": "/partners/ocds-logo.png"
+        "image": "/images/ocds.png"
     },
-    
     "redflag": {
         "title": "Monitoring indicators: the red flags",
-        "source": "en/home/redflag.md"
+        "source": "en/home/redflag.md",
+        "image": "/images/flag.png"
     },
-    
     "partnership": {
         "title": "Do you want to learn more about OCDS standard?",
         "source": "en/home/partnership.md"
     }
-    
 }

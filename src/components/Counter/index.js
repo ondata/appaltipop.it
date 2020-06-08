@@ -44,7 +44,7 @@ export function FlagsCounter({
 
     return (
         <Counter
-            icon={<img src="/images/redflag-man.png" alt="" className={classes.icon} />}
+            icon={<img src="/icons/redflag-man.png" alt="" className={classes.icon} />}
             count={count}
             label={label}
             color={count ? "secondary" : "inherit"}
@@ -63,7 +63,7 @@ export function TendersCounter({
 
     return (
         <Counter
-            icon={<img src="/images/tender-lens.png" alt="" className={classes.icon} />}
+            icon={<img src="/icons/lens.png" alt="" className={classes.icon} />}
             count={count}
             label={label}
             color="primary"
@@ -82,7 +82,7 @@ export function BuyersCounter({
 
     return (
         <Counter
-            icon={<img src="/images/tender-lens.png" alt="" className={classes.icon} />}
+            icon={<img src="/icons/lens.png" alt="" className={classes.icon} />}
             count={count}
             label={label}
             color="primary"
@@ -101,7 +101,7 @@ export function SuppliersCounter({
 
     return (
         <Counter
-            icon={<img src="/images/tender-lens.png" alt="" className={classes.icon} />}
+            icon={<img src="/icons/lens.png" alt="" className={classes.icon} />}
             count={count}
             label={label}
             color="primary"

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="465px" height="277px" viewBox="0 0 465 277" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>OCDS Image</title>
+    <g id="Mockup" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1-HomePage-V0.1" transform="translate(-771.000000, -1491.000000)">
+            <g id="Group-9" transform="translate(0.000000, 1291.000000)">
+                <g id="OCDS-Image" transform="translate(775.000000, 203.000000)">
+                    <g id="Group-4" transform="translate(90.000000, 8.000000)">
+                        <text id="OCDS" font-family="Georgia" font-size="106" font-weight="normal" letter-spacing="-1.47222222" fill="#021B44">
+                            <tspan x="34" y="97">OCDS</tspan>
+                        </text>
+                        <g id="Group-15" transform="translate(0.000000, 9.000000)" stroke-linecap="round" stroke-linejoin="round" stroke-width="6">
+                            <g id="Group-14" transform="translate(9.500000, 65.000000) scale(-1, 1) rotate(50.000000) translate(-9.500000, -65.000000) translate(5.000000, 57.000000)" stroke="#3624E0">
+                                <g id="Group-10" transform="translate(4.499025, 8.000000) scale(-1, 1) translate(-4.499025, -8.000000) translate(-0.000975, 0.000000)">
+                                    <path d="M1,7.83702126 C3.14397205,5.55801417 5.2879441,3.27900709 7.43191616,1" id="Path-7" transform="translate(4.215958, 4.418511) rotate(-10.000000) translate(-4.215958, -4.418511) "></path>
+                                    <line x1="6.22570297" y1="14.4724048" x2="8.63745447" y2="14.4722005" id="Path-8" transform="translate(7.431579, 14.472303) rotate(-10.000000) translate(-7.431579, -14.472303) "></line>
+                                </g>
+                            </g>
+                            <g id="Group-13" transform="translate(34.500000, 115.000000) rotate(-30.000000) translate(-34.500000, -115.000000) translate(22.000000, 105.000000)" stroke="#FF0000">
+                                <g id="Group-11-Copy" transform="translate(12.500000, 10.000000) scale(-1, 1) rotate(80.000000) translate(-12.500000, -10.000000) translate(5.000000, -1.000000)">
+                                    <path d="M4.21828025,11.3790405 C7.20710105,8.25269367 10.1959219,5.12634684 13.1847427,2" id="Path-7" transform="translate(8.701511, 6.689520) rotate(30.000000) translate(-8.701511, -6.689520) "></path>
+                                    <line x1="1" y1="20.3993998" x2="4.6494405" y2="20.4001824" id="Path-8" transform="translate(2.824720, 20.399791) rotate(30.000000) translate(-2.824720, -20.399791) "></line>
+                                </g>
+                            </g>
+                            <g id="Group-12" transform="translate(331.500000, 14.000000) scale(-1, 1) translate(-331.500000, -14.000000) translate(319.000000, 0.000000)" stroke="#3624E0">
+                                <g id="Group-11" transform="translate(12.499025, 14.126012) scale(-1, 1) rotate(-30.000000) translate(-12.499025, -14.126012) translate(4.999025, 3.126012)">
+                                    <path d="M4.21828025,11.3790405 C7.20710105,8.25269367 10.1959219,5.12634684 13.1847427,2" id="Path-7" transform="translate(8.701511, 6.689520) rotate(30.000000) translate(-8.701511, -6.689520) "></path>
+                                    <line x1="1" y1="20.3993998" x2="4.6494405" y2="20.4001824" id="Path-8" transform="translate(2.824720, 20.399791) rotate(30.000000) translate(-2.824720, -20.399791) "></line>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="Group-16" transform="translate(0.000000, 104.000000)" stroke="#3624E0" stroke-linecap="round" stroke-linejoin="round" stroke-width="7.19999957">
+                        <polygon id="Path-12" points="109.199993 0 0 85.1999949 10.7999994 92.3999945"></polygon>
+                    </g>
+                    <g id="Group-6" transform="translate(376.000000, 190.000000) rotate(-20.000000) translate(-376.000000, -190.000000) translate(314.000000, 129.000000)" stroke="#3624E0" stroke-linecap="round" stroke-linejoin="round" stroke-width="8.39999986">
+                        <ellipse id="Oval" cx="61.599999" cy="25.1999996" rx="61.599999" ry="25.1999996"></ellipse>
+                        <ellipse id="Oval-Copy" cx="61.599999" cy="25.1999996" rx="36.3999994" ry="11.1999998"></ellipse>
+                        <g id="Group-5" transform="translate(11.200000, 14.000000)">
+                            <path d="M2.79999995,47.5999992 C13.0666664,56.9333325 28.9333328,61.5999992 50.3999991,61.5999992 C71.8666654,61.5999992 86.3333324,56.9333325 93.8,47.5999992" id="Path-10-Copy"></path>
+                            <path d="M2.79999995,64.3999989 C13.0666664,73.7333322 28.9333328,78.3999989 50.3999991,78.3999989 C71.8666654,78.3999989 86.3333324,73.7333322 93.8,64.3999989" id="Path-10-Copy-2"></path>
+                            <path d="M2.79999995,29.3999995 L0,93.7999984 C12.1333331,103.133332 28.9333328,107.799998 50.3999991,107.799998 C71.8666654,107.799998 87.2666652,103.133332 96.5999984,93.7999984 L93.7999984,32.1999995" id="Path-10"></path>
+                            <polyline id="Path-11" points="22.3999996 18.1999997 34.9999994 5.5999999 34.9999994 18.1999997 50.3999991 0 50.3999991 18.1999997 60.199999 5.5999999 67.1999989 18.1999997 72.7999988 5.5999999"></polyline>
+                        </g>
+                    </g>
+                    <polygon id="Path-2" stroke="#FF0000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" points="99 29.106383 116.076923 0 119.736264 38 99 6.87234043 136 21.8297872"></polygon>
+                    <polygon id="Path-2-Copy-2" stroke="#FF0000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(325.500000, 9.500000) scale(-1, 1) translate(-325.500000, -9.500000) " points="316 14.5531915 324.769231 0 326.648352 19 316 3.43617021 335 10.9148936"></polygon>
+                    <polygon id="Path-2-Copy" stroke="#3624E0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(205.500000, 158.000000) scale(-1, 1) rotate(-30.000000) translate(-205.500000, -158.000000) " points="187 168.106383 204.076923 139 207.736264 177 187 145.87234 224 160.829787"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
