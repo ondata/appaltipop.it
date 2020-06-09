@@ -1,4 +1,8 @@
+import { useEffect, useState } from 'react'
+
 import useTranslation from "next-translate/useTranslation"
+
+import axios from "axios"
 
 import { map, isEmpty, startCase, toLower, upperFirst } from "lodash"
 
@@ -12,6 +16,7 @@ import {
     CURRENCY_FORMAT,
     DATE_FORMAT,
     INTEGER_FORMAT,
+    API_VERSION,
 } from "../../config/constants"
 
 import { makeStyles } from "@material-ui/core/styles"
@@ -20,8 +25,24 @@ import style from "./style"
 const useStyles = makeStyles(style)
 
 export function Buyer(buyer) {
+
     const classes = useStyles()
     const { t, lang } = useTranslation()
+
+    const [tenders, setTenders] = useState(0)
+    const [redflags, setRedflags] = useState(0)
+
+    useEffect(() => {
+
+        axios
+            .get(`/api/${API_VERSION}/buyers/${buyer["ocds:releases/0/buyer/id"]}/tenders/count`)
+            .then((res) => { setTenders(+res.data) })
+
+        axios
+            .get(`/api/${API_VERSION}/buyers/${buyer["ocds:releases/0/buyer/id"]}/redflags/count`)
+            .then((res) => { setRedflags(+res.data) })
+
+    }, [])
 
     return (
         <Grid container spacing={2} alignItems="center">
@@ -33,14 +54,14 @@ export function Buyer(buyer) {
             </Grid>
             <Grid item xs={6} sm="auto">
                 <Typography variant="caption">{t("common:tenders")}</Typography>
-                <Typography variant="body1">-</Typography>
+                <Typography variant="body1">{tenders || "-"}</Typography>
             </Grid>
             <Grid item xs={6} sm="auto">
                 <Typography variant="caption">
                     {t("common:redflags")}
                 </Typography>
                 <Typography variant="body1">
-                    - <Flag color="secondary" style={{ marginBottom: -5 }} />
+                    {redflags ? <>{redflags} <Flag color="secondary" style={{ marginBottom: -5 }} /></> : "-"}
                 </Typography>
             </Grid>
         </Grid>
@@ -48,8 +69,24 @@ export function Buyer(buyer) {
 }
 
 export function Supplier(supplier) {
+
     const classes = useStyles()
     const { t, lang } = useTranslation()
+
+    const [tenders, setTenders] = useState(0)
+    const [redflags, setRedflags] = useState(0)
+
+    useEffect(() => {
+
+        axios
+            .get(`/api/${API_VERSION}/suppliers/${supplier["ocds:releases/0/parties/0/id"]}/tenders/count`)
+            .then((res) => { setTenders(+res.data) })
+
+        axios
+            .get(`/api/${API_VERSION}/suppliers/${supplier["ocds:releases/0/parties/0/id"]}/redflags/count`)
+            .then((res) => { setRedflags(+res.data) })
+
+    }, [])
 
     return (
         <Grid container spacing={2}>
@@ -73,11 +110,15 @@ export function Supplier(supplier) {
             </Grid>
             <Grid item xs={4} sm="auto">
                 <Typography variant="caption">{t("common:tenders")}</Typography>
-                <Typography variant="body1">-</Typography>
+                <Typography variant="body1">{tenders || "-"}</Typography>
             </Grid>
-            <Grid item xs={8} sm="auto">
-                <Typography variant="caption">{t("common:buyers")}</Typography>
-                <Typography variant="body1">-</Typography>
+            <Grid item xs={6} sm="auto">
+                <Typography variant="caption">
+                    {t("common:redflags")}
+                </Typography>
+                <Typography variant="body1">
+                    {redflags ? <>{redflags} <Flag color="secondary" style={{ marginBottom: -5 }} /></> : "-"}
+                </Typography>
             </Grid>
         </Grid>
     )
@@ -91,14 +132,28 @@ export function Tender(tender) {
     const tf = timeFormat(lang).format
 
     return (
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2}>
+
             <Grid item xs={12} sm="auto">
+
                 <Typography variant="caption">
                     {t("tender:ocds/releases/0/id")}
                 </Typography>
                 <Typography variant="body1">
                     {tender["ocds:releases/0/id"]}
                 </Typography>
+
+                <Typography variant="caption">
+                    {t("common:redflags")}
+                </Typography>
+                <Typography variant="body1">
+                    {isEmpty(tender["appaltipop:releases/0/redflags"])
+                        ? "-"
+                        : map(tender["appaltipop:releases/0/redflags"], (flag) => (
+                            <Flag key={flag["appaltipop:releases/0/redflag/code"]} color="secondary" />
+                        ))}
+                </Typography>
+
             </Grid>
 
             <Grid item xs={12} sm>
@@ -112,21 +167,7 @@ export function Tender(tender) {
                 </Typography>
             </Grid>
 
-            <Grid item xs={6} sm="auto">
-                <Typography variant="caption">
-                    {t(
-                        "tender:ocds/releases/0/tender/contractPeriod/startDate"
-                    )}
-                </Typography>
-                <Typography variant="body1">
-                    {tf(DATE_FORMAT)(
-                        new Date(
-                            tender[
-                                "ocds:releases/0/tender/contractPeriod/startDate"
-                            ]
-                        )
-                    )}
-                </Typography>
+            <Grid item xs={6} sm>
 
                 <Typography variant="caption">
                     {t("common:buyer", {
@@ -143,21 +184,6 @@ export function Tender(tender) {
                         )}
                     </Typography>
                 ))}
-            </Grid>
-
-            <Grid item xs={6} sm="auto">
-                <Typography variant="caption">
-                    {t("tender:ocds/releases/0/tender/contractPeriod/endDate")}
-                </Typography>
-                <Typography variant="body1">
-                    {tf(DATE_FORMAT)(
-                        new Date(
-                            tender[
-                                "ocds:releases/0/tender/contractPeriod/endDate"
-                            ]
-                        )
-                    )}
-                </Typography>
 
                 <Typography variant="caption">
                     {t("tender:ocds/releases/0/awards/0/value/amount")}
@@ -167,20 +193,42 @@ export function Tender(tender) {
                         tender["ocds:releases/0/awards/0/value/amount"]
                     )}
                 </Typography>
+
             </Grid>
 
-            <Grid item xs={12} sm="auto">
+            <Grid item xs={6} sm="auto">
+
                 <Typography variant="caption">
-                    {t("common:redflags")}
+                    {t(
+                        "tender:ocds/releases/0/tender/contractPeriod/startDate"
+                    )}
+                </Typography>
+
+                <Typography variant="body1">
+                    {tf(DATE_FORMAT)(
+                        new Date(
+                            tender[
+                            "ocds:releases/0/tender/contractPeriod/startDate"
+                            ]
+                        )
+                    )}
+                </Typography>
+
+                <Typography variant="caption">
+                    {t("tender:ocds/releases/0/tender/contractPeriod/endDate")}
                 </Typography>
                 <Typography variant="body1">
-                    {isEmpty(tender.redflags)
-                        ? "-"
-                        : map(tender.redflags, () => (
-                              <Flag color="secondary" />
-                          ))}
+                    {tf(DATE_FORMAT)(
+                        new Date(
+                            tender[
+                            "ocds:releases/0/tender/contractPeriod/endDate"
+                            ]
+                        )
+                    )}
                 </Typography>
+
             </Grid>
+
         </Grid>
     )
 }

@@ -25,7 +25,9 @@ async function getIds(index) {
 
 export const getTenderIds = async () =>
     await getIds(`${ES_INDEX_PREFIX}-tenders-*`)
+
 export const getBuyerIds = async () => await getIds(`${ES_INDEX_PREFIX}-buyers`)
+
 export const getSupplierIds = async () =>
     await getIds(`${ES_INDEX_PREFIX}-suppliers`)
 
@@ -49,6 +51,7 @@ async function getItems(
 
 export const getTenders = async () =>
     await getItems(`${ES_INDEX_PREFIX}-tenders-*`)
+
 export const searchForTenders = async (q, lang = defaultLanguage, page = 0) =>
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
@@ -65,6 +68,7 @@ export const searchForTenders = async (q, lang = defaultLanguage, page = 0) =>
     )
 
 export const getBuyers = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
+
 export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) =>
     await getItems(
         `${ES_INDEX_PREFIX}-buyers`,
@@ -82,6 +86,7 @@ export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) =>
 
 export const getSuppliers = async () =>
     await getItems(`${ES_INDEX_PREFIX}-suppliers`)
+
 export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) =>
     await getItems(
         `${ES_INDEX_PREFIX}-suppliers`,
@@ -177,6 +182,7 @@ export const getRedflagsCountBySupplier = async (supplier) =>
     })
 
 async function getCount(index, query = { match_all: {} }) {
+
     const { body } = await es.count({
         index,
         body: {
@@ -189,8 +195,10 @@ async function getCount(index, query = { match_all: {} }) {
 
 export const getTendersCount = async () =>
     await getCount(`${ES_INDEX_PREFIX}-tenders-*`)
+
 export const getBuyersCount = async () =>
     await getCount(`${ES_INDEX_PREFIX}-buyers`)
+
 export const getSuppliersCount = async () =>
     await getCount(`${ES_INDEX_PREFIX}-suppliers`)
 
@@ -231,6 +239,7 @@ export const getTendersValueAmountByBuyer = async (buyer) =>
         buyer,
         "ocds:releases/0/awards/0/value/amount"
     )
+
 export const getTendersTransactionAmountByBuyer = async (buyer) =>
     await getSum(
         ["appaltipop:releases/0/buyers", "ocds:releases/0/buyer/id"],
@@ -244,6 +253,7 @@ export const getTendersValueAmountBySupplier = async (supplier) =>
         supplier,
         "ocds:releases/0/awards/0/value/amount"
     )
+
 export const getTendersTransactionAmountBySupplier = async (supplier) =>
     await getSum(
         ["appaltipop:releases/0/suppliers", "ocds:releases/0/parties/0/id"],
@@ -304,6 +314,7 @@ export const getBuyersBySupplier = async (supplier) =>
     )
 
 export async function getTenderById(id, index) {
+
     if (!id) return {}
 
     if (index) {
@@ -330,6 +341,7 @@ export async function getTenderById(id, index) {
 }
 
 export async function getBuyerById(id) {
+
     if (!id) return {}
 
     const { body } = await es.get({
@@ -341,6 +353,7 @@ export async function getBuyerById(id) {
 }
 
 export async function getSupplierById(id) {
+
     if (!id) return {}
 
     const { body } = await es.get({
