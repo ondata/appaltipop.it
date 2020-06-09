@@ -10,7 +10,7 @@ import ReactMarkdown from "react-markdown"
 
 import axios from "axios"
 
-import { map, isEmpty } from "lodash"
+import { map } from "lodash"
 
 import {
     Container,
@@ -109,7 +109,7 @@ function Index({ suppliersCount = 0, redflagsCount = 0 }) {
     }
 
     useEffect(() => {
-        setResultsLabel(<>&nbsp;</>)
+        setResults(0)
         setPage(0)
     }, [currentSearchString])
 
@@ -122,12 +122,20 @@ function Index({ suppliersCount = 0, redflagsCount = 0 }) {
     }, [page])
 
     useEffect(() => {
-        setResultsLabel(
-            t("search:results", { query: currentSearchString, count: results })
-        )
-        setPages(
-            Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
-        )
+        if (results) {
+            setResultsLabel(
+                t("search:results", {
+                    query: currentSearchString,
+                    count: results,
+                })
+            )
+
+            setPages(
+                Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
+            )
+        } else {
+            setResultsLabel(<>&nbsp;</>)
+        }
     }, [results])
 
     return (

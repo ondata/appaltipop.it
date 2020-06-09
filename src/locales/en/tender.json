@@ -15,7 +15,8 @@
         "title": "Ricerca i contratti che desideri monitorare",
         "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
         "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
-        "label": "Cerca tra gli appalti"
+        "label": "Cerca tra gli appalti",
+        "redflags": "Mostra solo risultati con red flag"
     },
     "counter": {
         "tender": "Appalto monitorato",

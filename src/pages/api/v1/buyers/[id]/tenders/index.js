@@ -5,5 +5,5 @@ export default async (req, res) => {
         query: { id, page },
     } = req
 
-    res.status(200).json(await getTendersByBuyer(id, page))
+    res.status(200).json(await getTendersByBuyer(id, +page))
 }

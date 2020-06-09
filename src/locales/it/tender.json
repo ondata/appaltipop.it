@@ -15,7 +15,8 @@
         "title": "Ricerca i contratti che vuoi monitorare",
         "description": "In questa pagina puoi cercare un appalto assegnato a una delle pubbliche amministrazioni presenti in AppaltiPOP. Cerca per titolo dell'appalto oppure inserisci il CIG completo. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](/it/buyers)**.",
         "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
-        "label": "Cerca tra gli appalti"
+        "label": "Cerca tra gli appalti",
+        "redflags": "Mostra solo risultati con red flag"
     },
     "counter": {
         "tender": "Appalto monitorato",

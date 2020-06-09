@@ -52,16 +52,32 @@ async function getItems(
 export const getTenders = async () =>
     await getItems(`${ES_INDEX_PREFIX}-tenders-*`)
 
-export const searchForTenders = async (q, lang = defaultLanguage, page = 0) =>
+export const searchForTenders = async (
+    q,
+    flags = 0,
+    lang = defaultLanguage,
+    page = 0
+) =>
     await getItems(
         `${ES_INDEX_PREFIX}-tenders-*`,
         q && {
-            multi_match: {
-                query: q,
-                fields: [
-                    `ocds:releases/0/tender/title.${lang}`,
-                    `ocds:releases/0/parties/0/id`,
-                ],
+            bool: {
+                filter: !!flags
+                    ? {
+                          exists: {
+                              field: "appaltipop:releases/0/redflags",
+                          },
+                      }
+                    : { match_all: {} },
+                must: {
+                    multi_match: {
+                        query: q,
+                        fields: [
+                            `ocds:releases/0/tender/title.${lang}`,
+                            `ocds:releases/0/id`,
+                        ],
+                    },
+                },
             },
         },
         page * PAGE_SIZE
@@ -93,7 +109,10 @@ export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) =>
         q && {
             multi_match: {
                 query: q,
-                fields: [`ocds:releases/0/parties/0/name.${lang}`, ``],
+                fields: [
+                    `ocds:releases/0/parties/0/name.${lang}`,
+                    `ocds:releases/0/parties/0/id`,
+                ],
             },
         },
         page * PAGE_SIZE
@@ -133,8 +152,7 @@ export const getRedflagsCountByBuyer = async (buyer) =>
             },
             must: {
                 exists: {
-                    field:
-                        "appaltipop:releases/0/redflags.appaltipop:releases/0/redflag/code",
+                    field: "appaltipop:releases/0/redflags",
                 },
             },
         },
@@ -174,15 +192,13 @@ export const getRedflagsCountBySupplier = async (supplier) =>
             },
             must: {
                 exists: {
-                    field:
-                        "appaltipop:releases/0/redflags.appaltipop:releases/0/redflag/code",
+                    field: "appaltipop:releases/0/redflags",
                 },
             },
         },
     })
 
 async function getCount(index, query = { match_all: {} }) {
-
     const { body } = await es.count({
         index,
         body: {
@@ -205,8 +221,7 @@ export const getSuppliersCount = async () =>
 export const getRedflagsCount = async () =>
     await getCount(`${ES_INDEX_PREFIX}-tenders-*`, {
         exists: {
-            field:
-                "appaltipop:releases/0/redflags.appaltipop:releases/0/redflag/code",
+            field: "appaltipop:releases/0/redflags",
         },
     })
 
@@ -314,7 +329,6 @@ export const getBuyersBySupplier = async (supplier) =>
     )
 
 export async function getTenderById(id, index) {
-
     if (!id) return {}
 
     if (index) {
@@ -341,7 +355,6 @@ export async function getTenderById(id, index) {
 }
 
 export async function getBuyerById(id) {
-
     if (!id) return {}
 
     const { body } = await es.get({
@@ -353,7 +366,6 @@ export async function getBuyerById(id) {
 }
 
 export async function getSupplierById(id) {
-
     if (!id) return {}
 
     const { body } = await es.get({

@@ -11,7 +11,8 @@
         "title": "Ricerca gli aggiudicatari che vuoi monitorare",
         "description": "In questa pagina puoi cercare un aggiudicatario che vuoi monitorare. Cerca per nome dell'aggiudicatario oppure inserisci il suo Codice Fiscale o la Partita IVA.  Attualmente AppaltiPOP è online in fase sperimentale, di conseguenza qui sono presenti esclusivamente gli aggiudicatari di appalti assegnati dalle pubbliche amministrazioni disponibili. L'elenco delle pubbliche amministrazioni incluse in AppaltiPOP è disponibile nella pagina **[Pubbliche amministrazioni](/it/buyers)**.",
         "help": "es. \"engineering\" oppure \"02428100982\"...",
-        "label": "Cerca tra gli aggiudicatari"
+        "label": "Cerca tra gli aggiudicatari",
+        "redflags": "Mostra solo risultati con red flag"
     },
     "counter": {
         "supplier": "Aggiudicatario",

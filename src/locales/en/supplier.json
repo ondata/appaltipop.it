@@ -11,7 +11,8 @@
         "title": "Ricerca gli aggiudicatari che desideri monitorare",
         "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
         "help": "es. \"engineering\" oppure \"02428100982\"...",
-        "label": "Cerca tra gli aggiudicatari"
+        "label": "Cerca tra gli aggiudicatari",
+        "redflags": "Mostra solo risultati con red flag"
     },
     "counter": {
         "supplier": "Aggiudicatario",

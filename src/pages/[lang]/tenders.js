@@ -10,7 +10,7 @@ import ReactMarkdown from "react-markdown"
 
 import axios from "axios"
 
-import { map, isEmpty } from "lodash"
+import { map } from "lodash"
 
 import {
     Container,
@@ -19,7 +19,6 @@ import {
     Typography,
     Button,
     FormControl,
-    InputLabel,
     OutlinedInput,
     InputAdornment,
     IconButton,
@@ -28,6 +27,9 @@ import {
     ListItemIcon,
     CircularProgress,
     Divider,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
 } from "@material-ui/core"
 
 import { HighlightOff, ArrowForward } from "@material-ui/icons"
@@ -59,12 +61,15 @@ function Index({ tendersCount = 0, redflagsCount = 0 }) {
     const [resultsLabel, setResultsLabel] = useState(<>&nbsp;</>)
     const [searchString, setSearchString] = useState("")
     const [currentSearchString, setCurrentSearchString] = useState("")
+    const [withFlags, setWithFlags] = useState(false)
+    const [currentWithFlags, setCurrentWithFlags] = useState(false)
     const [page, setPage] = useState(1)
     const [pages, setPages] = useState(1)
     const [waiting, setWaiting] = useState(false)
 
     function handleSubmit(e) {
         setCurrentSearchString(searchString)
+        setCurrentWithFlags(withFlags)
         e.preventDefault()
     }
 
@@ -74,6 +79,7 @@ function Index({ tendersCount = 0, redflagsCount = 0 }) {
         setResults(0)
         setPage(1)
         setCurrentSearchString("")
+        setWithFlags(false)
     }
 
     function handleChangePage(e, value) {
@@ -87,6 +93,7 @@ function Index({ tendersCount = 0, redflagsCount = 0 }) {
                 .get(`/api/${API_VERSION}/tenders`, {
                     params: {
                         q: currentSearchString,
+                        flags: +currentWithFlags,
                         lang,
                         page: page - 1,
                     },
@@ -102,9 +109,9 @@ function Index({ tendersCount = 0, redflagsCount = 0 }) {
     }
 
     useEffect(() => {
-        setResultsLabel(<>&nbsp;</>)
+        setResults(0)
         setPage(0)
-    }, [currentSearchString])
+    }, [currentSearchString, currentWithFlags])
 
     useEffect(() => {
         if (page) {
@@ -115,12 +122,20 @@ function Index({ tendersCount = 0, redflagsCount = 0 }) {
     }, [page])
 
     useEffect(() => {
-        setResultsLabel(
-            t("search:results", { query: currentSearchString, count: results })
-        )
-        setPages(
-            Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
-        )
+        if (results) {
+            setResultsLabel(
+                t("search:results", {
+                    query: currentSearchString,
+                    count: results,
+                })
+            )
+
+            setPages(
+                Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
+            )
+        } else {
+            setResultsLabel(<>&nbsp;</>)
+        }
     }, [results])
 
     return (
@@ -226,6 +241,23 @@ function Index({ tendersCount = 0, redflagsCount = 0 }) {
                                                     }
                                                 />
                                             </FormControl>
+                                            <FormGroup row>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            checked={withFlags}
+                                                            onChange={() =>
+                                                                setWithFlags(
+                                                                    !withFlags
+                                                                )
+                                                            }
+                                                        />
+                                                    }
+                                                    label={t(
+                                                        "tender:search.redflags"
+                                                    )}
+                                                />
+                                            </FormGroup>
                                         </Grid>
                                         <Grid item>
                                             <Button

@@ -115,8 +115,8 @@ export default function SearchResults({
                         )}
                     </>
                 ) : (
-                        <Typography>{t("common:search.noResults")}</Typography>
-                    )}
+                    <Typography>{t("common:search.noResults")}</Typography>
+                )}
             </Grid>
         </Grid>
     )
