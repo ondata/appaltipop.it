@@ -1,13 +1,9 @@
-import {
-    getBuyerById,
-} from '../../../../../utils/queries'
+import { getBuyerById } from "../../../../../utils/queries"
 
 export default async (req, res) => {
+    const {
+        query: { id },
+    } = req
 
-    const { query: { id } } = req
-
-    res
-        .status(200)
-        .json(await getBuyerById(id))
-
+    res.status(200).json(await getBuyerById(id))
 }

@@ -1,7 +1,4 @@
 {
-    "allLanguages": [
-        "it",
-        "en"
-    ],
+    "allLanguages": ["it", "en"],
     "defaultLanguage": "it"
 }

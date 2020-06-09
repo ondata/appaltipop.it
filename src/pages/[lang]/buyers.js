@@ -1,54 +1,37 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
 
-import Head from 'next/head'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-import useTranslation from 'next-translate/useTranslation'
+import useTranslation from "next-translate/useTranslation"
 
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown"
 
-import {
-    Container,
-    Box,
-    Grid,
-    Typography,
-} from '@material-ui/core'
+import { Container, Box, Grid, Typography } from "@material-ui/core"
 
-import {
-    getI18nPaths,
-    getI18nProps,
-    withI18n,
-} from '../../utils/i18n'
+import { getI18nPaths, getI18nProps, withI18n } from "../../utils/i18n"
 
 import {
     CONTAINER_BREAKPOINT,
     PAGE_SIZE,
     API_VERSION,
-} from '../../config/constants'
+} from "../../config/constants"
 
-import {
-    getBuyersCount,
-    getRedflagsCount,
-} from '../../utils/queries'
+import { getBuyersCount, getRedflagsCount } from "../../utils/queries"
 
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import SearchResults from '../../components/SearchResults'
-import { Buyer } from '../../components/SearchResult'
-import { BuyersCounter, FlagsCounter } from '../../components/Counter'
+import Header from "../../components/Header"
+import Footer from "../../components/Footer"
+import SearchResults from "../../components/SearchResults"
+import { Buyer } from "../../components/SearchResult"
+import { BuyersCounter, FlagsCounter } from "../../components/Counter"
 
-function Index({
-    buyersCount = 0,
-    redflagsCount = 0,
-}) {
-
+function Index({ buyersCount = 0, redflagsCount = 0 }) {
     const router = useRouter()
     const { t, lang } = useTranslation()
 
     return (
         <>
-
             <Head>
                 <title>{`${t("common:buyers")} | ${t("common:title")}`}</title>
             </Head>
@@ -56,7 +39,6 @@ function Index({
             <Header />
 
             <main>
-
                 <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
                     <Box mb={4}>
                         <Grid container spacing={2}>
@@ -69,14 +51,26 @@ function Index({
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} sm={3}>
-                                <BuyersCounter count={buyersCount} label={t("buyer:counter.buyer", { count: buyersCount })} />
+                                <BuyersCounter
+                                    count={buyersCount}
+                                    label={t("buyer:counter.buyer", {
+                                        count: buyersCount,
+                                    })}
+                                />
                             </Grid>
                             <Grid item xs={6} sm={3}>
-                                <FlagsCounter count={redflagsCount} label={t("buyer:counter.redflag", { count: redflagsCount })} />
+                                <FlagsCounter
+                                    count={redflagsCount}
+                                    label={t("buyer:counter.redflag", {
+                                        count: redflagsCount,
+                                    })}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={8}>
                                 <Typography component="div" variant="body2">
-                                    <ReactMarkdown source={t("buyer:search.description")} />
+                                    <ReactMarkdown
+                                        source={t("buyer:search.description")}
+                                    />
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -94,22 +88,19 @@ function Index({
                         </SearchResults>
                     </Container>
                 </Box>
-
             </main>
 
             <Footer />
-
         </>
     )
-
 }
 
-export const getStaticProps = async ctx => {
+export const getStaticProps = async (ctx) => {
     return {
         props: {
-            ...(await getI18nProps(ctx, ['common', 'buyer'])),
+            ...(await getI18nProps(ctx, ["common", "buyer"])),
             buyersCount: await getBuyersCount(),
-            redflagsCount: await getRedflagsCount()
+            redflagsCount: await getRedflagsCount(),
         },
         unstable_revalidate: 3600,
     }

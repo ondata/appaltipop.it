@@ -1,13 +1,10 @@
-import useTranslation from 'next-translate/useTranslation'
+import useTranslation from "next-translate/useTranslation"
 
-import {
-    Box,
-    Typography,
-} from '@material-ui/core'
+import { Box, Typography } from "@material-ui/core"
 
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from "@material-ui/core/styles"
 
-import style from './style'
+import style from "./style"
 const useStyles = makeStyles(style)
 
 export default function Index({
@@ -15,35 +12,28 @@ export default function Index({
     description = "",
     inverse = false,
 }) {
-
     const classes = useStyles()
     const { t, lang } = useTranslation()
 
     return (
         <>
-
             <Typography variant="subtitle2" className={classes.title}>
                 {title}
             </Typography>
 
-            {
-                inverse
-                &&
+            {inverse && (
                 <Typography variant="body2" className={classes.description}>
                     {description}
                 </Typography>
-            }
+            )}
 
             <Box className={classes.chart}></Box>
 
-            {
-                !inverse
-                &&
+            {!inverse && (
                 <Typography variant="body2" className={classes.description}>
                     {description}
                 </Typography>
-            }
-
+            )}
         </>
     )
 }

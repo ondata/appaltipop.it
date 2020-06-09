@@ -1,12 +1,12 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-import useTranslation from 'next-translate/useTranslation'
+import useTranslation from "next-translate/useTranslation"
 
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown"
 
-import { map, range, padStart } from 'lodash'
+import { map, range, padStart } from "lodash"
 
 import {
     Container,
@@ -19,24 +19,13 @@ import {
     ListItemText,
     List,
     Divider,
-} from '@material-ui/core'
+} from "@material-ui/core"
 
-import {
-    Print,
-    GetApp,
-    Flag,
-    ArrowForward,
-} from '@material-ui/icons'
+import { Print, GetApp, Flag, ArrowForward } from "@material-ui/icons"
 
-import {
-    getI18nProps,
-    withI18n,
-} from '../../../../utils/i18n'
+import { getI18nProps, withI18n } from "../../../../utils/i18n"
 
-import {
-    numberFormat,
-    timeFormat,
-} from '../../../../utils/formats'
+import { numberFormat, timeFormat } from "../../../../utils/formats"
 
 import {
     CONTAINER_BREAKPOINT,
@@ -44,7 +33,7 @@ import {
     DATE_FORMAT,
     INTEGER_FORMAT,
     API_VERSION,
-} from '../../../../config/constants'
+} from "../../../../config/constants"
 
 import {
     getSupplierById,
@@ -52,19 +41,19 @@ import {
     getRedflagsCountBySupplier,
     getTendersValueAmountBySupplier,
     getTendersTransactionAmountBySupplier,
-} from '../../../../utils/queries'
+} from "../../../../utils/queries"
 
-import { getSupplierPaths } from '../../../../utils/paths'
+import { getSupplierPaths } from "../../../../utils/paths"
 
-import Header from '../../../../components/Header'
-import Footer from '../../../../components/Footer'
+import Header from "../../../../components/Header"
+import Footer from "../../../../components/Footer"
 
-import { FlagsCounter, TendersCounter } from '../../../../components/Counter'
-import SearchResults from '../../../../components/SearchResults'
-import { Tender } from '../../../../components/SearchResult'
-import KeyValue from '../../../../components/KeyValue'
-import AvatarIcon from '../../../../components/AvatarIcon'
-import BarChart from '../../../../components/BarChart'
+import { FlagsCounter, TendersCounter } from "../../../../components/Counter"
+import SearchResults from "../../../../components/SearchResults"
+import { Tender } from "../../../../components/SearchResult"
+import KeyValue from "../../../../components/KeyValue"
+import AvatarIcon from "../../../../components/AvatarIcon"
+import BarChart from "../../../../components/BarChart"
 
 function Index({
     supplier = {},
@@ -73,7 +62,6 @@ function Index({
     valueAmount = 0,
     transactionAmount = 0,
 }) {
-
     const router = useRouter()
     const { t, lang } = useTranslation()
 
@@ -85,27 +73,34 @@ function Index({
     } else {
         return (
             <>
-
                 <Head>
-                    <title>{`${t("common:supplier")} n. ${supplier["ocds:releases/0/parties/0/id"]} | ${t("common:title")}`}</title>
+                    <title>{`${t("common:supplier")} n. ${
+                        supplier["ocds:releases/0/parties/0/id"]
+                    } | ${t("common:title")}`}</title>
                 </Head>
 
                 <Header />
 
                 <main>
-
-                    <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
-
+                    <Container
+                        component="header"
+                        maxWidth={CONTAINER_BREAKPOINT}
+                    >
                         <Box mb={8}>
-
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
-                                    <Typography component="span" variant="subtitle1">
+                                    <Typography
+                                        component="span"
+                                        variant="subtitle1"
+                                    >
                                         {t("common:supplier")}
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <Typography component="div" variant="subtitle1">
+                                    <Typography
+                                        component="div"
+                                        variant="subtitle1"
+                                    >
                                         <Grid container spacing={2}>
                                             <Grid item>
                                                 <a target="_blank" href="#">
@@ -113,13 +108,18 @@ function Index({
                                                 </a>
                                             </Grid>
                                             <Grid item>
-                                                <AvatarIcon color="primary"><Print /></AvatarIcon>
+                                                <AvatarIcon color="primary">
+                                                    <Print />
+                                                </AvatarIcon>
                                             </Grid>
                                         </Grid>
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={3}>
-                                    <Typography component="div" variant="subtitle1">
+                                    <Typography
+                                        component="div"
+                                        variant="subtitle1"
+                                    >
                                         <Grid container spacing={2}>
                                             <Grid item>
                                                 <a target="_blank" href="#">
@@ -127,7 +127,9 @@ function Index({
                                                 </a>
                                             </Grid>
                                             <Grid item>
-                                                <AvatarIcon color="primary"><GetApp /></AvatarIcon>
+                                                <AvatarIcon color="primary">
+                                                    <GetApp />
+                                                </AvatarIcon>
                                             </Grid>
                                         </Grid>
                                     </Typography>
@@ -137,49 +139,99 @@ function Index({
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="h1">
-                                        {supplier["ocds:releases/0/parties/0/name"]}
+                                        {
+                                            supplier[
+                                                "ocds:releases/0/parties/0/name"
+                                            ]
+                                        }
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={6} sm={3}>
-                                    <TendersCounter count={tendersCount} label={t("common:tender", { count: tendersCount })} />
+                                    <TendersCounter
+                                        count={tendersCount}
+                                        label={t("common:tender", {
+                                            count: tendersCount,
+                                        })}
+                                    />
                                 </Grid>
                                 <Grid item xs={6} sm={3}>
-                                    <FlagsCounter count={redflagsCount} label={t("common:redflag", { count: redflagsCount })} />
+                                    <FlagsCounter
+                                        count={redflagsCount}
+                                        label={t("common:redflag", {
+                                            count: redflagsCount,
+                                        })}
+                                    />
                                 </Grid>
                             </Grid>
-
                         </Box>
-
                     </Container>
 
-                    <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-
+                    <Container
+                        component="section"
+                        maxWidth={CONTAINER_BREAKPOINT}
+                    >
                         <Box mb={8}>
                             <Grid container spacing={2}>
-
                                 <Grid item xs={12} sm={4}>
-                                    <KeyValue title={t("supplier:ocds/releases/0/parties/0/id")} label={supplier["ocds:releases/0/parties/0/id"]} />
+                                    <KeyValue
+                                        title={t(
+                                            "supplier:ocds/releases/0/parties/0/id"
+                                        )}
+                                        label={
+                                            supplier[
+                                                "ocds:releases/0/parties/0/id"
+                                            ]
+                                        }
+                                    />
                                 </Grid>
 
                                 <Grid item xs={6} sm={4}>
-                                    <KeyValue title={t("supplier:appaltipop/releases/0/supplier/province")} label={supplier["appaltipop:releases/0/supplier/province"]} />
+                                    <KeyValue
+                                        title={t(
+                                            "supplier:appaltipop/releases/0/supplier/province"
+                                        )}
+                                        label={
+                                            supplier[
+                                                "appaltipop:releases/0/supplier/province"
+                                            ]
+                                        }
+                                    />
                                 </Grid>
 
                                 <Grid item xs={6} sm={4}>
-                                    <KeyValue title={t("supplier:appaltipop/releases/0/supplier/region")} label={supplier["appaltipop:releases/0/supplier/region"]} />
+                                    <KeyValue
+                                        title={t(
+                                            "supplier:appaltipop/releases/0/supplier/region"
+                                        )}
+                                        label={
+                                            supplier[
+                                                "appaltipop:releases/0/supplier/region"
+                                            ]
+                                        }
+                                    />
                                 </Grid>
 
                                 <Grid item xs={6}>
-                                    <KeyValue title={t("supplier:ocds/releases/0/awards/0/value/amount")} label={nf(CURRENCY_FORMAT)(valueAmount)} />
+                                    <KeyValue
+                                        title={t(
+                                            "supplier:ocds/releases/0/awards/0/value/amount"
+                                        )}
+                                        label={nf(CURRENCY_FORMAT)(valueAmount)}
+                                    />
                                 </Grid>
 
                                 <Grid item xs={6}>
-                                    <KeyValue title={t("supplier:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount")} label={nf(CURRENCY_FORMAT)(transactionAmount)} />
+                                    <KeyValue
+                                        title={t(
+                                            "supplier:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount"
+                                        )}
+                                        label={nf(CURRENCY_FORMAT)(
+                                            transactionAmount
+                                        )}
+                                    />
                                 </Grid>
-
                             </Grid>
                         </Box>
-
                     </Container>
 
                     {/*<Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
@@ -258,8 +310,13 @@ function Index({
                     </Container>*/}
 
                     <Box mb={8} className="band band-g">
-                        <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-                            <Typography variant="h2" color="inherit">{t("common:tenders")}</Typography>
+                        <Container
+                            component="section"
+                            maxWidth={CONTAINER_BREAKPOINT}
+                        >
+                            <Typography variant="h2" color="inherit">
+                                {t("common:tenders")}
+                            </Typography>
                             <SearchResults
                                 endpoint={`/api/${API_VERSION}/suppliers/${supplier["ocds:releases/0/parties/0/id"]}/tenders`}
                                 itemId="ocds:releases/0/id"
@@ -269,25 +326,31 @@ function Index({
                             </SearchResults>
                         </Container>
                     </Box>
-
                 </main>
 
                 <Footer />
-
             </>
         )
     }
 }
 
-export const getStaticProps = async ctx => ({
+export const getStaticProps = async (ctx) => ({
     props: {
-        ...(await getI18nProps(ctx, ['common', 'supplier', 'buyer', 'tender', 'redflags'])),
+        ...(await getI18nProps(ctx, [
+            "common",
+            "supplier",
+            "buyer",
+            "tender",
+            "redflags",
+        ])),
         supplier: await getSupplierById(ctx.params.id),
         tendersCount: await getTendersCountBySupplier(ctx.params.id),
         redflagsCount: await getRedflagsCountBySupplier(ctx.params.id),
         valueAmount: await getTendersValueAmountBySupplier(ctx.params.id),
-        transactionAmount: await getTendersTransactionAmountBySupplier(ctx.params.id),
-    }
+        transactionAmount: await getTendersTransactionAmountBySupplier(
+            ctx.params.id
+        ),
+    },
 })
 
 export const getStaticPaths = async () => ({

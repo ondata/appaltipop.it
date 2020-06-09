@@ -1,13 +1,13 @@
-import { useState, useEffect, cloneElement } from 'react'
+import { useState, useEffect, cloneElement } from "react"
 
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-import useTranslation from 'next-translate/useTranslation'
+import useTranslation from "next-translate/useTranslation"
 
-import axios from 'axios'
+import axios from "axios"
 
-import { map, isEmpty } from 'lodash'
+import { map, isEmpty } from "lodash"
 
 import {
     Box,
@@ -17,21 +17,15 @@ import {
     ListItem,
     ListItemIcon,
     Divider,
-} from '@material-ui/core'
+} from "@material-ui/core"
 
-import {
-    ArrowForward,
-} from '@material-ui/icons'
+import { ArrowForward } from "@material-ui/icons"
 
-import {
-    Pagination,
-} from '@material-ui/lab'
+import { Pagination } from "@material-ui/lab"
 
-import {
-    PAGE_SIZE,
-} from '../../config/constants'
+import { PAGE_SIZE } from "../../config/constants"
 
-import AvatarIcon from '../../components/AvatarIcon'
+import AvatarIcon from "../../components/AvatarIcon"
 
 export default function SearchResults({
     endpoint = "",
@@ -39,7 +33,6 @@ export default function SearchResults({
     itemType = "",
     children,
 }) {
-
     const router = useRouter()
     const { t, lang } = useTranslation()
 
@@ -54,20 +47,15 @@ export default function SearchResults({
 
     function handleRequest() {
         axios
-            .get(
-                endpoint,
-                {
-                    params: {
-                        page: page - 1,
-                    }
-                }
-            )
-            .then(
-                res => {
-                    setResults(res.data.total.value)
-                    setItems(map(res.data.hits, "_source"))
-                }
-            )
+            .get(endpoint, {
+                params: {
+                    page: page - 1,
+                },
+            })
+            .then((res) => {
+                setResults(res.data.total.value)
+                setItems(map(res.data.hits, "_source"))
+            })
     }
 
     useEffect(() => {
@@ -75,65 +63,61 @@ export default function SearchResults({
     }, [page])
 
     useEffect(() => {
-        setPages(Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0))
+        setPages(
+            Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
+        )
     }, [results])
 
     return (
         <Grid container>
             <Grid item xs={12}>
-                {
-                    !isEmpty(items)
-                        ?
-                        <>
+                {!isEmpty(items) ? (
+                    <>
+                        {pages > 1 && (
+                            <Pagination
+                                variant="outlined"
+                                shape="rounded"
+                                page={page}
+                                count={pages}
+                                onChange={handleChangePage}
+                            />
+                        )}
 
-                            {
-                                pages > 1
-                                &&
-                                <Pagination
-                                    variant="outlined" shape="rounded"
-                                    page={page} count={pages}
-                                    onChange={handleChangePage}
-                                />
-                            }
+                        <List>
+                            {map(items, (item, index) => (
+                                <Box component="li" key={item[itemId]}>
+                                    {!!index && <Divider />}
+                                    <Link
+                                        href={`/[lang]/${itemType}/[id]`}
+                                        as={`/${lang}/${itemType}/${item[itemId]}`}
+                                    >
+                                        <ListItem button>
+                                            <ListItemIcon>
+                                                <AvatarIcon color="primary">
+                                                    <ArrowForward />
+                                                </AvatarIcon>
+                                            </ListItemIcon>
+                                            {cloneElement(children, item)}
+                                        </ListItem>
+                                    </Link>
+                                </Box>
+                            ))}
+                        </List>
 
-                            <List>
-                                {
-                                    map(
-                                        items,
-                                        (item, index) => (
-                                            <Box component="li" key={item[itemId]}>
-                                                {!!index && <Divider />}
-                                                <Link href={`/[lang]/${itemType}/[id]`} as={`/${lang}/${itemType}/${item[itemId]}`}>
-                                                    <ListItem button>
-                                                        <ListItemIcon>
-                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
-                                                        </ListItemIcon>
-                                                        {cloneElement(children, item)}
-                                                    </ListItem>
-                                                </Link>
-                                            </Box>
-                                        )
-                                    )
-                                }
-                            </List>
-
-                            {
-                                pages > 1
-                                &&
-                                <Pagination
-                                    variant="outlined" shape="rounded"
-                                    page={page} count={pages}
-                                    onChange={handleChangePage}
-                                />
-                            }
-
-                        </>
-                        :
-                        <Typography>{t("common:search.noResults")}</Typography>
-                }
+                        {pages > 1 && (
+                            <Pagination
+                                variant="outlined"
+                                shape="rounded"
+                                page={page}
+                                count={pages}
+                                onChange={handleChangePage}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <Typography>{t("common:search.noResults")}</Typography>
+                )}
             </Grid>
         </Grid>
-
     )
-
 }

@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
     primary: {
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.primary.light,
@@ -6,5 +6,5 @@ export default theme => ({
     secondary: {
         color: theme.palette.secondary.main,
         backgroundColor: theme.palette.secondary.light,
-    }
+    },
 })

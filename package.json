@@ -1,42 +1,44 @@
 {
-  "name": "ondata-appaltipop.it",
-  "version": "0.1.0",
-  "homepage": "https://appaltipop.it",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ondata/appaltipop.it.git"
-  },
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next build && next start",
-    "export": "next build && next export -o dist"
-  },
-  "dependencies": {
-    "@elastic/elasticsearch": "^7.7.1",
-    "@material-ui/core": "^4.10.0",
-    "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.54",
-    "axios": "^0.19.2",
-    "clsx": "^1.1.1",
-    "d3-format": "^1.4.4",
-    "d3-time-format": "^2.2.3",
-    "lodash": "^4.17.15",
-    "next": "^9.4.4",
-    "next-seo": "^4.5.0",
-    "next-translate": "^0.16.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-markdown": "^4.3.1"
-  },
-  "keywords": [],
-  "author": "Alessio Cimarelli <alessio.cimarelli@ondata.it> (https://www.linkedin.com/in/alessiocimarelli/)",
-  "contributors": [
-    "Jacopo Solmi <jacopo.solmi@gmail.com> (https://www.linkedin.com/in/jacoposolmi/)"
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "sass": "^1.26.5"
-  }
+    "name": "ondata-appaltipop.it",
+    "version": "0.1.0",
+    "homepage": "https://appaltipop.it",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ondata/appaltipop.it.git"
+    },
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next build && next start",
+        "export": "next build && next export -o dist",
+        "format": "prettier --write \"src/**/*.{js,jsx,json,md}\""
+    },
+    "dependencies": {
+        "@elastic/elasticsearch": "^7.7.1",
+        "@material-ui/core": "^4.10.0",
+        "@material-ui/icons": "^4.9.1",
+        "@material-ui/lab": "^4.0.0-alpha.54",
+        "axios": "^0.19.2",
+        "clsx": "^1.1.1",
+        "d3-format": "^1.4.4",
+        "d3-time-format": "^2.2.3",
+        "lodash": "^4.17.15",
+        "next": "^9.4.4",
+        "next-seo": "^4.5.0",
+        "next-translate": "^0.16.1",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-markdown": "^4.3.1"
+    },
+    "keywords": [],
+    "author": "Alessio Cimarelli <alessio.cimarelli@ondata.it> (https://www.linkedin.com/in/alessiocimarelli/)",
+    "contributors": [
+        "Jacopo Solmi <jacopo.solmi@gmail.com> (https://www.linkedin.com/in/jacoposolmi/)"
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "prettier": "^2.0.5",
+        "sass": "^1.26.5"
+    }
 }

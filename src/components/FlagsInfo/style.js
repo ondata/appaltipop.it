@@ -1,19 +1,13 @@
-export default theme => ({
+export default (theme) => ({
     panel: {
-        '& > .MuiExpansionPanelSummary-content': {
+        "& > .MuiExpansionPanelSummary-content": {
             alignItems: `center`,
         },
     },
-    icon: {
-
-    },
-    title: {
-
-    },
+    icon: {},
+    title: {},
     summary: {
         fontSize: `1rem`,
     },
-    description: {
-
-    },
+    description: {},
 })

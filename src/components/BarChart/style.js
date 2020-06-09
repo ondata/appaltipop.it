@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
     chart: {
         width: `100%`,
         height: 250,

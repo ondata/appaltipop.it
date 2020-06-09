@@ -1,5 +1,4 @@
 {
-
     "info": "Per monitorare il rischio di corruzione vengono utilizzate delle “Red flag”        che si alzano quando un indice di controllo viene verificato. Questo aiuta a capire la potenziale presenza di frodi o manipolazioni negli appalti pubblici. Le bandierine inoltre, possono indicare un problema di qualità dei dati, di violazioni della legge, di buone prassi internazionali o altri problemi.",
 
     "title": "Indici di Controllo",
@@ -39,5 +38,4 @@
         "summary": "Appalti con lunghi ritardi (oltre 60 giorni)",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
     }
-
 }

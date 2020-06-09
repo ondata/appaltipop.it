@@ -1,5 +1,4 @@
 {
-    
     "title": "AppaltiPOP",
     "claim": "Diamo agli Appalti un’aria un po' più POP! Insieme a te.",
 
@@ -10,7 +9,7 @@
     "buyer": "Pubblica amministrazione",
     "buyer_plural": "Pubbliche amministrazioni",
     "buyers": "Pubbliche amministrazioni",
-    
+
     "tender": "Appalto",
     "tender_plural": "Appalti",
     "tenders": "Appalti",
@@ -36,5 +35,4 @@
         "cta": "Cerca",
         "reset": "Annulla"
     }
-
 }

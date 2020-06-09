@@ -1,7 +1,7 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createMuiTheme } from "@material-ui/core/styles"
 
 const baseSpace = 8
-const spacing = d => d*baseSpace
+const spacing = (d) => d * baseSpace
 
 const greyColor = `#f9f9f9`
 const whiteColor = `#ffffff`
@@ -28,7 +28,7 @@ export default createMuiTheme({
             fontWeight: `bold`,
             color: primaryColor,
             marginBottom: spacing(4),
-            '@media (max-width:600px)': {
+            "@media (max-width:600px)": {
                 fontSize: `1.5rem`,
                 lineHeight: 1.5,
             },
@@ -51,7 +51,7 @@ export default createMuiTheme({
         subtitle2: {
             fontSize: `1.25rem`,
             fontWeight: `bold`,
-        }
+        },
     },
     palette: {
         text: {
@@ -72,7 +72,7 @@ export default createMuiTheme({
         MuiPaper: {
             root: {
                 backgroundColor: greyColor,
-                padding: spacing(4)
+                padding: spacing(4),
             },
         },
         MuiDrawer: {
@@ -127,11 +127,11 @@ export default createMuiTheme({
                 backgroundColor: whiteColor,
                 paddingLeft: 0,
                 paddingRight: 0,
-            }
+            },
         },
         MuiExpansionPanelSummary: {
             root: {
-                border: `${spacing(.5)}px solid #E7E5FF`,
+                border: `${spacing(0.5)}px solid #E7E5FF`,
                 borderRadius: spacing(2),
                 padding: `0 ${spacing(2)}px`,
             },
@@ -139,7 +139,7 @@ export default createMuiTheme({
         MuiExpansionPanelDetails: {
             root: {
                 backgroundColor: greyColor,
-                border: `${spacing(.5)}px solid ${greyColor}`,
+                border: `${spacing(0.5)}px solid ${greyColor}`,
                 borderRadius: spacing(2),
                 marginTop: spacing(2),
                 padding: `${spacing(4)}px ${spacing(2)}px`,

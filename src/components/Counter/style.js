@@ -1,4 +1,4 @@
-export default theme => ({
+export default (theme) => ({
     icon: {
         maxWidth: 75,
     },

@@ -1,10 +1,10 @@
-export default theme => ({
+export default (theme) => ({
     container: {
         padding: 0,
     },
     logo: {
         flexGrow: 1,
-        '& img': {
+        "& img": {
             maxHeight: `2rem`,
             maxWidth: `100%`,
         },
@@ -14,7 +14,7 @@ export default theme => ({
     },
     langButton: {
         backgroundColor: `transparent`,
-        '&:hover': {
+        "&:hover": {
             backgroundColor: `transparent`,
         },
     },

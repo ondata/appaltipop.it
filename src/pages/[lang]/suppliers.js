@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
 
-import Head from 'next/head'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
-import useTranslation from 'next-translate/useTranslation'
+import useTranslation from "next-translate/useTranslation"
 
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from "react-markdown"
 
-import axios from 'axios'
+import axios from "axios"
 
-import { map, isEmpty } from 'lodash'
+import { map, isEmpty } from "lodash"
 
 import {
     Container,
@@ -27,27 +27,15 @@ import {
     ListItemIcon,
     CircularProgress,
     Divider,
-} from '@material-ui/core'
+} from "@material-ui/core"
 
-import {
-    HighlightOff,
-    ArrowForward,
-} from '@material-ui/icons'
+import { HighlightOff, ArrowForward } from "@material-ui/icons"
 
-import {
-    Pagination,
-} from '@material-ui/lab'
+import { Pagination } from "@material-ui/lab"
 
-import {
-    getI18nPaths,
-    getI18nProps,
-    withI18n,
-} from '../../utils/i18n'
+import { getI18nPaths, getI18nProps, withI18n } from "../../utils/i18n"
 
-import {
-    numberFormat,
-    timeFormat,
-} from '../../utils/formats'
+import { numberFormat, timeFormat } from "../../utils/formats"
 
 import {
     CONTAINER_BREAKPOINT,
@@ -56,38 +44,31 @@ import {
     INTEGER_FORMAT,
     PAGE_SIZE,
     API_VERSION,
-} from '../../config/constants'
+} from "../../config/constants"
 
-import {
-    getSuppliersCount,
-    getRedflagsCount,
-} from '../../utils/queries'
+import { getSuppliersCount, getRedflagsCount } from "../../utils/queries"
 
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import AvatarIcon from '../../components/AvatarIcon'
-import { Supplier } from '../../components/SearchResult'
-import { SuppliersCounter, FlagsCounter } from '../../components/Counter'
+import Header from "../../components/Header"
+import Footer from "../../components/Footer"
+import AvatarIcon from "../../components/AvatarIcon"
+import { Supplier } from "../../components/SearchResult"
+import { SuppliersCounter, FlagsCounter } from "../../components/Counter"
 
-function Index({
-    suppliersCount = 0,
-    redflagsCount = 0,
-}) {
-
+function Index({ suppliersCount = 0, redflagsCount = 0 }) {
     const router = useRouter()
     const { t, lang } = useTranslation()
 
     const nf = numberFormat(lang).format
     const tf = timeFormat(lang).format
 
-    const [ suppliers, setSuppliers ] = useState([])
-    const [ results, setResults ] = useState(0)
-    const [ resultsLabel, setResultsLabel ] = useState(<>&nbsp;</>)
-    const [ searchString, setSearchString ] = useState("")
-    const [ currentSearchString, setCurrentSearchString ] = useState("")
-    const [ page, setPage ] = useState(1)
-    const [ pages, setPages ] = useState(1)
-    const [ waiting, setWaiting ] = useState(false)
+    const [suppliers, setSuppliers] = useState([])
+    const [results, setResults] = useState(0)
+    const [resultsLabel, setResultsLabel] = useState(<>&nbsp;</>)
+    const [searchString, setSearchString] = useState("")
+    const [currentSearchString, setCurrentSearchString] = useState("")
+    const [page, setPage] = useState(1)
+    const [pages, setPages] = useState(1)
+    const [waiting, setWaiting] = useState(false)
 
     function handleSubmit(e) {
         setCurrentSearchString(searchString)
@@ -110,23 +91,18 @@ function Index({
         if (currentSearchString) {
             setWaiting(true)
             axios
-                .get(
-                    `/api/${API_VERSION}/suppliers`,
-                    {
-                        params: {
-                            q: currentSearchString,
-                            lang,
-                            page: page-1,
-                        }
-                    }
-                )
-                .then(
-                    res => {
-                        setResults(res.data.total.value)
-                        setSuppliers(map(res.data.hits, "_source"))
-                        setWaiting(false)
-                    }
-                )
+                .get(`/api/${API_VERSION}/suppliers`, {
+                    params: {
+                        q: currentSearchString,
+                        lang,
+                        page: page - 1,
+                    },
+                })
+                .then((res) => {
+                    setResults(res.data.total.value)
+                    setSuppliers(map(res.data.hits, "_source"))
+                    setWaiting(false)
+                })
         } else {
             setSuppliers([])
         }
@@ -146,21 +122,25 @@ function Index({
     }, [page])
 
     useEffect(() => {
-        setResultsLabel(t("search:results", { query: currentSearchString, count: results }))
-        setPages(Math.floor(results/PAGE_SIZE)+(results%PAGE_SIZE ? 1 : 0))
+        setResultsLabel(
+            t("search:results", { query: currentSearchString, count: results })
+        )
+        setPages(
+            Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
+        )
     }, [results])
 
     return (
         <>
-
             <Head>
-                <title>{`${t("common:suppliers")} | ${t("common:title")}`}</title>
+                <title>{`${t("common:suppliers")} | ${t(
+                    "common:title"
+                )}`}</title>
             </Head>
 
             <Header />
 
             <main>
-
                 <Container component="header" maxWidth={CONTAINER_BREAKPOINT}>
                     <Box mb={4}>
                         <Grid container spacing={2}>
@@ -173,14 +153,28 @@ function Index({
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} sm={3}>
-                                <SuppliersCounter count={suppliersCount} label={t("supplier:counter.supplier", { count: suppliersCount })} />
+                                <SuppliersCounter
+                                    count={suppliersCount}
+                                    label={t("supplier:counter.supplier", {
+                                        count: suppliersCount,
+                                    })}
+                                />
                             </Grid>
                             <Grid item xs={6} sm={3}>
-                                <FlagsCounter count={redflagsCount} label={t("supplier:counter.redflag", { count: redflagsCount })} />
+                                <FlagsCounter
+                                    count={redflagsCount}
+                                    label={t("supplier:counter.redflag", {
+                                        count: redflagsCount,
+                                    })}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={8}>
                                 <Typography component="div" variant="body2">
-                                    <ReactMarkdown source={t("supplier:search.description")} />
+                                    <ReactMarkdown
+                                        source={t(
+                                            "supplier:search.description"
+                                        )}
+                                    />
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -189,121 +183,165 @@ function Index({
 
                 <Box pb={8} component="section" className="band band-g">
                     <Container maxWidth={CONTAINER_BREAKPOINT}>
-
                         <Grid container>
                             <Grid item xs={12} sm={8}>
-                                <Typography component="label" htmlFor="search-field" variant="subtitle1">{t("supplier:search.label")}</Typography>
-                                <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                                <Typography
+                                    component="label"
+                                    htmlFor="search-field"
+                                    variant="subtitle1"
+                                >
+                                    {t("supplier:search.label")}
+                                </Typography>
+                                <form
+                                    noValidate
+                                    autoComplete="off"
+                                    onSubmit={handleSubmit}
+                                >
                                     <Grid container spacing={2}>
                                         <Grid item xs>
-                                            <FormControl variant="outlined" fullWidth>
+                                            <FormControl
+                                                variant="outlined"
+                                                fullWidth
+                                            >
                                                 <OutlinedInput
                                                     id="search-field"
-                                                    placeholder={t("supplier:search.help")}
+                                                    placeholder={t(
+                                                        "supplier:search.help"
+                                                    )}
                                                     value={searchString}
-                                                    onChange={e => setSearchString(e.target.value)}
+                                                    onChange={(e) =>
+                                                        setSearchString(
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     endAdornment={
-                                                        !!searchString
-                                                        &&
-                                                        <InputAdornment position="end">
-                                                            <IconButton
-                                                                aria-label={t("common:search.reset")}
-                                                                onClick={handleReset}
-                                                                edge="end"
-                                                            >
-                                                                { waiting ? <CircularProgress /> : <HighlightOff /> }
-                                                            </IconButton>
-                                                        </InputAdornment>
+                                                        !!searchString && (
+                                                            <InputAdornment position="end">
+                                                                <IconButton
+                                                                    aria-label={t(
+                                                                        "common:search.reset"
+                                                                    )}
+                                                                    onClick={
+                                                                        handleReset
+                                                                    }
+                                                                    edge="end"
+                                                                >
+                                                                    {waiting ? (
+                                                                        <CircularProgress />
+                                                                    ) : (
+                                                                        <HighlightOff />
+                                                                    )}
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        )
                                                     }
                                                 />
                                             </FormControl>
                                         </Grid>
                                         <Grid item>
                                             <Button
-                                                variant="contained" color="primary" disableElevation
+                                                variant="contained"
+                                                color="primary"
+                                                disableElevation
                                                 type="submit"
                                                 style={{ height: "100%" }}
-                                            >{t("common:search.cta")}</Button>
+                                            >
+                                                {t("common:search.cta")}
+                                            </Button>
                                         </Grid>
                                     </Grid>
                                 </form>
-                                <Typography component="p" variant="caption">{!!currentSearchString ? resultsLabel : <>&nbsp;</>}</Typography>
+                                <Typography component="p" variant="caption">
+                                    {!!currentSearchString ? (
+                                        resultsLabel
+                                    ) : (
+                                        <>&nbsp;</>
+                                    )}
+                                </Typography>
                             </Grid>
                         </Grid>
 
                         <Grid container>
                             <Grid item xs={12}>
                                 <Box mt={4}>
-                                    {
-                                        !!currentSearchString
-                                        &&
+                                    {!!currentSearchString && (
                                         <>
-
-                                            {
-                                                pages > 1
-                                                &&
+                                            {pages > 1 && (
                                                 <Pagination
-                                                    variant="outlined" shape="rounded"
-                                                    page={page} count={pages}
+                                                    variant="outlined"
+                                                    shape="rounded"
+                                                    page={page}
+                                                    count={pages}
                                                     onChange={handleChangePage}
                                                 />
-                                            }
+                                            )}
 
                                             <List>
-                                                {
-                                                    map(
-                                                        suppliers,
-                                                        (supplier, index) => (
-                                                            <Box component="li" key={supplier["ocds:releases/0/parties/0/id"]}>
-                                                                { !!index && <Divider /> }
-                                                                <Link href="/[lang]/supplier/[id]" as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}>
-                                                                    <ListItem button>
-                                                                        <ListItemIcon>
-                                                                            <AvatarIcon color="primary"><ArrowForward /></AvatarIcon>
-                                                                        </ListItemIcon>
-                                                                        <Supplier {...supplier} />
-                                                                    </ListItem>
-                                                                </Link>
-                                                            </Box>
-                                                        )
+                                                {map(
+                                                    suppliers,
+                                                    (supplier, index) => (
+                                                        <Box
+                                                            component="li"
+                                                            key={
+                                                                supplier[
+                                                                    "ocds:releases/0/parties/0/id"
+                                                                ]
+                                                            }
+                                                        >
+                                                            {!!index && (
+                                                                <Divider />
+                                                            )}
+                                                            <Link
+                                                                href="/[lang]/supplier/[id]"
+                                                                as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}
+                                                            >
+                                                                <ListItem
+                                                                    button
+                                                                >
+                                                                    <ListItemIcon>
+                                                                        <AvatarIcon color="primary">
+                                                                            <ArrowForward />
+                                                                        </AvatarIcon>
+                                                                    </ListItemIcon>
+                                                                    <Supplier
+                                                                        {...supplier}
+                                                                    />
+                                                                </ListItem>
+                                                            </Link>
+                                                        </Box>
                                                     )
-                                                }
+                                                )}
                                             </List>
 
-                                            {
-                                                pages > 1
-                                                &&
+                                            {pages > 1 && (
                                                 <Pagination
-                                                    variant="outlined" shape="rounded"
-                                                    page={page} count={pages}
+                                                    variant="outlined"
+                                                    shape="rounded"
+                                                    page={page}
+                                                    count={pages}
                                                     onChange={handleChangePage}
                                                 />
-                                            }
-
+                                            )}
                                         </>
-                                    }
+                                    )}
                                 </Box>
                             </Grid>
                         </Grid>
-
                     </Container>
                 </Box>
-
             </main>
 
             <Footer />
-
         </>
     )
-
 }
 
-export const getStaticProps = async ctx => {
+export const getStaticProps = async (ctx) => {
     return {
         props: {
-            ...(await getI18nProps(ctx, ['common', 'supplier','search'])),
+            ...(await getI18nProps(ctx, ["common", "supplier", "search"])),
             suppliersCount: await getSuppliersCount(),
-            redflagsCount: await getRedflagsCount()
+            redflagsCount: await getRedflagsCount(),
         },
         unstable_revalidate: 3600,
     }

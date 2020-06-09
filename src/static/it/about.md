@@ -20,8 +20,8 @@ Su questo sito puoi trovare al momento gli appalti pubblici relativi a un numero
 
 Questa prima versione che trovi online è nata in parte grazie al lavoro volontario di alcuni attivisti di Ondata e in parte a grazie a dei progetti nei quali siamo coinvolti e in particolare:
 
-- ACT - Anti Corruption Toolkit: un progetto finanziano dalla Commissione Europea e coordinato da Trasparency International Italia, che ha tra i propri partner oltre a Ondata anche Open Polis, AccessInfo Europe, Vouliwatch, insieme alle municipalità di Milano, Madrid e Atene.
-- Libellula - Un progetto promosso da Parliament Watch Italia finanziato da Open Society Foundation e Fondazione con il Sud, per il monitoraggio degli appalti pubblici in Sicilia.
+-   ACT - Anti Corruption Toolkit: un progetto finanziano dalla Commissione Europea e coordinato da Trasparency International Italia, che ha tra i propri partner oltre a Ondata anche Open Polis, AccessInfo Europe, Vouliwatch, insieme alle municipalità di Milano, Madrid e Atene.
+-   Libellula - Un progetto promosso da Parliament Watch Italia finanziato da Open Society Foundation e Fondazione con il Sud, per il monitoraggio degli appalti pubblici in Sicilia.
 
 ## Dacci una mano
 

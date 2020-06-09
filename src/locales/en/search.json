@@ -1,7 +1,5 @@
 {
-
     "results": "Ricerca per \"{{query}}\": un risultato.",
     "results_0": "Ricerca per \"{{query}}\": nessun risultato.",
     "results_plural": "Ricerca per \"{{query}}\": {{count}} risultati."
-
 }

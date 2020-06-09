@@ -1,5 +1,4 @@
 {
-
     "ocds/releases/0/buyer/id": "Codice Fiscale",
     "ocds/releases/0/buyer/name": "Denominazione",
     "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
@@ -13,7 +12,6 @@
     },
 
     "counter": {
-
         "buyer": "Pubblica amministrazione monitorata",
         "buyer_plural": "Pubbliche amministrazioni monitorate",
         "buyers": "Pubbliche amministrazioni monitorate",
@@ -21,7 +19,6 @@
         "redflag": "Appalto con problemi",
         "redflag_plural": "Appalti con problemi",
         "redflags": "Appalti con problemi"
-        
     },
 
     "charts": "Grafici di monitoraggio",
@@ -40,5 +37,4 @@
             "description": "Numero di appalti con i dati necessari pubblicati rispetto al numero totale degli appatli."
         }
     }
-
 }

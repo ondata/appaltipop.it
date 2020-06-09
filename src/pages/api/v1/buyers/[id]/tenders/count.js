@@ -1,13 +1,9 @@
-import {
-    getTendersCountByBuyer,
-} from '../../../../../../utils/queries'
+import { getTendersCountByBuyer } from "../../../../../../utils/queries"
 
 export default async (req, res) => {
+    const {
+        query: { id },
+    } = req
 
-    const { query: { id } } = req
-
-    res
-        .status(200)
-        .json(await getTendersCountByBuyer(id))
-
+    res.status(200).json(await getTendersCountByBuyer(id))
 }

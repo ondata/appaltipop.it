@@ -1,18 +1,18 @@
-export default theme => ({
+export default (theme) => ({
     root: {
         backgroundColor: theme.palette.text.primary,
     },
     logo: {
-        '& img': {
+        "& img": {
             maxWidth: `50%`,
-            [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down("sm")]: {
                 maxWidth: `100%`,
             },
         },
     },
     menuButton: {
         textDecoration: `underline`,
-        '&:hover': {
+        "&:hover": {
             textDecoration: `underline`,
         },
     },
