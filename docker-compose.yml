@@ -26,3 +26,12 @@ services:
     oas-ui:
         build: oas/
         image: docker.pkg.github.com/ondata/appaltipop.it/appaltipop-oas:latest
+
+    es01:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
+        container_name: appaltipop-es01
+        environment:
+            - discovery.type=single-node
+            - cluster.name=appaltipop
+        ports:
+            - 9200:9200
