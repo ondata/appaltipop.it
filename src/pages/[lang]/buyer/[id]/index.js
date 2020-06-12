@@ -75,7 +75,7 @@ function Index({
                 <Head>
                     <title>{`${t("common:buyer")} n. ${
                         buyer["ocds:releases/0/buyer/id"]
-                    } | ${t("common:title")}`}</title>
+                        } | ${t("common:title")}`}</title>
                 </Head>
 
                 <Header />
@@ -181,11 +181,11 @@ function Index({
                                 <Grid item xs={6} sm={4}>
                                     <KeyValue
                                         title={t(
-                                            "buyer:appaltipop/releases/0/buyer/province"
+                                            "buyer:istat/DEN_CM"
                                         )}
                                         label={
                                             buyer[
-                                                "appaltipop:releases/0/buyer/province"
+                                            "istat:DEN_CM"
                                             ]
                                         }
                                     />
@@ -194,11 +194,11 @@ function Index({
                                 <Grid item xs={6} sm={4}>
                                     <KeyValue
                                         title={t(
-                                            "buyer:appaltipop/releases/0/buyer/region"
+                                            "buyer:ocds/releases/0/parties/address/region"
                                         )}
                                         label={
                                             buyer[
-                                                "appaltipop:releases/0/buyer/region"
+                                            "ocds:releases/0/parties/address/region"
                                             ]
                                         }
                                     />

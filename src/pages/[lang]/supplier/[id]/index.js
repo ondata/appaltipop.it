@@ -188,39 +188,13 @@ function Index({
                                 <Grid item xs={6} sm={4}>
                                     <KeyValue
                                         title={t(
-                                            "supplier:appaltipop/releases/0/supplier/province"
-                                        )}
-                                        label={
-                                            supplier[
-                                                "appaltipop:releases/0/supplier/province"
-                                            ]
-                                        }
-                                    />
-                                </Grid>
-
-                                <Grid item xs={6} sm={4}>
-                                    <KeyValue
-                                        title={t(
-                                            "supplier:appaltipop/releases/0/supplier/region"
-                                        )}
-                                        label={
-                                            supplier[
-                                                "appaltipop:releases/0/supplier/region"
-                                            ]
-                                        }
-                                    />
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <KeyValue
-                                        title={t(
                                             "supplier:ocds/releases/0/awards/0/value/amount"
                                         )}
                                         label={nf(CURRENCY_FORMAT)(valueAmount)}
                                     />
                                 </Grid>
 
-                                <Grid item xs={6}>
+                                <Grid item xs={6} sm={4}>
                                     <KeyValue
                                         title={t(
                                             "supplier:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount"

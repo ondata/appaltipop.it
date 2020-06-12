@@ -1,10 +1,18 @@
 {
     "ocds/releases/0/buyer/id": "Codice Fiscale",
     "ocds/releases/0/buyer/name": "Denominazione",
+    "ipa/cod_amm": "Codice iPA",
+    "ocds/releases/0/parties/address/postalCode": "CAP",
+    "ocds/releases/0/parties/contactPoint/url": "Sito web",
+    "ocds/releases/0/parties/address/streetAddress": "Indirizzo",
+    "istat/COD_REG": "Codice regione",
+    "istat/COD_CM": "Codice provincia",
+    "ipa/comune": "Comune",
+    "ocds/releases/0/parties/address/region": "Regione",
+    "istat/DEN_CM": "Provincia",
+    "unece/licencePlateCode": "Sigla automobilistica",
     "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
     "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
-    "appaltipop/releases/0/buyer/province": "Provincia",
-    "appaltipop/releases/0/buyer/region": "Regione",
     "search": {
         "title": "Pubbliche amministrazioni attualmente disponibili",
         "description": "In questa pagina trovi l'elenco delle Pubbliche amministrazioni incluse in AppaltiPOP. Al momento AppaltiPOP è online in fase sperimentale e le Pubbliche amministrazioni disponibili sono in numero limitato. Se hai interessa ad aggiungere una pubblica amministrazione, clicca su **[Partecipa](/it/get-involved)** per scoprire come andare avanti."

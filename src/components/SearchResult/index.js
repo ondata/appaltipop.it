@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation"
 
 import axios from "axios"
 
-import { map, isEmpty, startCase, toLower, upperFirst } from "lodash"
+import { map, isEmpty, startCase, toLower, upperFirst, toUpper } from "lodash"
 
 import { Grid, Typography } from "@material-ui/core"
 
@@ -32,6 +32,7 @@ export function Buyer(buyer) {
     const [redflags, setRedflags] = useState(0)
 
     useEffect(() => {
+
         axios
             .get(
                 `/api/${API_VERSION}/buyers/${buyer["ocds:releases/0/buyer/id"]}/tenders/count`
@@ -47,6 +48,7 @@ export function Buyer(buyer) {
             .then((res) => {
                 setRedflags(+res.data)
             })
+
     }, [])
 
     return (
@@ -54,7 +56,7 @@ export function Buyer(buyer) {
             <Grid item xs={12} sm>
                 {/*<Typography variant="caption">{t("buyer:ocds/releases/0/buyer/name")}</Typography>*/}
                 <Typography variant="body1">
-                    {startCase(toLower(buyer["ocds:releases/0/buyer/name"]))}
+                    {buyer["ocds:releases/0/buyer/name"]}
                 </Typography>
             </Grid>
             <Grid item xs={6} sm="auto">
@@ -215,9 +217,7 @@ export function Tender(tender) {
                         key={buyer["ocds:releases/0/buyer/id"]}
                         variant="body1"
                     >
-                        {startCase(
-                            toLower(buyer["ocds:releases/0/buyer/name"])
-                        )}
+                        {toUpper(buyer["ocds:releases/0/buyer/name"])}
                     </Typography>
                 ))}
 
@@ -225,9 +225,15 @@ export function Tender(tender) {
                     {t("tender:ocds/releases/0/awards/0/value/amount")}
                 </Typography>
                 <Typography variant="body1">
-                    {nf(CURRENCY_FORMAT)(
+                    {
                         tender["ocds:releases/0/awards/0/value/amount"]
-                    )}
+                            ?
+                            nf(CURRENCY_FORMAT)(
+                                tender["ocds:releases/0/awards/0/value/amount"]
+                            )
+                            :
+                            "-"
+                    }
                 </Typography>
             </Grid>
 
@@ -239,26 +245,38 @@ export function Tender(tender) {
                 </Typography>
 
                 <Typography variant="body1">
-                    {tf(DATE_FORMAT)(
-                        new Date(
-                            tender[
-                                "ocds:releases/0/tender/contractPeriod/startDate"
-                            ]
-                        )
-                    )}
+                    {
+                        tender["ocds:releases/0/tender/contractPeriod/startDate"]
+                            ?
+                            tf(DATE_FORMAT)(
+                                new Date(
+                                    tender[
+                                        "ocds:releases/0/tender/contractPeriod/startDate"
+                                    ]
+                                )
+                            )
+                            :
+                            "-"
+                    }
                 </Typography>
 
                 <Typography variant="caption">
                     {t("tender:ocds/releases/0/tender/contractPeriod/endDate")}
                 </Typography>
                 <Typography variant="body1">
-                    {tf(DATE_FORMAT)(
-                        new Date(
-                            tender[
-                                "ocds:releases/0/tender/contractPeriod/endDate"
-                            ]
+                    {
+                        tender["ocds:releases/0/tender/contractPeriod/endDate"]
+                            ?
+                            tf(DATE_FORMAT)(
+                            new Date(
+                                tender[
+                                    "ocds:releases/0/tender/contractPeriod/endDate"
+                                ]
+                            )
                         )
-                    )}
+                        :
+                        "-"
+                    }
                 </Typography>
             </Grid>
         </Grid>
