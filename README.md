@@ -12,7 +12,7 @@ npm run dev
 yarn dev
 ```
 
-## Devoloping locally instructions
+## Developing locally instructions
 
 First of all: be sure the required version of nodejs has been installed on your computer.
 
