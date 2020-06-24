@@ -18,15 +18,23 @@ import {
     API_VERSION,
 } from "../../config/constants"
 
-import { getBuyersCount, getRedflagsCount } from "../../utils/queries"
+import {
+    getBuyersCount,
+    getTendersCount,
+    getRedflagsCount,
+} from "../../utils/queries"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import SearchResults from "../../components/SearchResults"
 import { Buyer } from "../../components/SearchResult"
-import { BuyersCounter, FlagsCounter } from "../../components/Counter"
+import {
+    BuyersCounter,
+    TendersCounter,
+    FlagsCounter,
+} from "../../components/Counter"
 
-function Index({ buyersCount = 0, redflagsCount = 0 }) {
+function Index({ buyersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
     const router = useRouter()
     const { t, lang } = useTranslation()
 
@@ -50,7 +58,7 @@ function Index({ buyersCount = 0, redflagsCount = 0 }) {
                                     {t("buyer:search.title")}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={6} sm={3}>
+                            <Grid item xs={4} sm={2}>
                                 <BuyersCounter
                                     count={buyersCount}
                                     label={t("buyer:counter.buyer", {
@@ -58,9 +66,19 @@ function Index({ buyersCount = 0, redflagsCount = 0 }) {
                                     })}
                                 />
                             </Grid>
-                            <Grid item xs={6} sm={3}>
+                            <Grid item xs={4} sm={2}>
+                                <TendersCounter
+                                    count={tendersCount}
+                                    label={t("buyer:counter.tender", {
+                                        count: tendersCount,
+                                    })}
+                                />
+                            </Grid>
+                            <Grid item xs={4} sm={2}>
                                 <FlagsCounter
-                                    count={redflagsCount}
+                                    count={`${Math.round(
+                                        (redflagsCount / tendersCount) * 100
+                                    )}%`}
                                     label={t("buyer:counter.redflag", {
                                         count: redflagsCount,
                                     })}
@@ -100,6 +118,7 @@ export const getStaticProps = async (ctx) => {
         props: {
             ...(await getI18nProps(ctx, ["common", "buyer"])),
             buyersCount: await getBuyersCount(),
+            tendersCount: await getTendersCount(),
             redflagsCount: await getRedflagsCount(),
         },
         unstable_revalidate: 3600,

@@ -2,19 +2,17 @@ AppaltiPOP è un progetto dell'[associazione Ondata](https://www.ondata.it). La 
 
 ## L'obiettivo di questo progetto
 
-
 L'obiettivo di AppaltiPOP è partire dai dati degli appalti che le Pubbliche Amministrazioni comunicano all’Autorità Nazionale Anti Corruzione ([info](http://www.anticorruzione.it/portal/public/classic/Attivitadocumentazione/ContrattiPubblici/Normativa)) e trasformarli in formato [Open Contracting Data Standard](https://standard.open-contracting.org/latest/en/), uno standard diffuso in tutto il mondo. In questo modo saranno:
-- facilmente accessibili a tutti
-- liberamente scaricabili da chiunque per qualsiasi scopo
-- confrontabili con i dati degli appalti di tutte le altre amministrazioni pubbliche del mondo che usano questo standard.
+
+-   facilmente accessibili a tutti
+-   liberamente scaricabili da chiunque per qualsiasi scopo
+-   confrontabili con i dati degli appalti di tutte le altre amministrazioni pubbliche del mondo che usano questo standard.
 
 Tra i tanti dati pubblici di interesse per la comunità, quelli relativi agli appalti sono rilevanti, perché riguardano una spesa pubblica di circa 150 miliardi di euro all'anno ([info](https://ec.europa.eu/internal_market/scoreboard/performance_by_member_state/index_en.htm)).
-
 
 ## Gli indicatori e le redflags
 
 Grazie all'implementazione di Open Contracting Data Standard siamo in grado di costruire degli indicatori di monitoraggio degli appalti pubblici. Questi indicatori servono sia agli addetti ai lavori che ai cittadini per capire se un appalto ha tutti i parametri "a posto". Quando un parametro è fuori posto, accanto al singolo appalto troverai una **bandierina rossa**, che sta a significare che quell'appalto merita la tua attenzione e va approfondito. Perché? Perché la sua assegnazione potrebbe non essere stata correttamente trasparente e competitiva come invece tutti gli appalti pubblici dovrebbero essere.
-
 
 ## Quali appalti puoi trovare in questo momento?
 

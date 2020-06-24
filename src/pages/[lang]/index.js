@@ -1,6 +1,8 @@
 import Head from "next/head"
 import Link from "next/link"
 
+import { map, sortBy } from "lodash"
+
 import useTranslation from "next-translate/useTranslation"
 
 import ReactMarkdown from "react-markdown"
@@ -12,6 +14,10 @@ import {
     Grid,
     Button,
     Box,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
 } from "@material-ui/core"
 
 import { getI18nPaths, getI18nProps, withI18n } from "../../utils/i18n"
@@ -24,12 +30,19 @@ import {
     getTendersCount,
     getBuyersCount,
     getSuppliersCount,
+    getRedflags,
 } from "../../utils/queries"
 
 import Footer from "../../components/Footer"
 import Header from "../../components/Header"
 
-function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
+function Index({
+    tendersCount,
+    buyersCount,
+    suppliersCount,
+    redflags,
+    contents,
+}) {
     const { t, lang } = useTranslation()
 
     return (
@@ -150,6 +163,35 @@ function Index({ tendersCount, buyersCount, suppliersCount, contents }) {
                                         source={contents.redflag.content}
                                     />
                                 </Typography>
+                                <List>
+                                    {map(
+                                        sortBy(
+                                            redflags,
+                                            "appaltipop:releases/0/redflag/code"
+                                        ),
+                                        (redflag, index) => (
+                                            <ListItem
+                                                key={
+                                                    redflag[
+                                                        "appaltipop:releases/0/redflag/code"
+                                                    ]
+                                                }
+                                            >
+                                                <ListItemIcon>
+                                                    {index + 1}.
+                                                </ListItemIcon>
+                                                <ListItemText
+                                                    primary={t(
+                                                        `redflags:${redflag["appaltipop:releases/0/redflag/code"]}.title`
+                                                    )}
+                                                    secondary={t(
+                                                        `redflags:${redflag["appaltipop:releases/0/redflag/code"]}.description`
+                                                    )}
+                                                />
+                                            </ListItem>
+                                        )
+                                    )}
+                                </List>
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <img
@@ -205,6 +247,7 @@ export const getStaticProps = async (ctx) => {
         "common",
         "home",
         "cta",
+        "redflags",
     ])
     return {
         props: {
@@ -213,6 +256,7 @@ export const getStaticProps = async (ctx) => {
             tendersCount: await getTendersCount(),
             buyersCount: await getBuyersCount(),
             suppliersCount: await getSuppliersCount(),
+            redflags: map((await getRedflags()).hits, "_source"),
             contents: {
                 introduction: await getStaticPage(namespaces.home.introduction),
                 ocds: await getStaticPage(namespaces.home.ocds),

@@ -1,0 +1,23 @@
+{
+    "title": "OCDS: il modo migliore per pubblicare i dati sugli appalti, ecco come fare!",
+    "introduction": {
+        "source": "it/ocds/introduction.md"
+    },
+    "presentation": {
+        "title": "Vi presentiamo OCDS",
+        "source": "it/ocds/presentation.md"
+    },
+    "compliance": {
+        "title": "Diventa OCDS compliant",
+        "source": "it/ocds/compliance.md"
+    },
+    "redflags": {
+        "title": "Gli indici di Controllo: le Red Flags",
+        "introduction": {
+            "source": "it/ocds/redflags/introduction.md"
+        },
+        "conclusions": {
+            "source": "it/ocds/redflags/conclusions.md"
+        }
+    }
+}

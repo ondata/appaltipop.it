@@ -156,7 +156,9 @@ function Index({
                                 </Grid>
                                 <Grid item xs={6} sm={3}>
                                     <FlagsCounter
-                                        count={redflagsCount}
+                                        count={`${Math.round(
+                                            (redflagsCount / tendersCount) * 100
+                                        )}%`}
                                         label={t("common:redflag", {
                                             count: redflagsCount,
                                         })}

@@ -75,7 +75,7 @@ function Index({
                 <Head>
                     <title>{`${t("common:buyer")} n. ${
                         buyer["ocds:releases/0/buyer/id"]
-                        } | ${t("common:title")}`}</title>
+                    } | ${t("common:title")}`}</title>
                 </Head>
 
                 <Header />
@@ -151,7 +151,9 @@ function Index({
                                 </Grid>
                                 <Grid item xs={6} sm={3}>
                                     <FlagsCounter
-                                        count={redflagsCount}
+                                        count={`${Math.round(
+                                            (redflagsCount / tendersCount) * 100
+                                        )}%`}
                                         label={t("common:redflag", {
                                             count: redflagsCount,
                                         })}
@@ -180,14 +182,8 @@ function Index({
 
                                 <Grid item xs={6} sm={4}>
                                     <KeyValue
-                                        title={t(
-                                            "buyer:istat/DEN_CM"
-                                        )}
-                                        label={
-                                            buyer[
-                                            "istat:DEN_CM"
-                                            ]
-                                        }
+                                        title={t("buyer:istat/DEN_CM")}
+                                        label={buyer["istat:DEN_CM"]}
                                     />
                                 </Grid>
 
@@ -198,7 +194,7 @@ function Index({
                                         )}
                                         label={
                                             buyer[
-                                            "ocds:releases/0/parties/address/region"
+                                                "ocds:releases/0/parties/address/region"
                                             ]
                                         }
                                     />

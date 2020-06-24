@@ -32,7 +32,6 @@ export function Buyer(buyer) {
     const [redflags, setRedflags] = useState(0)
 
     useEffect(() => {
-
         axios
             .get(
                 `/api/${API_VERSION}/buyers/${buyer["ocds:releases/0/buyer/id"]}/tenders/count`
@@ -48,7 +47,6 @@ export function Buyer(buyer) {
             .then((res) => {
                 setRedflags(+res.data)
             })
-
     }, [])
 
     return (
@@ -225,15 +223,11 @@ export function Tender(tender) {
                     {t("tender:ocds/releases/0/awards/0/value/amount")}
                 </Typography>
                 <Typography variant="body1">
-                    {
-                        tender["ocds:releases/0/awards/0/value/amount"]
-                            ?
-                            nf(CURRENCY_FORMAT)(
-                                tender["ocds:releases/0/awards/0/value/amount"]
-                            )
-                            :
-                            "-"
-                    }
+                    {tender["ocds:releases/0/awards/0/value/amount"]
+                        ? nf(CURRENCY_FORMAT)(
+                              tender["ocds:releases/0/awards/0/value/amount"]
+                          )
+                        : "-"}
                 </Typography>
             </Grid>
 
@@ -245,38 +239,30 @@ export function Tender(tender) {
                 </Typography>
 
                 <Typography variant="body1">
-                    {
-                        tender["ocds:releases/0/tender/contractPeriod/startDate"]
-                            ?
-                            tf(DATE_FORMAT)(
-                                new Date(
-                                    tender[
-                                        "ocds:releases/0/tender/contractPeriod/startDate"
-                                    ]
-                                )
-                            )
-                            :
-                            "-"
-                    }
+                    {tender["ocds:releases/0/tender/contractPeriod/startDate"]
+                        ? tf(DATE_FORMAT)(
+                              new Date(
+                                  tender[
+                                      "ocds:releases/0/tender/contractPeriod/startDate"
+                                  ]
+                              )
+                          )
+                        : "-"}
                 </Typography>
 
                 <Typography variant="caption">
                     {t("tender:ocds/releases/0/tender/contractPeriod/endDate")}
                 </Typography>
                 <Typography variant="body1">
-                    {
-                        tender["ocds:releases/0/tender/contractPeriod/endDate"]
-                            ?
-                            tf(DATE_FORMAT)(
-                            new Date(
-                                tender[
-                                    "ocds:releases/0/tender/contractPeriod/endDate"
-                                ]
-                            )
-                        )
-                        :
-                        "-"
-                    }
+                    {tender["ocds:releases/0/tender/contractPeriod/endDate"]
+                        ? tf(DATE_FORMAT)(
+                              new Date(
+                                  tender[
+                                      "ocds:releases/0/tender/contractPeriod/endDate"
+                                  ]
+                              )
+                          )
+                        : "-"}
                 </Typography>
             </Grid>
         </Grid>

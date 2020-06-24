@@ -1,7 +1,6 @@
 import { getTenderById } from "../../../../../utils/queries"
 
 export default async (req, res) => {
-
     const {
         query: { id },
     } = req

@@ -46,7 +46,11 @@ import {
     API_VERSION,
 } from "../../config/constants"
 
-import { getSuppliersCount, getRedflagsCount } from "../../utils/queries"
+import {
+    getSuppliersCount,
+    getTendersCount,
+    getRedflagsCount,
+} from "../../utils/queries"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
@@ -54,7 +58,7 @@ import AvatarIcon from "../../components/AvatarIcon"
 import { Supplier } from "../../components/SearchResult"
 import { SuppliersCounter, FlagsCounter } from "../../components/Counter"
 
-function Index({ suppliersCount = 0, redflagsCount = 0 }) {
+function Index({ suppliersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
     const router = useRouter()
     const { t, lang } = useTranslation()
 
@@ -170,7 +174,9 @@ function Index({ suppliersCount = 0, redflagsCount = 0 }) {
                             </Grid>
                             <Grid item xs={6} sm={3}>
                                 <FlagsCounter
-                                    count={redflagsCount}
+                                    count={`${Math.round(
+                                        (redflagsCount / tendersCount) * 100
+                                    )}%`}
                                     label={t("supplier:counter.redflag", {
                                         count: redflagsCount,
                                     })}
@@ -349,6 +355,7 @@ export const getStaticProps = async (ctx) => {
         props: {
             ...(await getI18nProps(ctx, ["common", "supplier", "search"])),
             suppliersCount: await getSuppliersCount(),
+            tendersCount: await getTendersCount(),
             redflagsCount: await getRedflagsCount(),
         },
         unstable_revalidate: 3600,

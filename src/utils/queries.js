@@ -83,6 +83,9 @@ export const searchForTenders = async (
         page * PAGE_SIZE
     )
 
+export const getRedflags = async () =>
+    await getItems(`${ES_INDEX_PREFIX}-redflags`)
+
 export const getBuyers = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
 
 export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) =>
