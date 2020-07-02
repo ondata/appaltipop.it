@@ -28,6 +28,7 @@
         "redflag_plural": "Appalti con red flags",
         "redflags": "Appalti con red flags"
     },
+    "ctas": ["search","download"],
     "charts": "Grafici di monitoraggio",
     "bar": {
         "1": {

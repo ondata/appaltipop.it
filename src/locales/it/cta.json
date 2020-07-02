@@ -1,22 +1,40 @@
 {
-    "getInvolved": {
-        "title": "Partecipa",
-        "url": "/{{lang}}/get-involved"
-    },
-    "monitor": {
-        "title": "Monitora la tua PA",
-        "url": "/{{lang}}/buyers"
-    },
-    "search": {
-        "title": "Cerca un appalto",
-        "url": "/{{lang}}/tenders"
-    },
-    "foia": {
-        "title": "Fai una richiesta FOIA all'ente appaltante",
-        "url": "#"
-    },
-    "whistle": {
-        "title": "Soffia il fischio di errori su questo tenero",
-        "url": "#"
-    }
+  "getInvolved": {
+    "title": "Partecipa",
+    "description": "Etiam porta sem malesuada magna mollis euismod.",
+    "url": "/get-involved",
+    "icon": "/icons/get-involved.png"
+  },
+  "discover": {
+    "title": "Scopri OCDS",
+    "description": "Se sei una PA, diventa OCDS compliant.",
+    "url": "/ocds",
+    "icon": "/icons/ocds.png"
+  },
+  "monitor": {
+    "title": "Monitora gli appalti",
+    "description": "Etiam porta sem malesuada magna mollis euismod.",
+    "url": "/tenders",
+    "icon": "/icons/lens.svg"
+  },
+  "download": {
+    "title": "Scarica i dati",
+    "description": "Etiam porta sem malesuada magna mollis euismod.",
+    "url": "/download",
+    "icon": "/icons/download.svg"
+  },
+  "search": {
+    "title": "Cerca un appalto",
+    "description": "Vedi gli appalti solo di questa Pubblica Amministrazione",
+    "url": "/tenders",
+    "icon": "/icons/lens.svg"
+  },
+  "foia": {
+    "title": "Fai una richiesta FOIA all'ente appaltante",
+    "url": "#"
+  },
+  "whistle": {
+    "title": "Fai una segnalazione come whistleblower",
+    "url": "#"
+  }
 }

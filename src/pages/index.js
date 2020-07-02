@@ -1,14 +1,14 @@
-import { useEffect } from "react"
-import Router from "next/router"
+import { useEffect } from 'react'
+import Router from 'next/router'
 
-import i18nConfig from "../config/i18n.json"
+import i18nConfig from '../config/i18n.json'
 
 const { defaultLanguage } = i18nConfig
 
-export default function Index() {
-    useEffect(() => {
-        Router.replace(`/${defaultLanguage}`)
-    }, [])
+export default function Index () {
+  useEffect(() => {
+    Router.replace(`/${defaultLanguage}`)
+  }, [])
 
-    return null
+  return null
 }

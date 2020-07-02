@@ -1,9 +1,9 @@
-import { getTendersByBuyer } from "../../../../../../utils/queries"
+import { getTendersByBuyer } from '../../../../../../utils/queries'
 
 export default async (req, res) => {
-    const {
-        query: { id, page },
-    } = req
+  const {
+    query: { id, page }
+  } = req
 
-    res.status(200).json(await getTendersByBuyer(id, +page))
+  res.status(200).json(await getTendersByBuyer(id, +page))
 }

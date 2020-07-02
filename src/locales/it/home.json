@@ -1,23 +1,16 @@
 {
-    "introduction": {
-        "source": "it/home/introduction.md"
-    },
-    "ocds": {
-        "title": "Di quali dati parliamo?",
-        "source": "it/home/ocds.md"
-    },
-    "interoperability": {
-        "title": "E quindi?",
-        "source": "it/home/interoperability.md",
-        "image": "/images/ocds.png"
-    },
-    "redflag": {
-        "title": "Gli indicatori di monitoraggio: le red flag",
-        "source": "it/home/redflag.md",
-        "image": "/images/flag.png"
-    },
-    "partnership": {
-        "title": "Ti interessa approfondire e capire come puoi lavorare anche tu con lo standard OCDS?",
-        "source": "it/home/partnership.md"
-    }
+  "introduction": {
+    "source": "it/home/introduction.md"
+  },
+  "ocds": {
+    "title": "Di quali dati parliamo?",
+    "source": "it/home/ocds.md",
+    "image": "/images/ocds.png"
+  },
+  "ctas": ["monitor","discover","getInvolved","download"],
+  "redflag": {
+    "title": "Gli indicatori di monitoraggio: le red flag",
+    "source": "it/home/redflag.md",
+    "image": "/images/flag-stars.png"
+  }
 }

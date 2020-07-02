@@ -1,31 +1,33 @@
-import Link from "next/link"
+import Link from 'next/link'
 
-import useTranslation from "next-translate/useTranslation"
+import { Typography } from '@material-ui/core'
 
-import { Typography } from "@material-ui/core"
+import { makeStyles } from '@material-ui/core/styles'
 
-import { makeStyles } from "@material-ui/core/styles"
-
-import style from "./style"
+import style from './style'
 const useStyles = makeStyles(style)
 
-export default function Index({ title = "", label = "", href = "", as = "" }) {
-    const classes = useStyles()
-    const { t, lang } = useTranslation()
+export default function Index ({
+  title = '',
+  label = '',
+  href = '',
+  as = ''
+}) {
+  const classes = useStyles()
 
-    return (
-        <>
-            {!!title && <Typography variant="subtitle2">{title}</Typography>}
+  return (
+    <>
+      {!!title && <Typography variant='subtitle2' className={classes.title}>{title}</Typography>}
 
-            <Typography variant="body1">
-                {!!as && !!href ? (
-                    <Link href={href} as={as}>
-                        <a>{label || "-"}</a>
-                    </Link>
-                ) : (
-                    label || "-"
-                )}
-            </Typography>
-        </>
-    )
+      <Typography variant='body2' className={classes.body}>
+        {!!as && !!href ? (
+          <Link href={href} as={as}>
+            <a>{label || '-'}</a>
+          </Link>
+        ) : (
+          label || '-'
+        )}
+      </Typography>
+    </>
+  )
 }

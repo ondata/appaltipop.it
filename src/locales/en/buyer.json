@@ -25,6 +25,7 @@
         "redflag_plural": "Appalti con problemi",
         "redflags": "Appalti con problemi"
     },
+    "ctas": ["search","download"],
     "charts": "Grafici di monitoraggio",
     "bar": {
         "1": {

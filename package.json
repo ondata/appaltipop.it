@@ -12,7 +12,7 @@
         "build": "next build",
         "start": "next build && next start",
         "export": "next build && next export -o dist",
-        "format": "prettier --write \"src/**/*.{js,jsx,json,md}\""
+        "format": "standard --fix \"src/**/*.js\""
     },
     "dependencies": {
         "@elastic/elasticsearch": "^7.7.1",
@@ -38,7 +38,9 @@
     ],
     "license": "MIT",
     "devDependencies": {
-        "prettier": "^2.0.5",
-        "sass": "^1.26.5"
+        "eslint": "^7.3.1",
+        "eslint-plugin-react": "^7.20.3",
+        "sass": "^1.26.5",
+        "standard": "^14.3.4"
     }
 }

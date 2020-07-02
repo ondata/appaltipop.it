@@ -1,9 +1,9 @@
-import { getRedflagsCountByBuyer } from "../../../../../../utils/queries"
+import { getRedflagsCountByBuyer } from '../../../../../../utils/queries'
 
 export default async (req, res) => {
-    const {
-        query: { id },
-    } = req
+  const {
+    query: { id }
+  } = req
 
-    res.status(200).json(await getRedflagsCountByBuyer(id))
+  res.status(200).json(await getRedflagsCountByBuyer(id))
 }

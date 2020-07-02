@@ -5,7 +5,15 @@ $space: 8px;
 }
 
 main {
-    padding-top: spacing(8);
+    padding-top: spacing(4);
+}
+
+a,
+a:hover,
+a:visited,
+a:focus,
+a:active {
+    color: #3624e0;
 }
 
 p {
@@ -43,6 +51,10 @@ p {
 
     &.band-w {
         background-color: #ffffff;
+    }
+
+    &.band-w+&.band-w {
+      padding-top: 0;
     }
 
     &.band-home {

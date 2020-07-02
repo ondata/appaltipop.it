@@ -1,331 +1,317 @@
-import Head from "next/head"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 
-import useTranslation from "next-translate/useTranslation"
+import useTranslation from 'next-translate/useTranslation'
+import Link from 'next-translate/Link'
 
-import { map } from "lodash"
-
-import {
-    Container,
-    Box,
-    Grid,
-    Typography,
-    Avatar,
-    List,
-    ListItem,
-    ListItemIcon,
-    Divider,
-} from "@material-ui/core"
-
-import { Print, GetApp, Sports, ArrowForward } from "@material-ui/icons"
-
-import { getI18nProps, withI18n } from "../../../../utils/i18n"
-
-import { numberFormat, timeFormat } from "../../../../utils/formats"
+import { map } from 'lodash'
 
 import {
-    CONTAINER_BREAKPOINT,
-    CURRENCY_FORMAT,
-    DATE_FORMAT,
-    INTEGER_FORMAT,
-} from "../../../../config/constants"
+  Container,
+  Box,
+  Grid,
+  Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  Divider
+} from '@material-ui/core'
 
-import { getTenderById } from "../../../../utils/queries"
-import { getTenderPaths } from "../../../../utils/paths"
+import {
+  Print,
+  ArrowForward
+} from '@material-ui/icons'
 
-import Header from "../../../../components/Header"
-import Footer from "../../../../components/Footer"
+import { getI18nProps, withI18n } from '../../../../utils/i18n'
 
-import { FlagsCounter } from "../../../../components/Counter"
-import { Supplier, Buyer } from "../../../../components/SearchResult"
-import FlagsInfo from "../../../../components/FlagsInfo"
-import KeyValue from "../../../../components/KeyValue"
-import AvatarIcon from "../../../../components/AvatarIcon"
-import DonutChart from "../../../../components/DonutChart"
-import BarChart from "../../../../components/BarChart"
-import Cta from "../../../../components/Cta"
-import Partner from "../../../../components/Partner"
+import { numberFormat, timeFormat } from '../../../../utils/formats'
 
-function Index({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
-    const router = useRouter()
-    const { t, lang } = useTranslation()
+import {
+  CONTAINER_BREAKPOINT,
+  CURRENCY_FORMAT,
+  DATE_FORMAT,
+  INTEGER_FORMAT
+} from '../../../../config/constants'
 
-    const nf = numberFormat(lang).format
-    const tf = timeFormat(lang).format
+import { getTenderById } from '../../../../utils/queries'
+import { getTenderPaths } from '../../../../utils/paths'
 
-    if (router.isFallback) {
-        return <div>Loading...</div>
-    } else {
-        return (
-            <>
-                <Head>
-                    <title>{`${t("common:tender")} n. ${
-                        tender["ocds:releases/0/id"]
-                    } | ${t("common:title")}`}</title>
-                </Head>
+import Header from '../../../../components/Header'
+import Footer from '../../../../components/Footer'
 
-                <Header />
+import { FlagsCounter } from '../../../../components/Counter'
+import { Supplier, Buyer } from '../../../../components/SearchResult'
+import FlagsInfo from '../../../../components/FlagsInfo'
+import KeyValue from '../../../../components/KeyValue'
+import AvatarIcon from '../../../../components/AvatarIcon'
+import Breadcrumbs from '../../../../components/Breadcrumbs'
+import { Button as CtaButton } from '../../../../components/Cta'
 
-                <Container component="main" maxWidth={CONTAINER_BREAKPOINT}>
-                    <Box mb={8}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <Typography
-                                    component="span"
-                                    variant="subtitle1"
-                                >
-                                    {t("common:tender")}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <Typography component="div" variant="subtitle1">
-                                    <Grid container spacing={2}>
-                                        <Grid item>
-                                            <a target="_blank" href="#">
-                                                {t("common:print")}
-                                            </a>
-                                        </Grid>
-                                        <Grid item>
-                                            <AvatarIcon color="primary">
-                                                <Print />
-                                            </AvatarIcon>
-                                        </Grid>
-                                    </Grid>
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={3}>
-                                <Typography component="div" variant="subtitle1">
-                                    <Grid container spacing={2}>
-                                        <Grid item>
-                                            <a target="_blank" href="#">
-                                                {t("common:download")}
-                                            </a>
-                                        </Grid>
-                                        <Grid item>
-                                            <AvatarIcon color="primary">
-                                                <GetApp />
-                                            </AvatarIcon>
-                                        </Grid>
-                                    </Grid>
-                                </Typography>
-                            </Grid>
-                        </Grid>
+function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
+  const router = useRouter()
+  const { t, lang } = useTranslation()
 
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={8}>
-                                <Typography variant="h1">
-                                    {tender["ocds:releases/0/tender/title"]}
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <FlagsCounter
-                                    count={redflags.length}
-                                    label={t("common:redflag", {
-                                        count: redflags.length,
-                                    })}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Container>
+  const nf = numberFormat(lang).format
+  const tf = timeFormat(lang).format
 
-                <Box mb={2} className="band band-g">
-                    <Container
-                        component="section"
-                        maxWidth={CONTAINER_BREAKPOINT}
-                    >
-                        <Typography variant="h2" color="inherit">
-                            {t("common:buyers")}
-                        </Typography>
-                        <List>
-                            {map(buyers, (buyer, index) => (
-                                <Box
-                                    component="li"
-                                    key={buyer["ocds:releases/0/buyer/id"]}
-                                >
-                                    {!!index && <Divider />}
-                                    <Link
-                                        href="/[lang]/buyer/[id]"
-                                        as={`/${lang}/buyer/${buyer["ocds:releases/0/buyer/id"]}`}
-                                    >
-                                        <ListItem button>
-                                            <ListItemIcon>
-                                                <AvatarIcon color="primary">
-                                                    <ArrowForward />
-                                                </AvatarIcon>
-                                            </ListItemIcon>
-                                            <Buyer {...buyer} />
-                                        </ListItem>
-                                    </Link>
-                                </Box>
-                            ))}
-                        </List>
-                    </Container>
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  } else {
+    return (
+      <>
+        <Head>
+          <title>{`${t('common:tender')} n. ${
+            tender['ocds:releases/0/id']
+            } | ${t('common:title')}`}
+          </title>
+        </Head>
+
+        <Header />
+
+        <main>
+
+          <Container component='section' maxWidth={CONTAINER_BREAKPOINT}>
+
+            <Box mb={4}>
+              <Breadcrumbs
+                items={[
+                  { label: t('common:home'), url: '/' },
+                  { label: t('common:tenders'), url: '/tenders' },
+                  { label: t('common:tender') }
+                ]}
+              />
+            </Box>
+
+            <Box mb={8}>
+              <Grid container spacing={2} justify='space-between'>
+
+                <Grid item xs={12} sm={8}>
+
+                  <Typography variant='h1'>
+                    {tender['ocds:releases/0/tender/title']}
+                  </Typography>
+
+                  <Typography
+                    component='div'
+                    variant='subtitle1'
+                    style={{ fontSize: '1rem' }}
+                  >
+                    <Grid container spacing={2} alignItems='center'>
+                      <Grid item>
+                        <a target='_blank' href='#'>
+                          {t('common:print')}
+                        </a>
+                      </Grid>
+                      <Grid item>
+                        <AvatarIcon color='primary'>
+                          <Print />
+                        </AvatarIcon>
+                      </Grid>
+                    </Grid>
+                  </Typography>
+
+                </Grid>
+
+                <Grid item xs={12} sm='auto'>
+                  <FlagsCounter
+                    count={redflags.length}
+                    label={t('common:redflag', {
+                      count: redflags.length
+                    })}
+                  />
+                </Grid>
+
+              </Grid>
+            </Box>
+
+          </Container>
+
+          <Container component='section' maxWidth={CONTAINER_BREAKPOINT}>
+            <Box mb={8}>
+
+              <Grid container spacing={2}>
+
+                <Grid item xs={12}>
+
+                  <Typography variant='subtitle2' color='inherit'>
+                    {t('common:buyer', { count: buyers.length })}
+                  </Typography>
+
+                  <List>
+                    {map(buyers, (buyer, index) => (
+                      <Box
+                        component='li'
+                        key={buyer['ocds:releases/0/buyer/id']}
+                      >
+                        {!!index && <Divider />}
+                        <Link
+                          href={`/buyer/${buyer['ocds:releases/0/buyer/id']}`}
+                        >
+                          <ListItem button>
+                            <ListItemIcon>
+                              <AvatarIcon color='primary'>
+                                <ArrowForward />
+                              </AvatarIcon>
+                            </ListItemIcon>
+                            <Buyer {...buyer} />
+                          </ListItem>
+                        </Link>
+                      </Box>
+                    ))}
+                  </List>
+
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <KeyValue
+                    title={t('tender:ocds/releases/0/id')}
+                    label={tender['ocds:releases/0/id']}
+                  />
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <KeyValue
+                    title={t('tender:ocds/releases/0/tender/contractPeriod/startDate')}
+                    label={tender['ocds:releases/0/tender/contractPeriod/startDate']
+                      ? tf(DATE_FORMAT)(
+                        new Date(
+                          tender[
+                            'ocds:releases/0/tender/contractPeriod/startDate'
+                          ]
+                        )
+                      )
+                      : '-'}
+                  />
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <KeyValue
+                    title={t('tender:ocds/releases/0/tender/contractPeriod/endDate')}
+                    label={tender['ocds:releases/0/tender/contractPeriod/endDate']
+                      ? tf(DATE_FORMAT)(
+                        new Date(
+                          tender[
+                            'ocds:releases/0/tender/contractPeriod/endDate'
+                          ]
+                        )
+                      )
+                      : '-'}
+                  />
+                </Grid>
+
+                <Grid item xs={6} sm={3}>
+                  <KeyValue
+                    title={t('tender:appaltipop/releases/0/tender/participants/total')}
+                    label={nf(INTEGER_FORMAT)(suppliers.length)}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <KeyValue
+                    title={t('tender:ocds/releases/0/tender/procurementMethodDetails')}
+                    label={tender['ocds:releases/0/tender/procurementMethodDetails'] || '-'}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <KeyValue
+                    title={t('tender:ocds/releases/0/awards/0/value/amount')}
+                    label={tender['ocds:releases/0/awards/0/value/amount']
+                      ? nf(CURRENCY_FORMAT)(
+                        tender['ocds:releases/0/awards/0/value/amount']
+                      )
+                      : '-'}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <KeyValue
+                    title={t('tender:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount')}
+                    label={tender['ocds:releases/0/contracts/0/implementation/transactions/0/value/amount']
+                      ? nf(CURRENCY_FORMAT)(
+                        tender['ocds:releases/0/contracts/0/implementation/transactions/0/value/amount']
+                      )
+                      : '-'}
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+
+                  <Typography variant='subtitle2' color='inherit'>
+                    {t('common:supplier', { count: suppliers.length })}
+                  </Typography>
+
+                  <List>
+                    {map(suppliers, (supplier, index) => (
+                      <Box
+                        component='li'
+                        key={supplier['ocds:releases/0/parties/0/id']}
+                      >
+                        {!!index && <Divider />}
+                        <Link
+                          href={`/supplier/${supplier['ocds:releases/0/parties/0/id']}`}
+                        >
+                          <ListItem button>
+                            <ListItemIcon>
+                              <AvatarIcon color='primary'>
+                                <ArrowForward />
+                              </AvatarIcon>
+                            </ListItemIcon>
+                            <Supplier {...supplier} />
+                          </ListItem>
+                        </Link>
+                      </Box>
+                    ))}
+                  </List>
+
+                </Grid>
+
+              </Grid>
+
+            </Box>
+          </Container>
+
+          <Container component='section' maxWidth={CONTAINER_BREAKPOINT}>
+            {
+              !!redflags.length && (
+                <Box mt={8} mb={8}>
+                  <Typography variant='h2'>
+                    {t('common:redflag', { count: redflags.length })}
+                  </Typography>
+                  <FlagsInfo
+                    flags={map(
+                      redflags,
+                      'appaltipop:releases/0/redflag/code'
+                    )}
+                  />
                 </Box>
+              )
+            }
+          </Container>
 
-                <Container component="main" maxWidth={CONTAINER_BREAKPOINT}>
-                    <Box mb={8}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={6} sm={3}>
-                                <KeyValue
-                                    title={t("tender:ocds/releases/0/id")}
-                                    label={tender["ocds:releases/0/id"]}
-                                />
-                            </Grid>
+          <Container component='section' maxWidth={CONTAINER_BREAKPOINT}>
+            <Box mb={8}>
+              <Grid container spacing={2} justify='center'>
+                <Grid item xs={6} sm={4}>
+                  <CtaButton
+                    title={t('cta:foia.title')}
+                    icon='/icons/foia.png'
+                    url={t('cta:foia.url')}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={4}>
+                  <CtaButton
+                    title={t('cta:whistle.title')}
+                    icon='/icons/whistle.png'
+                    url={t('cta:whistle.url')}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
 
-                            <Grid item xs={6} sm={3}>
-                                <KeyValue
-                                    title={t(
-                                        "tender:ocds/releases/0/tender/contractPeriod/startDate"
-                                    )}
-                                    label={tf(DATE_FORMAT)(
-                                        new Date(
-                                            tender[
-                                                "ocds:releases/0/tender/contractPeriod/startDate"
-                                            ]
-                                        )
-                                    )}
-                                />
-                            </Grid>
+          </Container>
 
-                            <Grid item xs={6} sm={3}>
-                                <KeyValue
-                                    title={t(
-                                        "tender:ocds/releases/0/tender/contractPeriod/endDate"
-                                    )}
-                                    label={tf(DATE_FORMAT)(
-                                        new Date(
-                                            tender[
-                                                "ocds:releases/0/tender/contractPeriod/endDate"
-                                            ]
-                                        )
-                                    )}
-                                />
-                            </Grid>
-
-                            <Grid item xs={6} sm={3}>
-                                <KeyValue
-                                    title={t(
-                                        "tender:appaltipop/releases/0/tender/participants/total"
-                                    )}
-                                    label={nf(INTEGER_FORMAT)(suppliers.length)}
-                                />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <KeyValue
-                                    title={t(
-                                        "tender:ocds/releases/0/tender/procurementMethodDetails"
-                                    )}
-                                    label={
-                                        tender[
-                                            "ocds:releases/0/tender/procurementMethodDetails"
-                                        ]
-                                    }
-                                />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <KeyValue
-                                    title={t(
-                                        "tender:ocds/releases/0/awards/0/value/amount"
-                                    )}
-                                    label={nf(CURRENCY_FORMAT)(
-                                        tender[
-                                            "ocds:releases/0/awards/0/value/amount"
-                                        ]
-                                    )}
-                                />
-                            </Grid>
-
-                            <Grid item xs={6}>
-                                <KeyValue
-                                    title={t(
-                                        "tender:ocds/releases/0/contracts/0/implementation/transactions/0/value/amount"
-                                    )}
-                                    label={nf(CURRENCY_FORMAT)(
-                                        tender[
-                                            "ocds:releases/0/contracts/0/implementation/transactions/0/value/amount"
-                                        ]
-                                    )}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Container>
-
-                <Box mb={8} className="band band-g">
-                    <Container
-                        component="section"
-                        maxWidth={CONTAINER_BREAKPOINT}
-                    >
-                        <Typography variant="h2" color="inherit">
-                            {t("common:suppliers")}
-                        </Typography>
-                        <List>
-                            {map(suppliers, (supplier, index) => (
-                                <Box
-                                    component="li"
-                                    key={
-                                        supplier["ocds:releases/0/parties/0/id"]
-                                    }
-                                >
-                                    {!!index && <Divider />}
-                                    <Link
-                                        href="/[lang]/supplier/[id]"
-                                        as={`/${lang}/supplier/${supplier["ocds:releases/0/parties/0/id"]}`}
-                                    >
-                                        <ListItem button>
-                                            <ListItemIcon>
-                                                <AvatarIcon color="primary">
-                                                    <ArrowForward />
-                                                </AvatarIcon>
-                                            </ListItemIcon>
-                                            <Supplier {...supplier} />
-                                        </ListItem>
-                                    </Link>
-                                </Box>
-                            ))}
-                        </List>
-                    </Container>
-                </Box>
-
-                <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
-                    <Box mb={8}>
-                        <FlagsInfo
-                            flags={map(
-                                redflags,
-                                "appaltipop:releases/0/redflag/code"
-                            )}
-                        />
-                    </Box>
-
-                    <Box mb={8}>
-                        <Grid container spacing={2} justify="center">
-                            <Grid item xs={6} sm={4}>
-                                <Cta
-                                    icon={<Avatar>FOIA</Avatar>}
-                                    title={t("cta:foia.title")}
-                                    href={t("cta:foia.url")}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={4}>
-                                <Cta
-                                    icon={
-                                        <Avatar>
-                                            <Sports />
-                                        </Avatar>
-                                    }
-                                    title={t("cta:whistle.title")}
-                                    href={t("cta:whistle.url")}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Container>
-
-                {/*<Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
+          {/* <Container component="section" maxWidth={CONTAINER_BREAKPOINT}>
 
                     <Box mb={8}>
                         <Grid container spacing={2}>
@@ -344,7 +330,7 @@ function Index({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
 
                         </Grid>
                     </Box>
-                    
+
                     <Box mb={8}>
                         <BarChart title={t("tender:bar.1.title")} description={t("tender:bar.1.description")} />
                     </Box>
@@ -357,36 +343,38 @@ function Index({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                         />
                     </Box>
 
-                </Container>*/}
+                </Container> */}
 
-                <Footer />
-            </>
-        )
-    }
+        </main>
+
+        <Footer />
+      </>
+    )
+  }
 }
 
 export const getStaticProps = async (ctx) => {
-    const tender = await getTenderById(ctx.params.id)
-    return {
-        props: {
-            ...(await getI18nProps(ctx, [
-                "common",
-                "tender",
-                "supplier",
-                "redflags",
-                "cta",
-            ])),
-            tender,
-            buyers: tender["appaltipop:releases/0/buyers"] || [],
-            suppliers: tender["appaltipop:releases/0/suppliers"] || [],
-            redflags: tender["appaltipop:releases/0/redflags"] || [],
-        },
+  const tender = await getTenderById(ctx.params.id)
+  return {
+    props: {
+      ...(await getI18nProps(ctx, [
+        'common',
+        'tender',
+        'supplier',
+        'redflags',
+        'cta'
+      ])),
+      tender,
+      buyers: tender['appaltipop:releases/0/buyers'] || [],
+      suppliers: tender['appaltipop:releases/0/suppliers'] || [],
+      redflags: tender['appaltipop:releases/0/redflags'] || []
     }
+  }
 }
 
 export const getStaticPaths = async () => ({
-    paths: await getTenderPaths(),
-    fallback: true,
+  paths: await getTenderPaths(),
+  fallback: true
 })
 
 export default withI18n(Index)
