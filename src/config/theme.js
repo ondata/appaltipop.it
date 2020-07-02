@@ -140,21 +140,21 @@ export default createMuiTheme({
         justifyContent: 'center'
       }
     },
-    MuiExpansionPanel: {
+    MuiAccordion: {
       root: {
         backgroundColor: whiteColor,
         paddingLeft: 0,
         paddingRight: 0
       }
     },
-    MuiExpansionPanelSummary: {
+    MuiAccordionSummary: {
       root: {
         border: '2px solid #E7E5FF',
         borderRadius: spacing(2),
         padding: `0 ${spacing(2)}px`
       }
     },
-    MuiExpansionPanelDetails: {
+    MuiAccordionDetails: {
       root: {
         backgroundColor: greyColor,
         border: `${spacing(0.5)}px solid ${greyColor}`,
