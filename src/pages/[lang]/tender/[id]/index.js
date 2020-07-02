@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import useTranslation from 'next-translate/useTranslation'
-import Link from 'next-translate/Link'
 
 import { map } from 'lodash'
 
@@ -36,6 +35,7 @@ import {
 import { getTenderById } from '../../../../utils/queries'
 import { getTenderPaths } from '../../../../utils/paths'
 
+import Link from '../../../../components/Link'
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
 
@@ -145,9 +145,11 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                       >
                         {!!index && <Divider />}
                         <Link
-                          href={`/buyer/${buyer['ocds:releases/0/buyer/id']}`}
+                          href='/buyer/[id]'
+                          as={`/buyer/${buyer['ocds:releases/0/buyer/id']}`}
+                          passHref
                         >
-                          <ListItem button>
+                          <ListItem component='a' button>
                             <ListItemIcon>
                               <AvatarIcon color='primary'>
                                 <ArrowForward />
@@ -249,9 +251,11 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                       >
                         {!!index && <Divider />}
                         <Link
-                          href={`/supplier/${supplier['ocds:releases/0/parties/0/id']}`}
+                          href='/supplier/[id]'
+                          as={`/supplier/${supplier['ocds:releases/0/parties/0/id']}`}
+                          passHref
                         >
-                          <ListItem button>
+                          <ListItem component='a' button>
                             <ListItemIcon>
                               <AvatarIcon color='primary'>
                                 <ArrowForward />

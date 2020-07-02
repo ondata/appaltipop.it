@@ -1,40 +1,40 @@
 {
     "title": "AppaltiPOP",
-    "claim": "Diamo agli Appalti un’aria un po' più POP! Insieme a te.",
+    "claim": "Diamo agli Appalti un'aria un po' più POP! Insieme a te.",
 
-    "supplier": "Aggiudicatario",
-    "supplier_plural": "Aggiudicatari",
-    "suppliers": "Aggiudicatari",
+    "supplier": "Supplier",
+    "supplier_plural": "Suppliers",
+    "suppliers": "Suppliers",
 
-    "buyer": "Pubblica amministrazione",
-    "buyer_plural": "Pubbliche amministrazioni",
-    "buyers": "Pubbliche amministrazioni",
+    "buyer": "Buyer",
+    "buyer_plural": "Buyers",
+    "buyers": "Buyers",
 
-    "tender": "Appalto",
-    "tender_plural": "Appalti",
-    "tenders": "Appalti",
+    "tender": "Tender",
+    "tender_plural": "Tenders",
+    "tenders": "Tenders",
 
     "redflag": "Red flag",
     "redflag_plural": "Red flag",
     "redflags": "Red flag",
 
     "home": "Home",
-    "get-involved": "Partecipa!",
-    "about": "Chi siamo",
+    "get-involved": "Get involved!",
+    "about": "About",
     "ocds": "OCDS",
     "download": "Download",
     "faq": "FAQ",
-    "credits": "Crediti",
+    "credits": "Credits",
 
-    "print": "Stampa report",
+    "print": "Print report",
 
     "english": "English",
     "italian": "Italiano",
 
     "search": {
-        "title": "Cerca",
-        "help": "es. \"Comune di Milano\"...",
-        "cta": "Cerca",
-        "reset": "Annulla"
+        "title": "Search",
+        "help": "ie. \"Comune di Milano\"...",
+        "cta": "Search",
+        "reset": "Reset"
     }
 }

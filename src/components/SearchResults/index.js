@@ -1,7 +1,5 @@
 import { useState, useEffect, cloneElement } from 'react'
 
-import Link from 'next/link'
-
 import useTranslation from 'next-translate/useTranslation'
 
 import axios from 'axios'
@@ -24,6 +22,7 @@ import { Pagination } from '@material-ui/lab'
 
 import { PAGE_SIZE } from '../../config/constants'
 
+import Link from '../Link'
 import AvatarIcon from '../AvatarIcon'
 
 export default function SearchResults ({
@@ -32,7 +31,7 @@ export default function SearchResults ({
   itemType = '',
   children
 }) {
-  const { t, lang } = useTranslation()
+  const { t } = useTranslation()
 
   const [items, setItems] = useState([])
   const [results, setResults] = useState(0)
@@ -86,10 +85,11 @@ export default function SearchResults ({
                 <Box component='li' key={item[itemId]}>
                   {!!index && <Divider />}
                   <Link
-                    href={`/[lang]/${itemType}/[id]`}
-                    as={`/${lang}/${itemType}/${item[itemId]}`}
+                    href={`/${itemType}/[id]`}
+                    as={`/${itemType}/${item[itemId]}`}
+                    passHref
                   >
-                    <ListItem button>
+                    <ListItem component='a' button>
                       <ListItemIcon>
                         <AvatarIcon color='primary'>
                           <ArrowForward />

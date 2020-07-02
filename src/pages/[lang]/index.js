@@ -110,18 +110,20 @@ function Index ({
         </Box>
 
         <Box component='section' className='band band-w band-home'>
-          <Grid container spacing={4} justify='center'>
-            {
-              map(
-                t('home:ctas', {}, { returnObjects: true }),
-                (cta, index) => (
-                  <Grid item key={t(`cta:${cta}.url`)} xs={10} sm={(Math.floor(index / 2)) % 2 ? (index % 2 ? 6 : 4) : (index % 2 ? 4 : 6)}>
-                    <CtaCard {...t(`cta:${cta}`, {}, { returnObjects: true })} />
-                  </Grid>
+          <Container maxWidth={CONTAINER_BREAKPOINT}>
+            <Grid container spacing={4} justify='center'>
+              {
+                map(
+                  t('home:ctas', {}, { returnObjects: true }),
+                  (cta, index) => (
+                    <Grid item key={t(`cta:${cta}.url`)} xs={10} sm={(Math.floor(index / 2)) % 2 ? (index % 2 ? 6 : 4) : (index % 2 ? 4 : 6)}>
+                      <CtaCard {...t(`cta:${cta}`, {}, { returnObjects: true })} />
+                    </Grid>
+                  )
                 )
-              )
-            }
-          </Grid>
+              }
+            </Grid>
+          </Container>
         </Box>
 
         <Box component='section' className='band band-w band-home'>

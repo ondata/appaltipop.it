@@ -6,9 +6,9 @@ import { map, includes } from 'lodash'
 
 import {
   Typography,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
   Box
 } from '@material-ui/core'
 
@@ -30,14 +30,14 @@ export default function Index ({ flags = [] }) {
       {map(
         flags, // map(range(1,+t("redflags:flags")+1), redflag => padStart(redflag,2,0)),
         (flag) => (
-          <ExpansionPanel
+          <Accordion
             elevation={0}
             key={flag}
             expanded={expanded === flag}
             onChange={(e, isExpanded) =>
               setExpanded(isExpanded ? flag : false)}
           >
-            <ExpansionPanelSummary
+            <AccordionSummary
               className={classes.panel}
               expandIcon={
                 <ExpandMore fontSize='large' color='primary' />
@@ -70,16 +70,16 @@ export default function Index ({ flags = [] }) {
                   {t(`redflags:${flag}.summary`)}
                 </Typography>
               </Box>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            </AccordionSummary>
+            <AccordionDetails>
               <Typography
                 variant='body2'
                 className={classes.description}
               >
                 {t(`redflags:${flag}.description`)}
               </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            </AccordionDetails>
+          </Accordion>
         )
       )}
     </>

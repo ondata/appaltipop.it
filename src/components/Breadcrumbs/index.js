@@ -1,5 +1,3 @@
-import Link from 'next-translate/Link'
-
 import { map } from 'lodash'
 
 import {
@@ -9,6 +7,8 @@ import {
 import {
   NavigateNext
 } from '@material-ui/icons'
+
+import Link from '../Link'
 
 import { makeStyles } from '@material-ui/core/styles'
 import style from './style'

@@ -1,5 +1,3 @@
-import Link from 'next-translate/Link'
-
 import {
   Card as MuiCard,
   CardMedia,
@@ -13,6 +11,8 @@ import {
 import {
   ArrowForward
 } from '@material-ui/icons'
+
+import Link from '../Link'
 
 import { makeStyles } from '@material-ui/core/styles'
 import style from './style'
@@ -28,16 +28,18 @@ export function Button ({
   return (
     <MuiCard elevation={4} className={classes.button}>
       <Link href={url}>
-        <Grid container alignItems='center'>
-          <Grid item>
-            <CardMedia image={icon} className={classes.icon} />
+        <a>
+          <Grid container alignItems='center'>
+            <Grid item>
+              <CardMedia image={icon} className={classes.icon} />
+            </Grid>
+            <Grid item xs>
+              <CardContent>
+                <Typography variant='body1' color='textSecondary' className={classes.buttonTitle}>{title}</Typography>
+              </CardContent>
+            </Grid>
           </Grid>
-          <Grid item xs>
-            <CardContent>
-              <Typography variant='body1' color='textSecondary' className={classes.buttonTitle}>{title}</Typography>
-            </CardContent>
-          </Grid>
-        </Grid>
+        </a>
       </Link>
     </MuiCard>
   )
@@ -65,8 +67,8 @@ export function Card ({
         </Grid>
         <Grid item style={{ alignSelf: 'flex-end' }}>
           <CardActions disableSpacing>
-            <Link href={url}>
-              <IconButton href={url} color='primary' className={classes.iconButton}><ArrowForward /></IconButton>
+            <Link href={url} passHref>
+              <IconButton component='a' color='primary' className={classes.iconButton}><ArrowForward /></IconButton>
             </Link>
           </CardActions>
         </Grid>

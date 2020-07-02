@@ -1,6 +1,6 @@
 export default (theme) => ({
   panel: {
-    '& > .MuiExpansionPanelSummary-content': {
+    '& > .MuiAccordionSummary-content': {
       alignItems: 'center'
     }
   },

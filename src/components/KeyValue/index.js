@@ -1,9 +1,8 @@
-import Link from 'next/link'
-
 import { Typography } from '@material-ui/core'
 
-import { makeStyles } from '@material-ui/core/styles'
+import Link from '../Link'
 
+import { makeStyles } from '@material-ui/core/styles'
 import style from './style'
 const useStyles = makeStyles(style)
 

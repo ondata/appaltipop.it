@@ -5,15 +5,17 @@ $space: 8px;
 }
 
 main {
-    padding-top: spacing(4);
-}
 
-a,
-a:hover,
-a:visited,
-a:focus,
-a:active {
-    color: #3624e0;
+    padding-top: spacing(4);
+
+    a,
+    a:hover,
+    a:visited,
+    a:focus,
+    a:active {
+        color: #3624e0;
+    }
+
 }
 
 p {

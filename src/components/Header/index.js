@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { useRouter } from 'next/router'
-import Link from 'next-translate/Link'
+import Link from '../Link'
 
 import useTranslation from 'next-translate/useTranslation'
 
@@ -66,9 +66,8 @@ export default function Index () {
             </Link>
           </Box>
           <Hidden implementation='css' smDown>
-            <Link href='/tenders'>
+            <Link href='/tenders' passHref>
               <Button
-                component='a'
                 className={clsx(
                   classes.menuButton,
                   includes(
@@ -80,7 +79,7 @@ export default function Index () {
                 {t('common:tenders')}
               </Button>
             </Link>
-            <Link href='/ocds'>
+            <Link href='/ocds' passHref>
               <Button
                 component='a'
                 disableElevation
@@ -92,7 +91,7 @@ export default function Index () {
                 {t('common:ocds')}
               </Button>
             </Link>
-            <Link href='/get-involved'>
+            <Link href='/get-involved' passHref>
               <Button
                 component='a'
                 disableElevation
@@ -104,7 +103,7 @@ export default function Index () {
                 {t('common:get-involved')}
               </Button>
             </Link>
-            <Link href='/about'>
+            <Link href='/about' passHref>
               <Button
                 component='a'
                 className={clsx(
@@ -138,8 +137,9 @@ export default function Index () {
             >
               <MenuItem onClick={() => setAnchorEl(null)}>
                 <Link
-                  href={router.route.replace('/[lang]', '')}
+                  href={router.pathname}
                   lang='it'
+                  passHref
                 >
                   <Button
                     component='a'
@@ -154,8 +154,9 @@ export default function Index () {
               </MenuItem>
               <MenuItem onClick={() => setAnchorEl(null)}>
                 <Link
-                  href={router.route.replace('/[lang]', '')}
+                  href={router.pathname}
                   lang='en'
+                  passHref
                 >
                   <Button
                     component='a'
@@ -193,7 +194,7 @@ export default function Index () {
                 <Close />
               </IconButton>
               <List component='nav'>
-                <Link href='/'>
+                <Link href='/' passHref>
                   <ListItem
                     component='a'
                     button
@@ -206,7 +207,7 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Link href='/tenders'>
+                <Link href='/tenders' passHref>
                   <ListItem
                     component='a'
                     button
@@ -222,7 +223,7 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Link href='/ocds'>
+                <Link href='/ocds' passHref>
                   <ListItem
                     component='a'
                     button
@@ -235,7 +236,7 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Link href='/get-involved'>
+                <Link href='/get-involved' passHref>
                   <ListItem
                     component='a'
                     button
@@ -248,7 +249,7 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Link href='/about'>
+                <Link href='/about' passHref>
                   <ListItem
                     component='a'
                     button
@@ -263,7 +264,7 @@ export default function Index () {
                 </Link>
                 <Divider />
                 <Link
-                  href={router.route.replace('/[lang]', '')}
+                  href={router.pathname}
                   lang='it'
                 >
                   <ListItem
@@ -279,7 +280,7 @@ export default function Index () {
                   </ListItem>
                 </Link>
                 <Link
-                  href={router.route.replace('/[lang]', '')}
+                  href={router.pathname}
                   lang='en'
                 >
                   <ListItem

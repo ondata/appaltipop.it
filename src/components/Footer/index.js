@@ -1,6 +1,5 @@
-import Link from 'next-translate/Link'
-
 import useTranslation from 'next-translate/useTranslation'
+import Link from '../Link'
 
 import {
   Container,
@@ -50,10 +49,10 @@ export default function Index () {
               </Box>
             </Grid>
             <Grid item xs={6} sm={3}>
-              <List className={classes.list}>
-                <Link href='/tenders'>
+              <List component='nav' className={classes.list}>
+                <Link href='/tenders' passHref>
                   <ListItem
-                    component='li'
+                    component='a'
                     button
                     className={classes.menuButton}
                   >
@@ -62,9 +61,9 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Link href='/download'>
+                <Link href='/download' passHref>
                   <ListItem
-                    component='li'
+                    component='a'
                     button
                     className={classes.menuButton}
                   >
@@ -76,10 +75,10 @@ export default function Index () {
               </List>
             </Grid>
             <Grid item xs={6} sm={3}>
-              <List className={classes.list}>
-                <Link href='/faq'>
+              <List component='nav' className={classes.list}>
+                <Link href='/faq' passHref>
                   <ListItem
-                    component='li'
+                    component='a'
                     button
                     className={classes.menuButton}
                   >
@@ -88,9 +87,9 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Link href='/credits'>
+                <Link href='/credits' passHref>
                   <ListItem
-                    component='li'
+                    component='a'
                     button
                     className={classes.menuButton}
                   >

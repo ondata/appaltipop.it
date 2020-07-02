@@ -52,7 +52,7 @@ export function Buyer (buyer) {
     <Grid container spacing={2} alignItems='center' className={classes.root}>
       <Grid item xs={12} sm>
         {/* <Typography variant="caption">{t("buyer:ocds/releases/0/buyer/name")}</Typography> */}
-        <Typography variant='body1'>
+        <Typography variant='body1' color='inherit'>
           {buyer['ocds:releases/0/buyer/name']}
         </Typography>
       </Grid>
@@ -121,7 +121,7 @@ export function Supplier (supplier) {
         <Typography variant='caption'>
           {t('supplier:ocds/releases/0/parties/0/name')}
         </Typography>
-        <Typography variant='body2'>
+        <Typography variant='body2' color='inherit'>
           {startCase(
             toLower(supplier['ocds:releases/0/parties/0/name'])
           )}
@@ -192,7 +192,7 @@ export function Tender (tender) {
         <Typography variant='caption'>
           {t('tender:ocds/releases/0/tender/title')}
         </Typography>
-        <Typography variant='body2'>
+        <Typography variant='body2' color='inherit'>
           {upperFirst(
             toLower(tender['ocds:releases/0/tender/title'] || '-')
           )}

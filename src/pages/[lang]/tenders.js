@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 
 import Head from 'next/head'
-import Link from 'next/link'
 
 import useTranslation from 'next-translate/useTranslation'
 
@@ -45,6 +44,7 @@ import {
 
 import { getTendersCount, getRedflagsCount } from '../../utils/queries'
 
+import Link from '../../components/Link'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import AvatarIcon from '../../components/AvatarIcon'
@@ -294,10 +294,12 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
                                 <Divider />
                               )}
                               <Link
-                                href='/[lang]/tender/[id]'
-                                as={`/${lang}/tender/${tender['ocds:releases/0/id']}`}
+                                href='/tender/[id]'
+                                as={`/tender/${tender['ocds:releases/0/id']}`}
+                                passHref
                               >
                                 <ListItem
+                                  component='a'
                                   button
                                 >
                                   <ListItemIcon>
