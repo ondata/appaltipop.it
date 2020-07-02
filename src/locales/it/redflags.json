@@ -2,40 +2,33 @@
     "info": "Per monitorare il rischio di corruzione vengono utilizzate delle “Red flag”        che si alzano quando un indice di controllo viene verificato. Questo aiuta a capire la potenziale presenza di frodi o manipolazioni negli appalti pubblici. Le bandierine inoltre, possono indicare un problema di qualità dei dati, di violazioni della legge, di buone prassi internazionali o altri problemi.",
 
     "title": "Indici di Controllo",
-    "flags": "5",
+    "flags": "4",
 
     "01": {
         "appaltipop/releases/0/redflag/code": "01",
-        "title": "Periodo di offerta breve",
-        "summary": "Appalti con periodo di offerta è inferiore ai 3gg",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+        "title": "Basso numero di offerenti",
+        "summary": "Basso numero di offerenti medi di gara per processi competitivi",
+        "description": "Un numero medio più elevato di offerenti per offerta può indicare un approvvigionamento esclusivo limitato e una gara più equa. Può indicare una maggiore concorrenza e fiducia nel sistema contrattuale."
     },
 
     "02": {
         "appaltipop/releases/0/redflag/code": "02",
-        "title": "Offerta vicina alla stima dell'appalto",
-        "summary": "Appalti con l’offerta vincitrice entro l’1% del prezzo stimato",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+        "title": "Bassa percentuale di offerte",
+        "summary": "Bassa percentuale di offerte aggiudicate mediante procedure competitive",
+        "description": "Una percentuale totale più elevata di offerte aggiudicate mediante procedure competitive può indicare una maggiore apertura delle procedure di aggiudicazione. L'uso di procedure competitive può consentire agli operatori del mercato un accesso più facile agli appalti pubblici e, pertanto, può comportare un aumento della concorrenza."
     },
 
     "03": {
         "appaltipop/releases/0/redflag/code": "03",
         "title": "Singolo offerente",
         "summary": "Appalti che presentano un singolo offerente",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+        "description": "Un'offerta unica può indicare una concorrenza inferiore alla concorrenza ideale, il che può comportare valori di aggiudicazione superiori al prezzo di mercato competitivo."
     },
 
     "04": {
         "appaltipop/releases/0/redflag/code": "04",
-        "title": "Affidamenti diretti multipli",
-        "summary": "Appalti in cui lo stesso fornitore riceve più affidamenti",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
-    },
-
-    "05": {
-        "appaltipop/releases/0/redflag/code": "05",
-        "title": "Ritardo nella negoziazione del contratto",
-        "summary": "Appalti con lunghi ritardi (oltre 60 giorni)",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ante eros, mattis at est eget, pulvinar tempus massa."
+        "title": "Prima gara vinta",
+        "summary": "L'offerente che non ha mai fatto un'offerta in precedenza vince un'offerta.",
+        "description": "È un indicatore interessante, che da conto di una \"novità\" nel sistema. Sarebbe da integrare a componenti aggiuntivi, come l'anno di fondazione del fornitore (dato purtroppo non disponibile). Uno che vince per la prima volta, che è sul mercato da meno di 1 anno, può essere una vera bandiera."
     }
 }
