@@ -26,7 +26,7 @@ import {
 import {
   getSupplierById,
   getTendersCountBySupplier,
-  getRedflagsCountBySupplier,
+  getRedTendersCountBySupplier,
   getTendersValueAmountBySupplier,
   getTendersTransactionAmountBySupplier
 } from '../../../../utils/queries'
@@ -303,7 +303,7 @@ export const getStaticProps = async (ctx) => ({
     ])),
     supplier: await getSupplierById(ctx.params.id),
     tendersCount: await getTendersCountBySupplier(ctx.params.id),
-    redflagsCount: await getRedflagsCountBySupplier(ctx.params.id),
+    redflagsCount: await getRedTendersCountBySupplier(ctx.params.id),
     valueAmount: await getTendersValueAmountBySupplier(ctx.params.id),
     transactionAmount: await getTendersTransactionAmountBySupplier(
       ctx.params.id

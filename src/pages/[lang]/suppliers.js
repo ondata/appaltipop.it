@@ -42,7 +42,7 @@ import {
 import {
   getSuppliersCount,
   getTendersCount,
-  getRedflagsCount
+  getRedTendersCount
 } from '../../utils/queries'
 
 import Link from '../../components/Link'
@@ -52,7 +52,7 @@ import AvatarIcon from '../../components/AvatarIcon'
 import { Supplier } from '../../components/SearchResult'
 import { SuppliersCounter, FlagsCounter } from '../../components/Counter'
 
-function Index ({ suppliersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
+function Index ({ suppliersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
   const { t, lang } = useTranslation()
 
   const [suppliers, setSuppliers] = useState([])
@@ -136,8 +136,8 @@ function Index ({ suppliersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
     <>
       <Head>
         <title>{`${t('common:suppliers')} | ${t(
-                    'common:title'
-                )}`}
+          'common:title'
+        )}`}
         </title>
       </Head>
 
@@ -166,10 +166,10 @@ function Index ({ suppliersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
               <Grid item xs={6} sm={3}>
                 <FlagsCounter
                   count={`${Math.round(
-                                        (redflagsCount / tendersCount) * 100
-                                    )}%`}
+                    (redTendersCount / tendersCount) * 100
+                  )}%`}
                   label={t('supplier:counter.redflag', {
-                    count: redflagsCount
+                    count: redTendersCount
                   })}
                 />
               </Grid>
@@ -224,8 +224,8 @@ function Index ({ suppliersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
                                   {waiting ? (
                                     <CircularProgress />
                                   ) : (
-                                    <HighlightOff />
-                                  )}
+                                      <HighlightOff />
+                                    )}
                                 </IconButton>
                               </InputAdornment>
                             ))
@@ -250,8 +250,8 @@ function Index ({ suppliersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
                   {currentSearchString ? (
                     resultsLabel
                   ) : (
-                    <>&nbsp;</>
-                  )}
+                      <>&nbsp;</>
+                    )}
                 </Typography>
               </Grid>
             </Grid>
@@ -335,7 +335,7 @@ export const getStaticProps = async (ctx) => {
       ...(await getI18nProps(ctx, ['common', 'supplier', 'search'])),
       suppliersCount: await getSuppliersCount(),
       tendersCount: await getTendersCount(),
-      redflagsCount: await getRedflagsCount()
+      redTendersCount: await getRedTendersCount()
     },
     unstable_revalidate: 3600
   }

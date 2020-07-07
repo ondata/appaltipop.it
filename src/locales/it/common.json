@@ -35,6 +35,7 @@
         "title": "Cerca",
         "help": "es. \"Comune di Milano\"...",
         "cta": "Cerca",
-        "reset": "Annulla"
+        "reset": "Annulla",
+        "filter": "Applica filtri"
     }
 }

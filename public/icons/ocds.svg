@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="62px" height="62px" viewBox="0 0 62 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>OCDS</title>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="OCDS">
+            <g id="Group-26">
+                <circle id="Oval" fill="#F3F2FF" cx="31" cy="31" r="31"></circle>
+                <text id="OCDS" font-family="Montserrat-Bold, Montserrat" font-size="18" font-weight="bold" line-spacing="30" letter-spacing="-0.45" fill="#3624E0">
+                    <tspan x="5" y="33">OCDS</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

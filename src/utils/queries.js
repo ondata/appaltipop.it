@@ -26,10 +26,10 @@ async function getIds (index) {
 export const getTenderIds = async () =>
   await getIds(`${ES_INDEX_PREFIX}-tenders-*`)
 
-export const getBuyerIds = async () => await getIds(`${ES_INDEX_PREFIX}-buyers`)
+export const getBuyerIds = async () => await getIds(`${ES_INDEX_PREFIX}-buyers-*`)
 
 export const getSupplierIds = async () =>
-  await getIds(`${ES_INDEX_PREFIX}-suppliers`)
+  await getIds(`${ES_INDEX_PREFIX}-suppliers-*`)
 
 async function getItems (
   index,
@@ -52,86 +52,172 @@ async function getItems (
 export const getTenders = async () =>
   await getItems(`${ES_INDEX_PREFIX}-tenders-*`)
 
-export const searchForTenders = async (
+export const getRegions = async () =>
+  await getItems(`${ES_INDEX_PREFIX}-regions-*`)
+
+export const searchForTenders = async ({
   q,
-  flags = 0,
+  buyer,
+  region,
+  minAmount,
+  maxAmount,
+  minDate,
+  maxDate,
+  minFlags,
+  maxFlags,
   lang = defaultLanguage,
   page = 0
-) =>
-  await getItems(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        q && {
-          bool: {
-            filter: flags
-              ? {
-                exists: {
-                  field: 'appaltipop:releases/0/redflags'
-                }
-              }
-              : { match_all: {} },
-            must: {
-              multi_match: {
-                query: q,
-                fields: [
-                            `ocds:releases/0/tender/title.${lang}`,
-                            'ocds:releases/0/id'
-                ]
-              }
-            }
+}) => {
+  const filter = []
+
+  if (buyer) {
+    filter.push({
+      term: {
+        'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw': {
+          value: buyer
+        }
+      }
+    })
+  }
+
+  if (region) {
+    filter.push({
+      term: {
+        'appaltipop:releases/0/buyers.istat:COD_REG': {
+          value: region
+        }
+      }
+    })
+  }
+
+  if (minAmount || maxAmount) {
+    filter.push({
+      range: {
+        'ocds:releases/0/awards/0/value/amount': {
+          gte: minAmount || undefined,
+          lte: maxAmount || undefined
+        }
+      }
+    })
+  }
+
+  if (minDate || maxDate) {
+    if (minDate === maxDate) {
+      filter.push({
+        term: {
+          'appaltipop:releases/0/tender/contractPeriod/dateRange': {
+            value: minDate
           }
-        },
-        page * PAGE_SIZE
+        }
+      })
+    } else {
+      filter.push({
+        range: {
+          'appaltipop:releases/0/tender/contractPeriod/dateRange': {
+            gte: minDate,
+            lte: maxDate,
+            relation: 'intersects'
+          }
+        }
+      })
+    }
+  }
+
+  if (minFlags || maxFlags) {
+    if (minFlags === maxFlags) {
+      filter.push({
+        term: {
+          'appaltipop:releases/0/redflags/count': {
+            value: minFlags
+          }
+        }
+      })
+    } else {
+      filter.push({
+        range: {
+          'appaltipop:releases/0/redflags/count': {
+            gte: minFlags,
+            lte: maxFlags
+          }
+        }
+      })
+    }
+  }
+
+  return await getItems(
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    q && {
+      bool: {
+        filter,
+        must: {
+          multi_match: {
+            query: q,
+            type: 'cross_fields',
+            fields: [
+              `ocds:releases/0/tender/title.${lang || defaultLanguage}`,
+              'ocds:releases/0/id^4',
+              `appaltipop:releases/0/buyers.ocds:releases/0/buyer/name.${lang || defaultLanguage}`,
+              'appaltipop:releases/0/buyers.ocds:releases/0/parties/address/region',
+              'appaltipop:releases/0/buyers.istat:DEN_CM'
+            ]
+          }
+        }
+      }
+    },
+    (page || 0) * PAGE_SIZE
   )
+}
 
 export const getRedflags = async () =>
   await getItems(`${ES_INDEX_PREFIX}-redflags`)
 
-export const getBuyers = async () => await getItems(`${ES_INDEX_PREFIX}-buyers`)
+export const getBuyers = async () =>
+  await getItems(`${ES_INDEX_PREFIX}-buyers-*`, { match_all: {} }, 0, 100)
 
 export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) =>
   await getItems(
-        `${ES_INDEX_PREFIX}-buyers`,
-        q && {
-          multi_match: {
-            query: q,
-            fields: [
-                    `ocds:releases/0/buyer/name.${lang}`,
-                    'ocds:releases/0/buyer/id'
-            ]
-          }
-        },
-        page * PAGE_SIZE
+    `${ES_INDEX_PREFIX}-buyers-*`,
+    q && {
+      multi_match: {
+        query: q,
+        fields: [
+          `ocds:releases/0/buyer/name.${lang}`,
+          'ocds:releases/0/buyer/id'
+        ]
+      }
+    },
+    page * PAGE_SIZE
   )
 
 export const getSuppliers = async () =>
-  await getItems(`${ES_INDEX_PREFIX}-suppliers`)
+  await getItems(`${ES_INDEX_PREFIX}-suppliers-*`)
 
 export const searchForSuppliers = async (q, lang = defaultLanguage, page = 0) =>
   await getItems(
-        `${ES_INDEX_PREFIX}-suppliers`,
-        q && {
-          multi_match: {
-            query: q,
-            fields: [
-                    `ocds:releases/0/parties/0/name.${lang}`,
-                    'ocds:releases/0/parties/0/id'
-            ]
-          }
-        },
-        page * PAGE_SIZE
+    `${ES_INDEX_PREFIX}-suppliers-*`,
+    q && {
+      multi_match: {
+        query: q,
+        fields: [
+          `ocds:releases/0/parties/0/name.${lang}`,
+          'ocds:releases/0/parties/0/id'
+        ]
+      }
+    },
+    page * PAGE_SIZE
   )
 
 export const getTendersByBuyer = async (buyer, page = 0) =>
   await getItems(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        {
-          term: {
-            'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw': {
-              value: buyer
-            }
-          }
-        },
-        page * PAGE_SIZE
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    {
+      term: {
+        'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw': {
+          value: buyer
+        }
+      }
+    },
+    page * PAGE_SIZE
   )
 
 export const getTendersCountByBuyer = async (buyer) =>
@@ -143,7 +229,7 @@ export const getTendersCountByBuyer = async (buyer) =>
     }
   })
 
-export const getRedflagsCountByBuyer = async (buyer) =>
+export const getRedTendersCountByBuyer = async (buyer) =>
   await getCount(`${ES_INDEX_PREFIX}-tenders-*`, {
     bool: {
       filter: {
@@ -163,15 +249,15 @@ export const getRedflagsCountByBuyer = async (buyer) =>
 
 export const getTendersBySupplier = async (supplier, page = 0) =>
   await getItems(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        {
-          term: {
-            'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw': {
-              value: supplier
-            }
-          }
-        },
-        page * PAGE_SIZE
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    {
+      term: {
+        'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw': {
+          value: supplier
+        }
+      }
+    },
+    page * PAGE_SIZE
   )
 
 export const getTendersCountBySupplier = async (supplier) =>
@@ -183,7 +269,7 @@ export const getTendersCountBySupplier = async (supplier) =>
     }
   })
 
-export const getRedflagsCountBySupplier = async (supplier) =>
+export const getRedTendersCountBySupplier = async (supplier) =>
   await getCount(`${ES_INDEX_PREFIX}-tenders-*`, {
     bool: {
       filter: {
@@ -216,12 +302,15 @@ export const getTendersCount = async () =>
   await getCount(`${ES_INDEX_PREFIX}-tenders-*`)
 
 export const getBuyersCount = async () =>
-  await getCount(`${ES_INDEX_PREFIX}-buyers`)
+  await getCount(`${ES_INDEX_PREFIX}-buyers-*`)
 
 export const getSuppliersCount = async () =>
-  await getCount(`${ES_INDEX_PREFIX}-suppliers`)
+  await getCount(`${ES_INDEX_PREFIX}-suppliers-*`)
 
 export const getRedflagsCount = async () =>
+  await getCount(`${ES_INDEX_PREFIX}-redflags`)
+
+export const getRedTendersCount = async () =>
   await getCount(`${ES_INDEX_PREFIX}-tenders-*`, {
     exists: {
       field: 'appaltipop:releases/0/redflags'
@@ -253,34 +342,34 @@ async function getSum (index, filterKey, filterValue, aggKey) {
 
 export const getTendersValueAmountByBuyer = async (buyer) =>
   await getSum(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw',
-        buyer,
-        'ocds:releases/0/awards/0/value/amount'
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw',
+    buyer,
+    'ocds:releases/0/awards/0/value/amount'
   )
 
 export const getTendersTransactionAmountByBuyer = async (buyer) =>
   await getSum(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw',
-        buyer,
-        'ocds:releases/0/contracts/0/implementation/transactions/0/value/amount'
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw',
+    buyer,
+    'ocds:releases/0/contracts/0/implementation/transactions/0/value/amount'
   )
 
 export const getTendersValueAmountBySupplier = async (supplier) =>
   await getSum(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
-        supplier,
-        'ocds:releases/0/awards/0/value/amount'
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
+    supplier,
+    'ocds:releases/0/awards/0/value/amount'
   )
 
 export const getTendersTransactionAmountBySupplier = async (supplier) =>
   await getSum(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
-        supplier,
-        'ocds:releases/0/contracts/0/implementation/transactions/0/value/amount'
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
+    supplier,
+    'ocds:releases/0/contracts/0/implementation/transactions/0/value/amount'
   )
 
 async function getAggs (index, filterKey, filterValue, aggValue) {
@@ -321,18 +410,18 @@ async function getAggs (index, filterKey, filterValue, aggValue) {
 
 export const getSuppliersByBuyer = async (buyer) =>
   await getAggs(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw',
-        buyer,
-        'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id'
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id.raw',
+    buyer,
+    'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id'
   )
 
 export const getBuyersBySupplier = async (supplier) =>
   await getAggs(
-        `${ES_INDEX_PREFIX}-tenders-*`,
-        'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
-        supplier,
-        'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id'
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
+    supplier,
+    'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id'
   )
 
 export async function getTenderById (id, index) {
@@ -347,7 +436,7 @@ export async function getTenderById (id, index) {
     return body._source || {}
   } else {
     const { body } = await es.search({
-      index,
+      index: `${ES_INDEX_PREFIX}-tenders-*`,
       body: {
         query: {
           ids: {
@@ -361,24 +450,54 @@ export async function getTenderById (id, index) {
   }
 }
 
-export async function getBuyerById (id) {
+export async function getBuyerById (id, index) {
   if (!id) return {}
 
-  const { body } = await es.get({
-    index: `${ES_INDEX_PREFIX}-buyers`,
-    id
-  })
+  if (index) {
+    const { body } = await es.get({
+      index,
+      id
+    })
 
-  return body._source || {}
+    return body._source || {}
+  } else {
+    const { body } = await es.search({
+      index: `${ES_INDEX_PREFIX}-buyer-*`,
+      body: {
+        query: {
+          ids: {
+            values: [id]
+          }
+        }
+      }
+    })
+
+    return !isEmpty(body.hits.hits) ? body.hits.hits[0]._source : {}
+  }
 }
 
-export async function getSupplierById (id) {
+export async function getSupplierById (id, index) {
   if (!id) return {}
 
-  const { body } = await es.get({
-    index: `${ES_INDEX_PREFIX}-suppliers`,
-    id
-  })
+  if (index) {
+    const { body } = await es.get({
+      index,
+      id
+    })
 
-  return body._source || {}
+    return body._source || {}
+  } else {
+    const { body } = await es.search({
+      index: `${ES_INDEX_PREFIX}-supplier-*`,
+      body: {
+        query: {
+          ids: {
+            values: [id]
+          }
+        }
+      }
+    })
+
+    return !isEmpty(body.hits.hits) ? body.hits.hits[0]._source : {}
+  }
 }

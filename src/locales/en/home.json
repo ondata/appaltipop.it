@@ -5,12 +5,12 @@
     "ocds": {
         "title": "What about data?",
         "source": "en/home/ocds.md",
-        "image": "/images/ocds.png"
+        "image": "/images/ocds.svg"
     },
     "ctas": ["monitor","discover","getInvolved","download"],
     "redflag": {
         "title": "Monitoring indicators: the red flags",
         "source": "en/home/redflag.md",
-        "image": "/images/flag-stars.png"
+        "image": "/images/flag-stars.svg"
     }
 }

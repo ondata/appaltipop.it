@@ -16,7 +16,7 @@ import {
 import {
   getBuyersCount,
   getTendersCount,
-  getRedflagsCount
+  getRedTendersCount
 } from '../../utils/queries'
 
 import Header from '../../components/Header'
@@ -29,7 +29,7 @@ import {
   FlagsCounter
 } from '../../components/Counter'
 
-function Index ({ buyersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
+function Index ({ buyersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
   const { t } = useTranslation()
 
   return (
@@ -71,10 +71,10 @@ function Index ({ buyersCount = 0, tendersCount = 0, redflagsCount = 0 }) {
               <Grid item xs={4} sm={2}>
                 <FlagsCounter
                   count={`${Math.round(
-                                        (redflagsCount / tendersCount) * 100
-                                    )}%`}
+                    (redTendersCount / tendersCount) * 100
+                  )}%`}
                   label={t('buyer:counter.redflag', {
-                    count: redflagsCount
+                    count: redTendersCount
                   })}
                 />
               </Grid>
@@ -113,7 +113,7 @@ export const getStaticProps = async (ctx) => {
       ...(await getI18nProps(ctx, ['common', 'buyer'])),
       buyersCount: await getBuyersCount(),
       tendersCount: await getTendersCount(),
-      redflagsCount: await getRedflagsCount()
+      redTendersCount: await getRedTendersCount()
     },
     unstable_revalidate: 3600
   }

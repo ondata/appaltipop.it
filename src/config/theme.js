@@ -142,25 +142,40 @@ export default createMuiTheme({
     },
     MuiAccordion: {
       root: {
+        padding: 0,
+        '&:before': {
+          opacity: 0
+        }
+      },
+      rounded: {
         backgroundColor: whiteColor,
-        paddingLeft: 0,
-        paddingRight: 0
+        '& .MuiAccordionSummary-root': {
+          border: '2px solid #E7E5FF',
+          borderRadius: spacing(2),
+          padding: `0 ${spacing(2)}px`
+        },
+        '& .MuiAccordionDetails-root': {
+          backgroundColor: greyColor,
+          border: `${spacing(0.5)}px solid ${greyColor}`,
+          borderRadius: spacing(2),
+          marginTop: spacing(2),
+          padding: `${spacing(4)}px ${spacing(2)}px`
+        }
       }
     },
     MuiAccordionSummary: {
       root: {
-        border: '2px solid #E7E5FF',
-        borderRadius: spacing(2),
-        padding: `0 ${spacing(2)}px`
+        padding: 0
       }
     },
     MuiAccordionDetails: {
       root: {
-        backgroundColor: greyColor,
-        border: `${spacing(0.5)}px solid ${greyColor}`,
-        borderRadius: spacing(2),
-        marginTop: spacing(2),
-        padding: `${spacing(4)}px ${spacing(2)}px`
+        display: 'block'
+      }
+    },
+    MuiFormControl: {
+      root: {
+        width: '100%'
       }
     },
     MuiCardContent: {

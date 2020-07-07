@@ -3,13 +3,13 @@
     "title": "Partecipa",
     "description": "Etiam porta sem malesuada magna mollis euismod.",
     "url": "/get-involved",
-    "icon": "/icons/get-involved.png"
+    "icon": "/icons/get-involved.svg"
   },
   "discover": {
     "title": "Scopri OCDS",
     "description": "Se sei una PA, diventa OCDS compliant.",
     "url": "/ocds",
-    "icon": "/icons/ocds.png"
+    "icon": "/icons/ocds.svg"
   },
   "monitor": {
     "title": "Monitora gli appalti",

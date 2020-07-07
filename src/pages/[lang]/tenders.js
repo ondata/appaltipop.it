@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown'
 
 import axios from 'axios'
 
-import { map } from 'lodash'
+import { map, sortBy, range } from 'lodash'
 
 import {
   Container,
@@ -25,14 +25,23 @@ import {
   ListItemIcon,
   CircularProgress,
   Divider,
-  FormGroup,
-  FormControlLabel,
-  Checkbox
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  FormLabel,
+  TextField
 } from '@material-ui/core'
 
-import { HighlightOff, ArrowForward } from '@material-ui/icons'
+import { HighlightOff, ArrowForward, ExpandMore } from '@material-ui/icons'
 
-import { Pagination } from '@material-ui/lab'
+import { Pagination, Autocomplete } from '@material-ui/lab'
+
+import DateFnsUtils from '@date-io/date-fns'
+
+import {
+  MuiPickersUtilsProvider,
+  DatePicker
+} from '@material-ui/pickers'
 
 import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
@@ -42,7 +51,13 @@ import {
   API_VERSION
 } from '../../config/constants'
 
-import { getTendersCount, getRedflagsCount } from '../../utils/queries'
+import {
+  getTendersCount,
+  getRedTendersCount,
+  getBuyers,
+  getRegions,
+  getRedflagsCount
+} from '../../utils/queries'
 
 import Link from '../../components/Link'
 import Header from '../../components/Header'
@@ -51,33 +66,89 @@ import AvatarIcon from '../../components/AvatarIcon'
 import { Tender } from '../../components/SearchResult'
 import { TendersCounter, FlagsCounter } from '../../components/Counter'
 
-function Index ({ tendersCount = 0, redflagsCount = 0 }) {
+function Index ({
+  tendersCount = 0,
+  redTendersCount = 0,
+  redflagsCount = 0,
+  buyers = [],
+  regions = []
+}) {
   const { t, lang } = useTranslation()
 
   const [tenders, setTenders] = useState([])
+
   const [results, setResults] = useState(0)
   const [resultsLabel, setResultsLabel] = useState(<>&nbsp;</>)
+
   const [searchString, setSearchString] = useState('')
   const [currentSearchString, setCurrentSearchString] = useState('')
-  const [withFlags, setWithFlags] = useState(false)
-  const [currentWithFlags, setCurrentWithFlags] = useState(false)
+
+  const [buyer, setBuyer] = useState(null)
+  const [currentBuyer, setCurrentBuyer] = useState(null)
+
+  const [region, setRegion] = useState(null)
+  const [currentRegion, setCurrentRegion] = useState(null)
+
+  const [minAmount, setMinAmount] = useState(0)
+  const [currentMinAmount, setCurrentMinAmount] = useState(0)
+
+  const [maxAmount, setMaxAmount] = useState(0)
+  const [currentMaxAmount, setCurrentMaxAmount] = useState(0)
+
+  const [minDate, setMinDate] = useState(null)
+  const [currentMinDate, setCurrentMinDate] = useState(null)
+
+  const [maxDate, setMaxDate] = useState(null)
+  const [currentMaxDate, setCurrentMaxDate] = useState(null)
+
+  const [minFlags, setMinFlags] = useState(0)
+  const [currentMinFlags, setCurrentMinFlags] = useState(0)
+
+  const [maxFlags, setMaxFlags] = useState(0)
+  const [currentMaxFlags, setCurrentMaxFlags] = useState(0)
+
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
+
   const [waiting, setWaiting] = useState(false)
 
   function handleSubmit (e) {
+    setResultsLabel(<>&nbsp;</>)
     setCurrentSearchString(searchString)
-    setCurrentWithFlags(withFlags)
+    setCurrentBuyer(buyer)
+    setCurrentRegion(region)
+    setCurrentMinAmount(minAmount)
+    setCurrentMaxAmount(maxAmount)
+    setCurrentMinDate(minDate)
+    setCurrentMaxDate(maxDate)
+    setCurrentMinFlags(minFlags)
+    setCurrentMaxFlags(maxFlags)
     e.preventDefault()
   }
 
   function handleReset () {
+    setResultsLabel(<>&nbsp;</>)
     setSearchString('')
+    setBuyer(null)
+    setRegion(null)
+    setMinAmount(0)
+    setMaxAmount(0)
+    setMinDate(null)
+    setMaxDate(null)
+    setMinFlags(0)
+    setMaxFlags(0)
     setTenders([])
     setResults(0)
     setPage(1)
     setCurrentSearchString('')
-    setWithFlags(false)
+    setCurrentBuyer(null)
+    setCurrentRegion(null)
+    setCurrentMinAmount(0)
+    setCurrentMaxAmount(0)
+    setCurrentMinDate(null)
+    setCurrentMaxDate(null)
+    setCurrentMinFlags(0)
+    setCurrentMaxFlags(0)
   }
 
   function handleChangePage (e, value) {
@@ -91,7 +162,14 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
         .get(`/api/${API_VERSION}/tenders`, {
           params: {
             q: currentSearchString,
-            flags: +currentWithFlags,
+            buyer: currentBuyer ? currentBuyer["ocds:releases/0/buyer/id"] : "",
+            region: currentRegion ? currentRegion["istat:COD_REG"] : "",
+            minAmount: currentMinAmount,
+            maxAmount: currentMaxAmount,
+            minDate: currentMinDate ? currentMinDate.toISOString().split('T')[0] : "",
+            maxDate: currentMaxDate ? currentMaxDate.toISOString().split('T')[0] : "",
+            minFlags: currentMinFlags,
+            maxFlags: currentMaxFlags,
             lang,
             page: page - 1
           }
@@ -102,14 +180,28 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
           setWaiting(false)
         })
     } else {
+      setResultsLabel(t('search:error'))
       setTenders([])
     }
   }
 
-  useEffect(() => {
-    setResults(0)
-    setPage(0)
-  }, [currentSearchString, currentWithFlags])
+  useEffect(
+    () => {
+      setResults(0)
+      setPage(0)
+    },
+    [
+      currentSearchString,
+      currentBuyer,
+      currentRegion,
+      currentMinAmount,
+      currentMaxAmount,
+      currentMinDate,
+      currentMaxDate,
+      currentMinFlags,
+      currentMaxFlags
+    ]
+  )
 
   useEffect(() => {
     if (page) {
@@ -120,20 +212,20 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
   }, [page])
 
   useEffect(() => {
-    if (results) {
-      setResultsLabel(
-        t('search:results', {
-          query: currentSearchString,
-          count: results
-        })
-      )
 
+    setResultsLabel(
+      t('search:results', {
+        query: currentSearchString,
+        count: results
+      })
+    )
+
+    if (results) {
       setPages(
         Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
       )
-    } else {
-      setResultsLabel(<>&nbsp;</>)
     }
+
   }, [results])
 
   return (
@@ -153,7 +245,7 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
                   {t('common:tenders')}
                 </Typography>
                 <Typography component='span' variant='h1'>
-                  {t('tender:search.title')}
+                  {t('search:title')}
                 </Typography>
               </Grid>
               <Grid item xs={6} sm={3}>
@@ -167,17 +259,17 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
               <Grid item xs={6} sm={3}>
                 <FlagsCounter
                   count={`${Math.round(
-                    (redflagsCount / tendersCount) * 100
+                    (redTendersCount / tendersCount) * 100
                   )}%`}
                   label={t('tender:counter.redflag', {
-                    count: redflagsCount
+                    count: redTendersCount
                   })}
                 />
               </Grid>
               <Grid item xs={12} sm={8}>
                 <Typography component='div' variant='body2'>
                   <ReactMarkdown
-                    source={t('tender:search.description')}
+                    source={t('search:description')}
                   />
                 </Typography>
               </Grid>
@@ -189,28 +281,26 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
           <Container maxWidth={CONTAINER_BREAKPOINT}>
             <Grid container>
               <Grid item xs={12} sm={8}>
-                <Typography
-                  component='label'
-                  htmlFor='search-field'
-                  variant='subtitle1'
-                >
-                  {t('tender:search.label')}
-                </Typography>
                 <form
                   noValidate
                   autoComplete='off'
                   onSubmit={handleSubmit}
                 >
-                  <Grid container spacing={2}>
-                    <Grid item xs>
+                  <Grid container spacing={2} alignItems='flex-end'>
+                    <Grid item xs={10}>
                       <FormControl
                         variant='outlined'
                         fullWidth
                       >
+                        <FormLabel component="label" htmlFor='search-text-field'>
+                          <Typography variant='subtitle1' color="textPrimary">
+                            {t('search:text.label')}
+                          </Typography>
+                        </FormLabel>
                         <OutlinedInput
-                          id='search-field'
+                          id='search-text-field'
                           placeholder={t(
-                            'tender:search.help'
+                            'search:text.help'
                           )}
                           value={searchString}
                           onChange={(e) => setSearchString(e.target.value)}
@@ -226,42 +316,267 @@ function Index ({ tendersCount = 0, redflagsCount = 0 }) {
                                 {waiting ? (
                                   <CircularProgress />
                                 ) : (
-                                  <HighlightOff />
-                                )}
+                                    <HighlightOff />
+                                  )}
                               </IconButton>
                             </InputAdornment>
                           )}
                         />
                       </FormControl>
-                      <FormGroup row>
-                        <FormControlLabel
-                          control={<Checkbox checked={withFlags} onChange={() => setWithFlags(!withFlags)} />}
-                          label={t(
-                            'tender:search.redflags'
-                          )}
-                        />
-                      </FormGroup>
                     </Grid>
-                    <Grid item>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        disableElevation
-                        type='submit'
-                        style={{ height: '100%' }}
+                    <Grid item xs={2}>
+                      <FormControl
+                        variant='outlined'
+                        fullWidth
                       >
-                        {t('common:search.cta')}
-                      </Button>
+                        <Button
+                          variant='contained'
+                          color='secondary'
+                          disableElevation
+                          type='submit'
+                          style={{ height: '100%' }}
+                        >
+                          {t('common:search.cta')}
+                        </Button>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography component='p' variant='caption'>
+                        {currentSearchString ? (
+                          resultsLabel
+                        ) : (
+                          <>&nbsp;</>
+                        )}
+                      </Typography>
                     </Grid>
                   </Grid>
+                  <Accordion elevation={0} square>
+                    <AccordionSummary
+                      expandIcon={<ExpandMore />}
+                      aria-controls='filter-content'
+                      id='filter-header'
+                    >
+                      <Typography
+                        component='label'
+                        variant='subtitle1'
+                      >{t('search:filter')}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-buyer-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:buyer.label')}
+                              </Typography>
+                            </FormLabel>
+                            <Autocomplete
+                              id='search-buyer-field'
+                              fullWidth
+                              autoHighlight
+                              autoComplete
+                              value={buyer}
+                              onChange={(event, newValue) => setBuyer(newValue)}
+                              options={sortBy(buyers, 'ocds:releases/0/buyer/name')}
+                              getOptionLabel={(option) => option["ocds:releases/0/buyer/name"]}
+                              renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-region-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:region.label')}
+                              </Typography>
+                            </FormLabel>
+                            <Autocomplete
+                              id='search-region-field'
+                              fullWidth
+                              autoHighlight
+                              autoComplete
+                              value={region}
+                              onChange={(event, newValue) => setRegion(newValue)}
+                              options={sortBy(regions, 'istat:COD_REG')}
+                              getOptionLabel={(option) => option["ocds:releases/0/parties/address/region"]}
+                              renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
+                            />
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-minAmount-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:minAmount.label')}
+                              </Typography>
+                            </FormLabel>
+                            <TextField
+                              id='search-minAmount-field'
+                              variant='outlined'
+                              type='number'
+                              value={minAmount}
+                              onChange={(event) => setMinAmount(+event.target.value)}
+                              inputProps={{
+                                min: 0,
+                                step: 1000
+                              }}
+                              InputProps={{
+                                startAdornment: <InputAdornment position="start">&euro;</InputAdornment>
+                              }}
+                              InputLabelProps={{
+                                shrink: true
+                              }}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-maxAmount-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:maxAmount.label')}
+                              </Typography>
+                            </FormLabel>
+                            <TextField
+                              id='search-maxAmount-field'
+                              variant='outlined'
+                              type='number'
+                              value={maxAmount}
+                              onChange={(event) => setMaxAmount(+event.target.value)}
+                              inputProps={{
+                                min: 0,
+                                step: 1000
+                              }}
+                              InputProps={{
+                                startAdornment: <InputAdornment position="start">&euro;</InputAdornment>
+                              }}
+                              InputLabelProps={{
+                                shrink: true
+                              }}
+                            />
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-minDate-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:minDate.label')}
+                              </Typography>
+                            </FormLabel>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <DatePicker
+                                autoOk
+                                disableToolbar
+                                views={["year", "month"]}
+                                variant="inline"
+                                inputVariant="outlined"
+                                //format="MM/yyyy"
+                                //margin="normal"
+                                id="search-minDate-field"
+                                //label="Date picker inline"
+                                value={minDate}
+                                onChange={(date) => setMinDate(date)}
+                              />
+                            </MuiPickersUtilsProvider>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-maxDate-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:maxDate.label')}
+                              </Typography>
+                            </FormLabel>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <DatePicker
+                                autoOk
+                                disableToolbar
+                                views={["year", "month"]}
+                                variant="inline"
+                                inputVariant="outlined"
+                                //format="MM/yyyy"
+                                //margin="normal"
+                                id="search-minDate-field"
+                                //label="Date picker inline"
+                                value={maxDate}
+                                onChange={(date) => setMaxDate(date)}
+                              />
+                            </MuiPickersUtilsProvider>
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-minFlags-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:minFlags.label')}
+                              </Typography>
+                            </FormLabel>
+                            <TextField
+                              id="search-minFlags-field"
+                              select
+                              //label="Native select"
+                              value={minFlags}
+                              onChange={(event) => setMinFlags(+event.target.value)}
+                              SelectProps={{
+                                native: true,
+                              }}
+                              //helperText="Please select your currency"
+                              variant="outlined"
+                            >
+                              {
+                                map(
+                                  range(redflagsCount + 1),
+                                  (option) => (
+                                    <option key={option} value={option}>
+                                      {option}
+                                    </option>
+                                  )
+                                )
+                              }
+                            </TextField>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component="label" htmlFor='search-maxFlags-field'>
+                              <Typography variant='subtitle1' color="textPrimary">
+                                {t('search:maxFlags.label')}
+                              </Typography>
+                            </FormLabel>
+                            <TextField
+                              id="search-maxFlags-field"
+                              select
+                              //label="Native select"
+                              value={maxFlags}
+                              onChange={(event) => setMaxFlags(+event.target.value)}
+                              SelectProps={{
+                                native: true,
+                              }}
+                              //helperText="Please select your currency"
+                              variant="outlined"
+                            >
+                              {
+                                map(
+                                  range(redflagsCount + 1 - minFlags),
+                                  (option) => (
+                                    <option key={option + minFlags} value={option + minFlags}>
+                                      {option + minFlags}
+                                    </option>
+                                  )
+                                )
+                              }
+                            </TextField>
+                          </FormControl>
+                        </Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
                 </form>
-                <Typography component='p' variant='caption'>
-                  {currentSearchString ? (
-                    resultsLabel
-                  ) : (
-                    <>&nbsp;</>
-                  )}
-                </Typography>
               </Grid>
             </Grid>
 
@@ -345,7 +660,10 @@ export const getStaticProps = async (ctx) => {
     props: {
       ...(await getI18nProps(ctx, ['common', 'tender', 'search'])),
       tendersCount: await getTendersCount(),
-      redflagsCount: await getRedflagsCount()
+      redTendersCount: await getRedTendersCount(),
+      redflagsCount: await getRedflagsCount(),
+      buyers: map((await getBuyers()).hits, '_source'),
+      regions: map((await getRegions()).hits, '_source')
     },
     unstable_revalidate: 3600
   }

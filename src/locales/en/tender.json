@@ -11,13 +11,6 @@
         "title": "Questo contratto è monitorato da:",
         "description": "Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam quis risus eget urna mollis ornare vel eu leo. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum."
     },
-    "search": {
-        "title": "Ricerca i contratti che desideri monitorare",
-        "description": "Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.",
-        "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
-        "label": "Cerca tra gli appalti",
-        "redflags": "Mostra solo risultati con red flag"
-    },
     "counter": {
         "tender": "Appalto monitorato",
         "tender_plural": "Appalti monitorati",

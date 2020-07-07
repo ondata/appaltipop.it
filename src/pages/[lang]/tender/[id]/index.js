@@ -299,14 +299,14 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                 <Grid item xs={6} sm={4}>
                   <CtaButton
                     title={t('cta:foia.title')}
-                    icon='/icons/foia.png'
+                    icon='/icons/foia.svg'
                     url={t('cta:foia.url')}
                   />
                 </Grid>
                 <Grid item xs={6} sm={4}>
                   <CtaButton
                     title={t('cta:whistle.title')}
-                    icon='/icons/whistle.png'
+                    icon='/icons/whistle.svg'
                     url={t('cta:whistle.url')}
                   />
                 </Grid>
