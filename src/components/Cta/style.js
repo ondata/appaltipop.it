@@ -2,7 +2,6 @@ export default (theme) => ({
   card: {
     backgroundColor: theme.palette.common.white,
     padding: theme.spacing(2),
-    height: '100%',
     '& > *': {
       height: '100%'
     }
@@ -11,7 +10,6 @@ export default (theme) => ({
     backgroundColor: theme.palette.common.white,
     padding: theme.spacing(0, 2),
     cursor: 'pointer',
-    height: '100%',
     '& > *': {
       height: '100%'
     }

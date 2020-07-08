@@ -11,11 +11,7 @@ import {
   Typography,
   Paper,
   Grid,
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText
+  Box
 } from '@material-ui/core'
 
 import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
@@ -32,6 +28,7 @@ import {
 } from '../../utils/queries'
 
 import Footer from '../../components/Footer'
+import Redflags from '../../components/Redflags'
 import Header from '../../components/Header'
 
 import { Card as CtaCard } from '../../components/Cta'
@@ -139,43 +136,20 @@ function Index ({
                 />
               </Typography>
             </Box>
-            <Grid container spacing={4}>
-              <Grid item xs={12} sm={8}>
-                <List>
-                  {map(
-                    sortBy(
-                      redflags,
-                      'appaltipop:releases/0/redflag/code'
-                    ),
-                    (redflag, index) => (
-                      <ListItem
-                        key={redflag['appaltipop:releases/0/redflag/code']}
-                      >
-                        <ListItemIcon>
-                          {index + 1}.
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={t(
-                            `redflags:${redflag['appaltipop:releases/0/redflag/code']}.title`
-                          )}
-                          secondary={t(
-                            `redflags:${redflag['appaltipop:releases/0/redflag/code']}.description`
-                          )}
-                        />
-                      </ListItem>
-                    )
-                  )}
-                </List>
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <img
-                  src={t`home:redflag.image`}
-                  alt='Redflag'
-                  title='Redflag'
-                  style={{ width: '100%' }}
-                />
-              </Grid>
-            </Grid>
+            <Redflags
+              image={t`home:redflag.image`}
+              items={map(
+                sortBy(
+                  redflags,
+                  'appaltipop:releases/0/redflag/code'
+                ),
+                redflag => ({
+                  id: redflag['appaltipop:releases/0/redflag/code'],
+                  title: t(`redflags:${redflag['appaltipop:releases/0/redflag/code']}.title`),
+                  description: t(`redflags:${redflag['appaltipop:releases/0/redflag/code']}.description`)
+                })
+              )}
+            />
           </Container>
         </Box>
 

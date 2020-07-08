@@ -2,39 +2,41 @@
     "title": "AppaltiPOP",
     "claim": "Diamo agli Appalti un'aria un po' più POP! Insieme a te.",
 
-    "supplier": "Supplier",
-    "supplier_plural": "Suppliers",
-    "suppliers": "Suppliers",
+    "buyer": "Pubblica amministrazione",
+    "buyer_plural": "Pubbliche amministrazioni",
+    "buyers": "Pubbliche amministrazioni",
 
-    "buyer": "Buyer",
-    "buyer_plural": "Buyers",
-    "buyers": "Buyers",
+    "supplier": "Aggiudicatario",
+    "supplier_plural": "Aggiudicatari",
+    "suppliers": "Aggiudicatari",
 
-    "tender": "Tender",
-    "tender_plural": "Tenders",
-    "tenders": "Tenders",
+    "tender": "Appalto",
+    "tender_plural": "Appalti",
+    "tenders": "Appalti",
 
     "redflag": "Red flag",
     "redflag_plural": "Red flag",
     "redflags": "Red flag",
 
     "home": "Home",
-    "get-involved": "Get involved!",
-    "about": "About",
+    "getInvolved": "Partecipa!",
+    "about": "Chi siamo",
     "ocds": "OCDS",
-    "download": "Download",
+    "download": "Scarica i dati",
     "faq": "FAQ",
-    "credits": "Credits",
+    "credits": "Crediti",
 
-    "print": "Print report",
+    "print": "Stampa report",
 
     "english": "English",
     "italian": "Italiano",
 
     "search": {
-        "title": "Search",
-        "help": "ie. \"Comune di Milano\"...",
-        "cta": "Search",
-        "reset": "Reset"
+        "title": "Cerca",
+        "help": "es. \"Comune di Milano\"...",
+        "cta": "Cerca",
+        "reset": "Annulla",
+        "noResults": "Nessun risultato",
+        "filter": "Applica filtri"
     }
 }

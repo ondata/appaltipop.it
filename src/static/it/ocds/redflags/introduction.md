@@ -1,1 +1,0 @@
-Grazie all'implementazione di Open Contracting Data Standard siamo in grado di costruire degli indicatori di monitoraggio degli appalti pubblici. Questi indicatori servono sia agli addetti ai lavori che ai cittadini per capire se un appalto ha tutti i parametri "a posto".

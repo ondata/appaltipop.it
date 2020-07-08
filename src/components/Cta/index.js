@@ -20,6 +20,7 @@ const useStyles = makeStyles(style)
 
 export function Button ({
   title = '',
+  description = '',
   url = '',
   icon = ''
 }) {
@@ -35,7 +36,8 @@ export function Button ({
             </Grid>
             <Grid item xs>
               <CardContent>
-                <Typography variant='body1' color='textSecondary' className={classes.buttonTitle}>{title}</Typography>
+                <Typography variant='body1' color='textPrimary' className={description ? classes.cardTitle : classes.buttonTitle}>{title}</Typography>
+                {!!description && <Typography variant='body1' color='textSecondary' className={classes.description}>{description}</Typography>}
               </CardContent>
             </Grid>
           </Grid>
@@ -62,7 +64,7 @@ export function Card ({
         <Grid item xs>
           <CardContent>
             <Typography variant='body1' color='textPrimary' className={classes.cardTitle}>{title}</Typography>
-            <Typography variant='body1' color='textSecondary' className={classes.description}>{description}</Typography>
+            {!!description && <Typography variant='body1' color='textSecondary' className={classes.description}>{description}</Typography>}
           </CardContent>
         </Grid>
         <Grid item style={{ alignSelf: 'flex-end' }}>

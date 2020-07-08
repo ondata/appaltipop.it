@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { MDXProvider } from '@mdx-js/react'
 
 import PropTypes from 'prop-types'
 import Head from 'next/head'
@@ -6,15 +7,35 @@ import Head from 'next/head'
 import { DefaultSeo } from 'next-seo'
 
 import { ThemeProvider } from '@material-ui/core/styles'
-import CssBaseline from '@material-ui/core/CssBaseline'
+
+import {
+  CssBaseline,
+  Grid,
+  Typography
+} from '@material-ui/core'
+
+import {
+  Button as CtaButton,
+  Card as CtaCard
+} from '../components/Cta'
+
+import Redflags from '../components/Redflags'
 
 import SEO from '../config/next-seo'
 import theme from '../config/theme'
 
 import '../styles/app.scss'
 
-export default function App (props) {
-  const { Component, pageProps } = props
+export default function App ({ Component, pageProps }) {
+  const mdComponents = {
+    h1: props => <Typography variant='h1' {...props} />,
+    h2: props => <Typography variant='h2' {...props} />,
+    p: props => <Typography variant='body2' gutterBottom {...props} />,
+    Button: props => <CtaButton {...props} />,
+    Card: props => <CtaCard {...props} />,
+    Redflags: props => <Redflags {...props} />,
+    Grid: props => <Grid {...props} />
+  }
 
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -37,7 +58,9 @@ export default function App (props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <MDXProvider components={mdComponents}>
+          <Component {...pageProps} />
+        </MDXProvider>
       </ThemeProvider>
     </>
   )

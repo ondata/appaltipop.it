@@ -19,13 +19,13 @@ import Breadcrumbs from '../../components/Breadcrumbs'
 
 function Index () {
   const { t, lang } = useTranslation()
-  const MDXContent = dynamic(() => import(`../../locales/${lang}/get-involved.mdx`))
+  const MDXContent = dynamic(() => import(`../../locales/${lang}/credits.mdx`))
 
   return (
     <>
 
       <Head>
-        <title>{`${t('common:getInvolved')} | ${t('common:title')}`}</title>
+        <title>{`${t('common:credits')} | ${t('common:title')}`}</title>
       </Head>
 
       <Header />
@@ -38,7 +38,7 @@ function Index () {
             <Breadcrumbs
               items={[
                 { label: t('common:home'), url: '/' },
-                { label: t('common:getInvolved') }
+                { label: t('common:credits') }
               ]}
             />
           </Box>

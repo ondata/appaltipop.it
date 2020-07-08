@@ -224,8 +224,8 @@ function Index ({ suppliersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
                                   {waiting ? (
                                     <CircularProgress />
                                   ) : (
-                                      <HighlightOff />
-                                    )}
+                                    <HighlightOff />
+                                  )}
                                 </IconButton>
                               </InputAdornment>
                             ))
@@ -250,8 +250,8 @@ function Index ({ suppliersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
                   {currentSearchString ? (
                     resultsLabel
                   ) : (
-                      <>&nbsp;</>
-                    )}
+                    <>&nbsp;</>
+                  )}
                 </Typography>
               </Grid>
             </Grid>

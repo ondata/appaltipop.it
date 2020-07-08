@@ -1,25 +1,29 @@
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
 import useTranslation from 'next-translate/useTranslation'
 
-import ReactMarkdown from 'react-markdown'
-
-import { Container, Box, Typography } from '@material-ui/core'
-
-import { getStaticPage } from '../../utils/pages'
+import {
+  Container,
+  Box,
+  Grid
+} from '@material-ui/core'
 
 import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
 import { CONTAINER_BREAKPOINT } from '../../config/constants'
 
-import Footer from '../../components/Footer'
 import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import Breadcrumbs from '../../components/Breadcrumbs'
 
-function Index ({ contents }) {
-  const { t } = useTranslation()
+function Index () {
+  const { t, lang } = useTranslation()
+  const MDXContent = dynamic(() => import(`../../locales/${lang}/faq.mdx`))
 
   return (
     <>
+
       <Head>
         <title>{`${t('common:faq')} | ${t('common:title')}`}</title>
       </Head>
@@ -27,33 +31,41 @@ function Index ({ contents }) {
       <Header />
 
       <main>
+
         <Container component='header' maxWidth={CONTAINER_BREAKPOINT}>
-          <Box mb={8} mt={8}>
-            <Typography variant='h1'>{t('faq:title')}</Typography>
-            <Typography component='div' variant='body2'>
-              <ReactMarkdown source={contents.faq.content} />
-            </Typography>
+
+          <Box mb={4}>
+            <Breadcrumbs
+              items={[
+                { label: t('common:home'), url: '/' },
+                { label: t('common:faq') }
+              ]}
+            />
           </Box>
+
+          <Box mb={8}>
+            <Grid container>
+              <Grid item xs={12} md={8}>
+                <MDXContent />
+              </Grid>
+            </Grid>
+          </Box>
+
         </Container>
+
       </main>
 
       <Footer />
+
     </>
   )
 }
 
-export const getStaticProps = async (ctx) => {
-  const { lang, namespaces } = await getI18nProps(ctx, ['common', 'faq'])
-  return {
-    props: {
-      lang,
-      namespaces,
-      contents: {
-        faq: await getStaticPage(namespaces.faq)
-      }
-    }
+export const getStaticProps = async (ctx) => ({
+  props: {
+    ...(await getI18nProps(ctx, ['common']))
   }
-}
+})
 
 export const getStaticPaths = async () => ({
   paths: getI18nPaths(),

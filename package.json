@@ -21,18 +21,22 @@
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
         "@material-ui/pickers": "^3.2.10",
+        "@mdx-js/loader": "^1.6.6",
+        "@next/mdx": "^9.4.4",
         "axios": "^0.19.2",
         "clsx": "^1.1.1",
         "d3-format": "^1.4.4",
         "d3-time-format": "^2.2.3",
         "date-fns": "^2.14.0",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.17",
         "next": "^9.4.4",
         "next-seo": "^4.7.1",
         "next-translate": "^0.16.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-markdown": "^4.3.1"
+        "react-markdown": "^4.3.1",
+        "remark-emoji": "^2.1.0",
+        "remark-images": "^2.0.0"
     },
     "keywords": [],
     "author": "Alessio Cimarelli <alessio.cimarelli@ondata.it> (https://www.linkedin.com/in/alessiocimarelli/)",
@@ -43,7 +47,7 @@
     "devDependencies": {
         "eslint": "^7.4.0",
         "eslint-plugin-react": "^7.20.3",
-        "sass": "^1.26.9",
+        "sass": "^1.26.10",
         "standard": "^14.3.4"
     }
 }

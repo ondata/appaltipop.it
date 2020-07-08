@@ -1,1 +1,0 @@
-Quando un parametro è fuori posto, accanto al singolo appalto troverai una bandierina rossa, che sta a significare che quell'appalto merita la tua attenzione e va approfondito. Perché? Perché la sua assegnazione potrebbe non essere stata correttamente trasparente e competitiva come invece tutti gli appalti pubblici dovrebbero essere.

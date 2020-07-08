@@ -100,7 +100,7 @@ export default function Index () {
                   router.pathname === '/[lang]/get-involved' && classes.selected
                 )}
               >
-                {t('common:get-involved')}
+                {t('common:getInvolved')}
               </Button>
             </Link>
             <Link href='/about' passHref>
@@ -245,7 +245,7 @@ export default function Index () {
                     )}
                   >
                     <ListItemText
-                      primary={t('common:get-involved')}
+                      primary={t('common:getInvolved')}
                     />
                   </ListItem>
                 </Link>

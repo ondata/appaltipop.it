@@ -2,13 +2,13 @@
     "title": "AppaltiPOP",
     "claim": "Diamo agli Appalti un'aria un po' più POP! Insieme a te.",
 
-    "supplier": "Aggiudicatario",
-    "supplier_plural": "Aggiudicatari",
-    "suppliers": "Aggiudicatari",
-
     "buyer": "Pubblica amministrazione",
     "buyer_plural": "Pubbliche amministrazioni",
     "buyers": "Pubbliche amministrazioni",
+
+    "supplier": "Aggiudicatario",
+    "supplier_plural": "Aggiudicatari",
+    "suppliers": "Aggiudicatari",
 
     "tender": "Appalto",
     "tender_plural": "Appalti",
@@ -19,10 +19,10 @@
     "redflags": "Red flag",
 
     "home": "Home",
-    "get-involved": "Partecipa!",
+    "getInvolved": "Partecipa!",
     "about": "Chi siamo",
     "ocds": "OCDS",
-    "download": "Download",
+    "download": "Scarica i dati",
     "faq": "FAQ",
     "credits": "Crediti",
 
@@ -36,6 +36,7 @@
         "help": "es. \"Comune di Milano\"...",
         "cta": "Cerca",
         "reset": "Annulla",
+        "noResults": "Nessun risultato",
         "filter": "Applica filtri"
     }
 }

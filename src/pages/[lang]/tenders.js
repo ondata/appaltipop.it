@@ -162,12 +162,12 @@ function Index ({
         .get(`/api/${API_VERSION}/tenders`, {
           params: {
             q: currentSearchString,
-            buyer: currentBuyer ? currentBuyer["ocds:releases/0/buyer/id"] : "",
-            region: currentRegion ? currentRegion["istat:COD_REG"] : "",
+            buyer: currentBuyer ? currentBuyer['ocds:releases/0/buyer/id'] : '',
+            region: currentRegion ? currentRegion['istat:COD_REG'] : '',
             minAmount: currentMinAmount,
             maxAmount: currentMaxAmount,
-            minDate: currentMinDate ? currentMinDate.toISOString().split('T')[0] : "",
-            maxDate: currentMaxDate ? currentMaxDate.toISOString().split('T')[0] : "",
+            minDate: currentMinDate ? currentMinDate.toISOString().split('T')[0] : '',
+            maxDate: currentMaxDate ? currentMaxDate.toISOString().split('T')[0] : '',
             minFlags: currentMinFlags,
             maxFlags: currentMaxFlags,
             lang,
@@ -212,7 +212,6 @@ function Index ({
   }, [page])
 
   useEffect(() => {
-
     setResultsLabel(
       t('search:results', {
         query: currentSearchString,
@@ -225,7 +224,6 @@ function Index ({
         Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
       )
     }
-
   }, [results])
 
   return (
@@ -292,8 +290,8 @@ function Index ({
                         variant='outlined'
                         fullWidth
                       >
-                        <FormLabel component="label" htmlFor='search-text-field'>
-                          <Typography variant='subtitle1' color="textPrimary">
+                        <FormLabel component='label' htmlFor='search-text-field'>
+                          <Typography variant='subtitle1' color='textPrimary'>
                             {t('search:text.label')}
                           </Typography>
                         </FormLabel>
@@ -316,8 +314,8 @@ function Index ({
                                 {waiting ? (
                                   <CircularProgress />
                                 ) : (
-                                    <HighlightOff />
-                                  )}
+                                  <HighlightOff />
+                                )}
                               </IconButton>
                             </InputAdornment>
                           )}
@@ -359,14 +357,15 @@ function Index ({
                       <Typography
                         component='label'
                         variant='subtitle1'
-                      >{t('search:filter')}</Typography>
+                      >{t('search:filter')}
+                      </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-buyer-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-buyer-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:buyer.label')}
                               </Typography>
                             </FormLabel>
@@ -378,15 +377,15 @@ function Index ({
                               value={buyer}
                               onChange={(event, newValue) => setBuyer(newValue)}
                               options={sortBy(buyers, 'ocds:releases/0/buyer/name')}
-                              getOptionLabel={(option) => option["ocds:releases/0/buyer/name"]}
+                              getOptionLabel={(option) => option['ocds:releases/0/buyer/name']}
                               renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
                             />
                           </FormControl>
                         </Grid>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-region-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-region-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:region.label')}
                               </Typography>
                             </FormLabel>
@@ -398,7 +397,7 @@ function Index ({
                               value={region}
                               onChange={(event, newValue) => setRegion(newValue)}
                               options={sortBy(regions, 'istat:COD_REG')}
-                              getOptionLabel={(option) => option["ocds:releases/0/parties/address/region"]}
+                              getOptionLabel={(option) => option['ocds:releases/0/parties/address/region']}
                               renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
                             />
                           </FormControl>
@@ -407,8 +406,8 @@ function Index ({
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-minAmount-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-minAmount-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:minAmount.label')}
                               </Typography>
                             </FormLabel>
@@ -423,7 +422,7 @@ function Index ({
                                 step: 1000
                               }}
                               InputProps={{
-                                startAdornment: <InputAdornment position="start">&euro;</InputAdornment>
+                                startAdornment: <InputAdornment position='start'>&euro;</InputAdornment>
                               }}
                               InputLabelProps={{
                                 shrink: true
@@ -433,8 +432,8 @@ function Index ({
                         </Grid>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-maxAmount-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-maxAmount-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:maxAmount.label')}
                               </Typography>
                             </FormLabel>
@@ -449,7 +448,7 @@ function Index ({
                                 step: 1000
                               }}
                               InputProps={{
-                                startAdornment: <InputAdornment position="start">&euro;</InputAdornment>
+                                startAdornment: <InputAdornment position='start'>&euro;</InputAdornment>
                               }}
                               InputLabelProps={{
                                 shrink: true
@@ -461,8 +460,8 @@ function Index ({
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-minDate-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-minDate-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:minDate.label')}
                               </Typography>
                             </FormLabel>
@@ -470,13 +469,13 @@ function Index ({
                               <DatePicker
                                 autoOk
                                 disableToolbar
-                                views={["year", "month"]}
-                                variant="inline"
-                                inputVariant="outlined"
-                                //format="MM/yyyy"
-                                //margin="normal"
-                                id="search-minDate-field"
-                                //label="Date picker inline"
+                                views={['year', 'month']}
+                                variant='inline'
+                                inputVariant='outlined'
+                                // format="MM/yyyy"
+                                // margin="normal"
+                                id='search-minDate-field'
+                                // label="Date picker inline"
                                 value={minDate}
                                 onChange={(date) => setMinDate(date)}
                               />
@@ -485,8 +484,8 @@ function Index ({
                         </Grid>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-maxDate-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-maxDate-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:maxDate.label')}
                               </Typography>
                             </FormLabel>
@@ -494,13 +493,13 @@ function Index ({
                               <DatePicker
                                 autoOk
                                 disableToolbar
-                                views={["year", "month"]}
-                                variant="inline"
-                                inputVariant="outlined"
-                                //format="MM/yyyy"
-                                //margin="normal"
-                                id="search-minDate-field"
-                                //label="Date picker inline"
+                                views={['year', 'month']}
+                                variant='inline'
+                                inputVariant='outlined'
+                                // format="MM/yyyy"
+                                // margin="normal"
+                                id='search-minDate-field'
+                                // label="Date picker inline"
                                 value={maxDate}
                                 onChange={(date) => setMaxDate(date)}
                               />
@@ -511,22 +510,22 @@ function Index ({
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-minFlags-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-minFlags-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:minFlags.label')}
                               </Typography>
                             </FormLabel>
                             <TextField
-                              id="search-minFlags-field"
+                              id='search-minFlags-field'
                               select
-                              //label="Native select"
+                              // label="Native select"
                               value={minFlags}
                               onChange={(event) => setMinFlags(+event.target.value)}
                               SelectProps={{
-                                native: true,
+                                native: true
                               }}
-                              //helperText="Please select your currency"
-                              variant="outlined"
+                              // helperText="Please select your currency"
+                              variant='outlined'
                             >
                               {
                                 map(
@@ -543,22 +542,22 @@ function Index ({
                         </Grid>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component="label" htmlFor='search-maxFlags-field'>
-                              <Typography variant='subtitle1' color="textPrimary">
+                            <FormLabel component='label' htmlFor='search-maxFlags-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:maxFlags.label')}
                               </Typography>
                             </FormLabel>
                             <TextField
-                              id="search-maxFlags-field"
+                              id='search-maxFlags-field'
                               select
-                              //label="Native select"
+                              // label="Native select"
                               value={maxFlags}
                               onChange={(event) => setMaxFlags(+event.target.value)}
                               SelectProps={{
-                                native: true,
+                                native: true
                               }}
-                              //helperText="Please select your currency"
-                              variant="outlined"
+                              // helperText="Please select your currency"
+                              variant='outlined'
                             >
                               {
                                 map(

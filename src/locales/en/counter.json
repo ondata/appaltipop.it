@@ -1,0 +1,14 @@
+{
+  "buyer": "Pubblica amministrazione monitorata",
+  "buyer_plural": "Pubbliche amministrazioni monitorate",
+  "buyers": "Pubbliche amministrazioni monitorate",
+  "supplier": "Aggiudicatario monitorato",
+  "supplier_plural": "Aggiudicatari monitorati",
+  "suppliers": "Aggiudicatari monitorati",
+  "tender": "Appalto monitorato",
+  "tender_plural": "Appalti monitorati",
+  "tenders": "Appalti monitorati",
+  "redflag": "Appalto con red flag",
+  "redflag_plural": "Appalti con red flags",
+  "redflags": "Appalti con red flags"
+}
