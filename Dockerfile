@@ -22,6 +22,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copying source files
+COPY next.config.js ./
 COPY src/ ./src
 COPY public/ ./public
 
