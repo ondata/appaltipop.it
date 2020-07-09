@@ -66,6 +66,7 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import AvatarIcon from '../../components/AvatarIcon'
 import { Tender } from '../../components/SearchResult'
+import { Card as CtaCard } from '../../components/Cta'
 import { TendersCounter, BuyersCounter, FlagsCounter } from '../../components/Counter'
 
 function Index ({
@@ -238,6 +239,7 @@ function Index ({
       <Header />
 
       <main>
+
         <Container component='header' maxWidth={CONTAINER_BREAKPOINT}>
           <Box mb={4}>
             <Grid container spacing={2}>
@@ -291,6 +293,27 @@ function Index ({
                   </Typography>
                 </Grid>
               </Hidden>
+            </Grid>
+          </Box>
+        </Container>
+
+        <Container component='header' maxWidth={CONTAINER_BREAKPOINT}>
+          <Box mb={4}>
+            <Grid container>
+              <Grid item xs={12} md={10} lg={8}>
+                <Grid container spacing={2}>
+                  {
+                    map(
+                      t('tender:ctas', {}, { returnObjects: true }),
+                      cta => (
+                        <Grid item key={t(`cta:${cta}.url`)} xs={12} sm={6}>
+                          <CtaCard {...t(`cta:${cta}`, {}, { returnObjects: true })} />
+                        </Grid>
+                      )
+                    )
+                  }
+                </Grid>
+              </Grid>
             </Grid>
           </Box>
         </Container>
@@ -677,7 +700,7 @@ function Index ({
 export const getStaticProps = async (ctx) => {
   return {
     props: {
-      ...(await getI18nProps(ctx, ['common', 'tender', 'search', 'counter'])),
+      ...(await getI18nProps(ctx, ['common', 'tender', 'search', 'counter', 'cta'])),
       tendersCount: await getTendersCount(),
       redTendersCount: await getRedTendersCount(),
       buyersCount: await getBuyersCount(),

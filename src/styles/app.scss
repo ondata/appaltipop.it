@@ -14,7 +14,6 @@ main {
     a:focus,
     a:active {
         &:not(.MuiListItem-button) {
-            text-decoration: none;
             color: #3624e0;
         }
     }
@@ -32,7 +31,8 @@ p {
 
 }
 
-p, li:not(.MuiBreadcrumbs-li, .MuiListItem-root) {
+p,
+li:not(.MuiBreadcrumbs-li):not(.MuiListItem-root) {
 
     a,
     a:hover,
@@ -40,12 +40,12 @@ p, li:not(.MuiBreadcrumbs-li, .MuiListItem-root) {
     a:focus,
     a:active {
         text-decoration: underline;
-        color: #ff0000;
+        color: #ff0000 !important;
     }
 
 }
 
-ul:not(.MuiList-root, .MuiPagination-ul) {
+ul:not(.MuiList-root):not(.MuiPagination-ul) {
     
     list-style: none; /* Remove default bullets */
 

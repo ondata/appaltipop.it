@@ -24,10 +24,11 @@ export default createMuiTheme({
       marginBottom: spacing(4)
     },
     h2: {
-      fontSize: '2.25rem',
+      fontSize: '1.875rem',
       fontWeight: 'bold',
       color: primaryColor,
-      marginBottom: spacing(4),
+      marginTop: spacing(5),
+      marginBottom: spacing(2),
       '@media (max-width:600px)': {
         fontSize: '1.5rem',
         lineHeight: 1.5
@@ -180,8 +181,15 @@ export default createMuiTheme({
     },
     MuiGrid: {
       item: {
-        '& > .MuiCard-root': {
+        '& > .MuiCard-root:first-child': {
           height: '100%'
+        }
+      }
+    },
+    MuiCard: {
+      root: {
+        '& a': {
+          textDecoration: 'none'
         }
       }
     },

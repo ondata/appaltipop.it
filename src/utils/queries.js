@@ -462,7 +462,7 @@ export async function getBuyerById (id, index) {
     return body._source || {}
   } else {
     const { body } = await es.search({
-      index: `${ES_INDEX_PREFIX}-buyer-*`,
+      index: `${ES_INDEX_PREFIX}-buyers-*`,
       body: {
         query: {
           ids: {
@@ -488,7 +488,7 @@ export async function getSupplierById (id, index) {
     return body._source || {}
   } else {
     const { body } = await es.search({
-      index: `${ES_INDEX_PREFIX}-supplier-*`,
+      index: `${ES_INDEX_PREFIX}-suppliers-*`,
       body: {
         query: {
           ids: {

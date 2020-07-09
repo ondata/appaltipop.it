@@ -87,7 +87,7 @@ function Index ({
             <Box mb={8}>
               <Grid container spacing={2} justify='space-between'>
 
-                <Grid item xs={12} sm>
+                <Grid item xs={12} sm={6} md>
 
                   <Typography variant='h1'>
                     {buyer['ocds:releases/0/buyer/name']}
