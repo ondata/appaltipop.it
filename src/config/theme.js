@@ -178,6 +178,13 @@ export default createMuiTheme({
         width: '100%'
       }
     },
+    MuiGrid: {
+      item: {
+        '& > .MuiCard-root': {
+          height: '100%'
+        }
+      }
+    },
     MuiCardContent: {
       root: {
         '&:last-child': {

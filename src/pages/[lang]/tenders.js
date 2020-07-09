@@ -29,7 +29,8 @@ import {
   AccordionSummary,
   AccordionDetails,
   FormLabel,
-  TextField
+  TextField,
+  Hidden
 } from '@material-ui/core'
 
 import { HighlightOff, ArrowForward, ExpandMore } from '@material-ui/icons'
@@ -54,6 +55,7 @@ import {
 import {
   getTendersCount,
   getRedTendersCount,
+  getBuyersCount,
   getBuyers,
   getRegions,
   getRedflagsCount
@@ -64,11 +66,12 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import AvatarIcon from '../../components/AvatarIcon'
 import { Tender } from '../../components/SearchResult'
-import { TendersCounter, FlagsCounter } from '../../components/Counter'
+import { TendersCounter, BuyersCounter, FlagsCounter } from '../../components/Counter'
 
 function Index ({
   tendersCount = 0,
   redTendersCount = 0,
+  buyersCount = 0,
   redflagsCount = 0,
   buyers = [],
   regions = []
@@ -238,39 +241,56 @@ function Index ({
         <Container component='header' maxWidth={CONTAINER_BREAKPOINT}>
           <Box mb={4}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} md={6}>
                 <Typography component='h1' variant='subtitle1'>
                   {t('common:tenders')}
                 </Typography>
                 <Typography component='span' variant='h1'>
                   {t('search:title')}
                 </Typography>
+                <Hidden smDown>
+                  <Typography component='div' variant='body2'>
+                    <ReactMarkdown
+                      source={t('search:description')}
+                    />
+                  </Typography>
+                </Hidden>
               </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid item xs={4} md={2}>
                 <TendersCounter
                   count={tendersCount}
-                  label={t('tender:counter.tender', {
+                  label={t('counter:tender', {
                     count: tendersCount
                   })}
                 />
               </Grid>
-              <Grid item xs={6} sm={3}>
+              <Grid item xs={4} md={2}>
                 <FlagsCounter
                   count={`${Math.round(
                     (redTendersCount / tendersCount) * 100
                   )}%`}
-                  label={t('tender:counter.redflag', {
+                  label={t('counter:redflag', {
                     count: redTendersCount
                   })}
                 />
               </Grid>
-              <Grid item xs={12} sm={8}>
-                <Typography component='div' variant='body2'>
-                  <ReactMarkdown
-                    source={t('search:description')}
-                  />
-                </Typography>
+              <Grid item xs={4} md={2}>
+                <BuyersCounter
+                  count={buyersCount}
+                  label={t('counter:buyer', {
+                    count: buyersCount
+                  })}
+                />
               </Grid>
+              <Hidden mdUp>
+                <Grid item xs={12}>
+                  <Typography component='div' variant='body2'>
+                    <ReactMarkdown
+                      source={t('search:description')}
+                    />
+                  </Typography>
+                </Grid>
+              </Hidden>
             </Grid>
           </Box>
         </Container>
@@ -657,9 +677,10 @@ function Index ({
 export const getStaticProps = async (ctx) => {
   return {
     props: {
-      ...(await getI18nProps(ctx, ['common', 'tender', 'search'])),
+      ...(await getI18nProps(ctx, ['common', 'tender', 'search', 'counter'])),
       tendersCount: await getTendersCount(),
       redTendersCount: await getRedTendersCount(),
+      buyersCount: await getBuyersCount(),
       redflagsCount: await getRedflagsCount(),
       buyers: map((await getBuyers()).hits, '_source'),
       regions: map((await getRegions()).hits, '_source')

@@ -11,7 +11,8 @@ export default function Counter ({
   icon,
   count = 0,
   label = '',
-  color = 'inherit'
+  color = 'inherit',
+  url = ''
 }) {
   const classes = useStyles()
 
@@ -32,7 +33,7 @@ export default function Counter ({
           {label}
         </Typography>
       </Grid>
-      <IconButton color='primary' size='small' className={classes.help}><HelpOutline fontSize='small' /></IconButton>
+      {!!url && <IconButton color='primary' size='small' className={classes.help}><HelpOutline fontSize='small' /></IconButton>}
     </Grid>
   )
 }
@@ -52,6 +53,7 @@ export function FlagsCounter ({ count = 0, label = '' }) {
       count={count}
       label={label}
       color={count ? 'secondary' : 'inherit'}
+      url='#'
     />
   )
 }
