@@ -19,3 +19,5 @@ export const CONTAINER_BREAKPOINT = 'lg'
 export const PAGE_SIZE = 25
 
 export const API_VERSION = 'v1'
+
+export const DOWNLOAD_URL = 'https://github.com/ondata/appaltipop/raw/master'

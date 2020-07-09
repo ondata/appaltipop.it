@@ -13,7 +13,10 @@ main {
     a:visited,
     a:focus,
     a:active {
-        color: #3624e0;
+        &:not(.MuiListItem-button) {
+            text-decoration: none;
+            color: #3624e0;
+        }
     }
 
 }
@@ -29,19 +32,20 @@ p {
 
 }
 
-p, li:not(.MuiBreadcrumbs-li) {
+p, li:not(.MuiBreadcrumbs-li, .MuiListItem-root) {
 
     a,
     a:hover,
     a:visited,
     a:focus,
     a:active {
+        text-decoration: underline;
         color: #ff0000;
     }
 
 }
 
-ul:not(.MuiList-root) {
+ul:not(.MuiList-root, .MuiPagination-ul) {
     
     list-style: none; /* Remove default bullets */
 
