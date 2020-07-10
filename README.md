@@ -16,7 +16,6 @@ yarn dev
 
 First of all: be sure the required version of nodejs has been installed on your computer.
 
-
 ```
 $ git clone https://github.com/ondata/appaltipop.it.git
 $ cd appaltipop.it
