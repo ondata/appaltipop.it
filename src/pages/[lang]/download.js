@@ -32,7 +32,7 @@ function Index ({ buyers }) {
   const { t, lang } = useTranslation()
   const MDXContent = dynamic(() => import(`../../locales/${lang}/download.mdx`))
 
-  const [ searchString, setSearchString ] = useState('')
+  const [searchString, setSearchString] = useState('')
 
   return (
     <>
@@ -78,8 +78,8 @@ function Index ({ buyers }) {
               value={searchString}
               onChange={event => setSearchString(event.target.value)}
               label={t('download:searchLabel')}
-              type="search"
-              variant="outlined"
+              type='search'
+              variant='outlined'
             />
 
             <List>
@@ -90,42 +90,40 @@ function Index ({ buyers }) {
                       buyers,
                       'ocds:releases/0/buyer/name'
                     ),
-                    buyer => includes(buyer["ocds:releases/0/buyer/name"].toLowerCase(), searchString.toLowerCase())
+                    buyer => includes(buyer['ocds:releases/0/buyer/name'].toLowerCase(), searchString.toLowerCase())
                   ),
-                  ({ "appaltipop:releases/0/buyer/resource": resource = {}, ...buyer }, index) => (
-                    <ListItem divider disableGutters key={resource["appaltipop:releases/0/buyer/resource/id"] || index}>
+                  ({ 'appaltipop:releases/0/buyer/resource': resource = {}, ...buyer }, index) => (
+                    <ListItem divider disableGutters key={resource['appaltipop:releases/0/buyer/resource/id'] || index}>
                       <Grid container spacing={2} alignItems='center'>
                         <Grid item xs={6} md>
-                          <Typography variant="caption">{t('common:buyer')}</Typography>
-                          <Typography variant='body1' color='inherit'>{buyer["ocds:releases/0/buyer/name"]}</Typography>
+                          <Typography variant='caption'>{t('common:buyer')}</Typography>
+                          <Typography variant='body1' color='inherit'>{buyer['ocds:releases/0/buyer/name']}</Typography>
                         </Grid>
                         <Grid item xs={6} md='auto'>
-                          <Typography variant="caption">{t('download:lastUpdate')}</Typography>
-                          <Typography variant='body1' color='inherit'>{resource["appaltipop:releases/0/buyer/resource/year"] || '-'}</Typography>
+                          <Typography variant='caption'>{t('download:lastUpdate')}</Typography>
+                          <Typography variant='body1' color='inherit'>{resource['appaltipop:releases/0/buyer/resource/year'] || '-'}</Typography>
                         </Grid>
                         {
-                          !!resource["appaltipop:releases/0/buyer/resource/json"]
-                          &&
-                          <Grid item xs={6} md='auto'>
-                            <CtaButton
-                              title={t('download:json')}
-                              description={resource["appaltipop:releases/0/buyer/resource/json/size"] || '- KB'}
-                              url={`${DOWNLOAD_URL}/${resource["appaltipop:releases/0/buyer/resource/json"]}`}
-                              icon='/icons/download.svg'
-                            />
-                          </Grid>
+                          !!resource['appaltipop:releases/0/buyer/resource/json'] &&
+                            <Grid item xs={6} md='auto'>
+                              <CtaButton
+                                title={t('download:json')}
+                                description={resource['appaltipop:releases/0/buyer/resource/json/size'] || '- KB'}
+                                url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/json']}`}
+                                icon='/icons/download.svg'
+                              />
+                            </Grid>
                         }
                         {
-                          !!resource["appaltipop:releases/0/buyer/resource/xlsx"]
-                          &&
-                          <Grid item xs={6} md='auto'>
-                            <CtaButton
-                              title={t('download:xlsx')}
-                              description={resource["appaltipop:releases/0/buyer/resource/xlsx/size"] || '- KB'}
-                              url={`${DOWNLOAD_URL}/${resource["appaltipop:releases/0/buyer/resource/xlsx"]}`}
-                              icon='/icons/download.svg'
-                            />
-                          </Grid>
+                          !!resource['appaltipop:releases/0/buyer/resource/xlsx'] &&
+                            <Grid item xs={6} md='auto'>
+                              <CtaButton
+                                title={t('download:xlsx')}
+                                description={resource['appaltipop:releases/0/buyer/resource/xlsx/size'] || '- KB'}
+                                url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/xlsx']}`}
+                                icon='/icons/download.svg'
+                              />
+                            </Grid>
                         }
                       </Grid>
                     </ListItem>
@@ -148,7 +146,7 @@ function Index ({ buyers }) {
 export const getStaticProps = async (ctx) => ({
   props: {
     ...(await getI18nProps(ctx, ['common', 'download'])),
-    buyers: map((await getBuyers()).hits, '_source'),
+    buyers: map((await getBuyers()).hits, '_source')
   }
 })
 

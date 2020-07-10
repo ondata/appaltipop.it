@@ -31,6 +31,8 @@ export default function App ({ Component, pageProps }) {
     h1: props => <Typography variant='h1' {...props} />,
     h2: props => <Typography variant='h2' {...props} />,
     p: props => <Typography variant='body2' gutterBottom {...props} />,
+    ul: props => <ul className='MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom' {...props} />,
+    ol: props => <ol className='MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom' {...props} />,
     Button: props => <CtaButton {...props} />,
     Card: props => <CtaCard {...props} />,
     Redflags: props => <Redflags {...props} />,

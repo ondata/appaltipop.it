@@ -13,8 +13,9 @@ main {
     a:visited,
     a:focus,
     a:active {
-        &:not(.MuiListItem-button) {
-            color: #3624e0;
+        color: #3624e0;
+        &.MuiListItem-button {
+            color: initial;
         }
     }
 
@@ -31,8 +32,7 @@ p {
 
 }
 
-p,
-li:not(.MuiBreadcrumbs-li):not(.MuiListItem-root) {
+.MuiTypography-root:not(.MuiBreadcrumbs-root) {
 
     a,
     a:hover,
@@ -40,7 +40,10 @@ li:not(.MuiBreadcrumbs-li):not(.MuiListItem-root) {
     a:focus,
     a:active {
         text-decoration: underline;
-        color: #ff0000 !important;
+        color: #ff0000;
+        &.MuiButtonBase-root {
+            color: #3624e0;
+        }
     }
 
 }

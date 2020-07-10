@@ -100,7 +100,7 @@ function Index ({
                   >
                     <Grid container spacing={2} alignItems='center'>
                       <Grid item>
-                        <a target='_blank' href='#'>
+                        <a className='MuiButtonBase-root' target='_blank' href='#'>
                           {t('common:print')}
                         </a>
                       </Grid>
