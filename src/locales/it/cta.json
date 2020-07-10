@@ -1,7 +1,7 @@
 {
   "getInvolved": {
     "title": "Partecipa",
-    "description": "Etiam porta sem malesuada magna mollis euismod.",
+    "description": "Unisciti a noi per rendere più trasparenti i dati sui contratti pubblici",
     "url": "/get-involved",
     "icon": "/icons/get-involved.svg"
   },
@@ -13,13 +13,13 @@
   },
   "monitor": {
     "title": "Monitora gli appalti",
-    "description": "Etiam porta sem malesuada magna mollis euismod.",
+    "description": "Cerca tra gli appalti indicizzati su AppaltiPOP e controlla le red flag",
     "url": "/tenders",
     "icon": "/icons/lens.svg"
   },
   "download": {
     "title": "Scarica i dati",
-    "description": "Etiam porta sem malesuada magna mollis euismod.",
+    "description": "Vai alla pagina download e scarica i dati per fare delle analisi sugli appalti.",
     "url": "/download",
     "icon": "/icons/download.svg"
   },
@@ -30,11 +30,11 @@
     "icon": "/icons/lens.svg"
   },
   "foia": {
-    "title": "Fai una richiesta FOIA all'ente appaltante",
-    "url": "#"
+    "title": "Fai una richiesta di accesso ai dati su un appalto all'ente appaltante",
+    "url": "http://foiapop.it/"
   },
   "whistle": {
     "title": "Fai una segnalazione come whistleblower",
-    "url": "#"
+    "url": "https://www.transparency.it/alac/"
   }
 }
