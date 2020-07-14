@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import useTranslation from 'next-translate/useTranslation'
@@ -8,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 
 import axios from 'axios'
 
-import { map, sortBy, range } from 'lodash'
+import { map, sortBy, range, find } from 'lodash'
 
 import {
   Container,
@@ -78,7 +79,8 @@ function Index ({
   regions = []
 }) {
   const { t, lang } = useTranslation()
-
+  const { query: qs } = useRouter()
+  
   const [tenders, setTenders] = useState([])
 
   const [results, setResults] = useState(0)
@@ -116,6 +118,28 @@ function Index ({
 
   const [waiting, setWaiting] = useState(false)
 
+  useEffect(() => {
+    setSearchString(qs.q || '')
+    setCurrentSearchString(qs.q || '')
+    setBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
+    setCurrentBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
+    setRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
+    setCurrentRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
+    setMinAmount(qs.minAmount ? +qs.minAmount : 0)
+    setCurrentMinAmount(qs.minAmount ? +qs.minAmount : 0)
+    setMaxAmount(qs.maxAmount ? +qs.maxAmount : 0)
+    setCurrentMaxAmount(qs.maxAmount ? +qs.maxAmount : 0)
+    setMinDate(qs.minDate ? new Date(qs.minDate) : null)
+    setCurrentMinDate(qs.minDate ? new Date(qs.minDate) : null)
+    setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
+    setCurrentMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
+    setMinFlags(qs.minFlags ? +qs.minFlags : 0)
+    setCurrentMinFlags(qs.minFlags ? +qs.minFlags : 0)
+    setMaxFlags(qs.maxFlags ? +qs.maxFlags : 0)
+    setCurrentMaxFlags(qs.maxFlags ? +qs.maxFlags : 0)
+    setPage(qs.page ? +qs.page : 1)
+  }, [qs])
+
   function handleSubmit (e) {
     setResultsLabel(<>&nbsp;</>)
     setCurrentSearchString(searchString)
@@ -127,7 +151,7 @@ function Index ({
     setCurrentMaxDate(maxDate)
     setCurrentMinFlags(minFlags)
     setCurrentMaxFlags(maxFlags)
-    e.preventDefault()
+    e && e.preventDefault()
   }
 
   function handleReset () {
@@ -165,7 +189,7 @@ function Index ({
       axios
         .get(`/api/${API_VERSION}/tenders`, {
           params: {
-            q: currentSearchString,
+            q: currentSearchString.replace(/\*/g,''),
             buyer: currentBuyer ? currentBuyer['ocds:releases/0/buyer/id'] : '',
             region: currentRegion ? currentRegion['istat:COD_REG'] : '',
             minAmount: currentMinAmount,
@@ -174,7 +198,7 @@ function Index ({
             maxDate: currentMaxDate ? currentMaxDate.toISOString().split('T')[0] : '',
             minFlags: currentMinFlags,
             maxFlags: currentMaxFlags,
-            lang,
+            lang: qs.lang || lang,
             page: page - 1
           }
         })

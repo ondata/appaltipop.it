@@ -146,10 +146,10 @@ export const searchForTenders = async ({
 
   return await getItems(
     `${ES_INDEX_PREFIX}-tenders-*`,
-    q && {
+    {
       bool: {
         filter,
-        must: {
+        must: q ? {
           multi_match: {
             query: q,
             type: 'cross_fields',
@@ -161,6 +161,8 @@ export const searchForTenders = async ({
               'appaltipop:releases/0/buyers.istat:DEN_CM'
             ]
           }
+        } : {
+          match_all: {}
         }
       }
     },
