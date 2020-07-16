@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 
 import axios from 'axios'
 
-import { map, sortBy, range, find } from 'lodash'
+import { map, sortBy, range, find, filter, includes } from 'lodash'
 
 import {
   Container,
@@ -431,26 +431,6 @@ function Index ({
                       <Grid container spacing={2}>
                         <Grid item xs={6}>
                           <FormControl variant='outlined'>
-                            <FormLabel component='label' htmlFor='search-buyer-field'>
-                              <Typography variant='subtitle1' color='textPrimary'>
-                                {t('search:buyer.label')}
-                              </Typography>
-                            </FormLabel>
-                            <Autocomplete
-                              id='search-buyer-field'
-                              fullWidth
-                              autoHighlight
-                              autoComplete
-                              value={buyer}
-                              onChange={(event, newValue) => setBuyer(newValue)}
-                              options={sortBy(buyers, 'ocds:releases/0/buyer/name')}
-                              getOptionLabel={(option) => option['ocds:releases/0/buyer/name']}
-                              renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
-                            />
-                          </FormControl>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-region-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
                                 {t('search:region.label')}
@@ -465,6 +445,26 @@ function Index ({
                               onChange={(event, newValue) => setRegion(newValue)}
                               options={sortBy(regions, 'istat:COD_REG')}
                               getOptionLabel={(option) => option['ocds:releases/0/parties/address/region']}
+                              renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component='label' htmlFor='search-buyer-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
+                                {t('search:buyer.label')}
+                              </Typography>
+                            </FormLabel>
+                            <Autocomplete
+                              id='search-buyer-field'
+                              fullWidth
+                              autoHighlight
+                              autoComplete
+                              value={!region || (buyer && buyer['istat:COD_REG'] === region['istat:COD_REG']) ? buyer : null}
+                              onChange={(event, newValue) => setBuyer(newValue)}
+                              options={sortBy(filter(buyers, buyer => !region || buyer['istat:COD_REG'] === region['istat:COD_REG']), 'ocds:releases/0/buyer/name')}
+                              getOptionLabel={(option) => option['ocds:releases/0/buyer/name']}
                               renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
                             />
                           </FormControl>
