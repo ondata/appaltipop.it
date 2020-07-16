@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 
 import axios from 'axios'
 
-import { map, sortBy, range, find, filter, includes } from 'lodash'
+import { map, sortBy, find, filter } from 'lodash'
 
 import {
   Container,
@@ -31,7 +31,8 @@ import {
   AccordionDetails,
   FormLabel,
   TextField,
-  Hidden
+  Hidden,
+  Slider
 } from '@material-ui/core'
 
 import { HighlightOff, ArrowForward, ExpandMore } from '@material-ui/icons'
@@ -42,7 +43,7 @@ import DateFnsUtils from '@date-io/date-fns'
 
 import {
   MuiPickersUtilsProvider,
-  DatePicker
+  KeyboardDatePicker
 } from '@material-ui/pickers'
 
 import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
@@ -50,8 +51,13 @@ import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 import {
   CONTAINER_BREAKPOINT,
   PAGE_SIZE,
+  PERCENTAGE_FORMAT,
+  INTEGER_FORMAT,
+  LARGE_INTEGER_FORMAT,
   API_VERSION
 } from '../../config/constants'
+
+import { numberFormat, timeFormat } from '../../utils/formats'
 
 import {
   getTendersCount,
@@ -59,7 +65,8 @@ import {
   getBuyersCount,
   getBuyers,
   getRegions,
-  getRedflagsCount
+  getRedflagsCount,
+  getMinMaxAmount
 } from '../../utils/queries'
 
 import Link from '../../components/Link'
@@ -75,10 +82,12 @@ function Index ({
   redTendersCount = 0,
   buyersCount = 0,
   redflagsCount = 0,
+  largestAmount = 0,
   buyers = [],
   regions = []
 }) {
   const { t, lang } = useTranslation()
+  const nf = numberFormat(lang).format
   const { query: qs } = useRouter()
   
   const [tenders, setTenders] = useState([])
@@ -95,11 +104,9 @@ function Index ({
   const [region, setRegion] = useState(null)
   const [currentRegion, setCurrentRegion] = useState(null)
 
-  const [minAmount, setMinAmount] = useState(0)
+  const [rangeAmount, setRangeAmount] = useState([0, largestAmount])
   const [currentMinAmount, setCurrentMinAmount] = useState(0)
-
-  const [maxAmount, setMaxAmount] = useState(0)
-  const [currentMaxAmount, setCurrentMaxAmount] = useState(0)
+  const [currentMaxAmount, setCurrentMaxAmount] = useState(largestAmount)
 
   const [minDate, setMinDate] = useState(null)
   const [currentMinDate, setCurrentMinDate] = useState(null)
@@ -107,16 +114,22 @@ function Index ({
   const [maxDate, setMaxDate] = useState(null)
   const [currentMaxDate, setCurrentMaxDate] = useState(null)
 
-  const [minFlags, setMinFlags] = useState(0)
+  const [rangeFlags, setRangeFlags] = useState([0, redflagsCount])
   const [currentMinFlags, setCurrentMinFlags] = useState(0)
-
-  const [maxFlags, setMaxFlags] = useState(0)
-  const [currentMaxFlags, setCurrentMaxFlags] = useState(0)
+  const [currentMaxFlags, setCurrentMaxFlags] = useState(redflagsCount)
 
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
 
   const [waiting, setWaiting] = useState(false)
+
+  useEffect(() => {
+    setRangeFlags([0, redflagsCount])
+  }, [redflagsCount])
+
+  useEffect(() => {
+    setRangeAmount([0, largestAmount])
+  }, [largestAmount])
 
   useEffect(() => {
     setSearchString(qs.q || '')
@@ -125,18 +138,16 @@ function Index ({
     setCurrentBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
     setRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
     setCurrentRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
-    setMinAmount(qs.minAmount ? +qs.minAmount : 0)
+    setRangeAmount([qs.minAmount ? +qs.minAmount : 0, qs.maxAmount ? +qs.maxAmount : largestAmount])
     setCurrentMinAmount(qs.minAmount ? +qs.minAmount : 0)
-    setMaxAmount(qs.maxAmount ? +qs.maxAmount : 0)
-    setCurrentMaxAmount(qs.maxAmount ? +qs.maxAmount : 0)
+    setCurrentMaxAmount(qs.maxAmount ? +qs.maxAmount : largestAmount)
     setMinDate(qs.minDate ? new Date(qs.minDate) : null)
     setCurrentMinDate(qs.minDate ? new Date(qs.minDate) : null)
     setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
     setCurrentMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
-    setMinFlags(qs.minFlags ? +qs.minFlags : 0)
+    setRangeFlags([qs.minFlags ? +qs.minFlags : 0, qs.maxFlags ? +qs.maxFlags : redflagsCount])
     setCurrentMinFlags(qs.minFlags ? +qs.minFlags : 0)
-    setMaxFlags(qs.maxFlags ? +qs.maxFlags : 0)
-    setCurrentMaxFlags(qs.maxFlags ? +qs.maxFlags : 0)
+    setCurrentMaxFlags(qs.maxFlags ? +qs.maxFlags : redflagsCount)
     setPage(qs.page ? +qs.page : 1)
   }, [qs])
 
@@ -145,12 +156,12 @@ function Index ({
     setCurrentSearchString(searchString)
     setCurrentBuyer(buyer)
     setCurrentRegion(region)
-    setCurrentMinAmount(minAmount)
-    setCurrentMaxAmount(maxAmount)
+    setCurrentMinAmount(rangeAmount[0])
+    setCurrentMaxAmount(rangeAmount[1])
     setCurrentMinDate(minDate)
     setCurrentMaxDate(maxDate)
-    setCurrentMinFlags(minFlags)
-    setCurrentMaxFlags(maxFlags)
+    setCurrentMinFlags(rangeFlags[0])
+    setCurrentMaxFlags(rangeFlags[1])
     e && e.preventDefault()
   }
 
@@ -159,12 +170,10 @@ function Index ({
     setSearchString('')
     setBuyer(null)
     setRegion(null)
-    setMinAmount(0)
-    setMaxAmount(0)
+    setRangeAmount([0, largestAmount])
     setMinDate(null)
     setMaxDate(null)
-    setMinFlags(0)
-    setMaxFlags(0)
+    setRangeFlags([0, redflagsCount])
     setTenders([])
     setResults(0)
     setPage(1)
@@ -172,11 +181,11 @@ function Index ({
     setCurrentBuyer(null)
     setCurrentRegion(null)
     setCurrentMinAmount(0)
-    setCurrentMaxAmount(0)
+    setCurrentMaxAmount(largestAmount)
     setCurrentMinDate(null)
     setCurrentMaxDate(null)
     setCurrentMinFlags(0)
-    setCurrentMaxFlags(0)
+    setCurrentMaxFlags(redflagsCount)
   }
 
   function handleChangePage (e, value) {
@@ -284,7 +293,7 @@ function Index ({
               </Grid>
               <Grid item xs={4} md={2}>
                 <TendersCounter
-                  count={tendersCount}
+                  count={nf(INTEGER_FORMAT)(tendersCount)}
                   label={t('counter:tender', {
                     count: tendersCount
                   })}
@@ -292,9 +301,7 @@ function Index ({
               </Grid>
               <Grid item xs={4} md={2}>
                 <FlagsCounter
-                  count={`${Math.round(
-                    (redTendersCount / tendersCount) * 100
-                  )}%`}
+                  count={nf(PERCENTAGE_FORMAT)(redTendersCount / tendersCount)}
                   label={t('counter:redflag', {
                     count: redTendersCount
                   })}
@@ -302,7 +309,7 @@ function Index ({
               </Grid>
               <Grid item xs={4} md={2}>
                 <BuyersCounter
-                  count={buyersCount}
+                  count={nf(INTEGER_FORMAT)(buyersCount)}
                   label={t('counter:buyer', {
                     count: buyersCount
                   })}
@@ -344,80 +351,63 @@ function Index ({
 
         <Box pb={8} component='section' className='band band-g'>
           <Container maxWidth={CONTAINER_BREAKPOINT}>
+            <Typography variant='h2'>
+              {t('search:label')}
+            </Typography>
             <Grid container>
-              <Grid item xs={12} sm={8}>
+              <Grid item xs={12} md={8}>
                 <form
                   noValidate
                   autoComplete='off'
                   onSubmit={handleSubmit}
                 >
-                  <Grid container spacing={2} alignItems='flex-end'>
-                    <Grid item xs={10}>
-                      <FormControl
-                        variant='outlined'
-                        fullWidth
-                      >
-                        <FormLabel component='label' htmlFor='search-text-field'>
-                          <Typography variant='subtitle1' color='textPrimary'>
-                            {t('search:text.label')}
-                          </Typography>
-                        </FormLabel>
-                        <OutlinedInput
-                          id='search-text-field'
-                          placeholder={t(
-                            'search:text.help'
-                          )}
-                          value={searchString}
-                          onChange={(e) => setSearchString(e.target.value)}
-                          endAdornment={!!searchString && (
-                            <InputAdornment position='end'>
-                              <IconButton
-                                aria-label={t(
-                                  'common:search.reset'
-                                )}
-                                onClick={handleReset}
-                                edge='end'
-                              >
-                                {waiting ? (
-                                  <CircularProgress />
-                                ) : (
-                                  <HighlightOff />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          )}
-                        />
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <FormControl
-                        variant='outlined'
-                        fullWidth
-                      >
-                        <Button
-                          variant='contained'
-                          color='secondary'
-                          disableElevation
-                          type='submit'
-                          style={{ height: '100%' }}
-                        >
-                          {t('common:search.cta')}
-                        </Button>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography component='p' variant='caption'>
-                        {currentSearchString ? (
-                          resultsLabel
-                        ) : (
-                          <>&nbsp;</>
-                        )}
+                  <FormControl
+                    variant='outlined'
+                    fullWidth
+                  >
+                    <FormLabel component='label' htmlFor='search-text-field'>
+                      <Typography variant='subtitle1' color='textPrimary'>
+                        {t('search:text.label')}
                       </Typography>
-                    </Grid>
-                  </Grid>
+                    </FormLabel>
+                    <OutlinedInput
+                      id='search-text-field'
+                      placeholder={t(
+                        'search:text.help'
+                      )}
+                      value={searchString}
+                      onChange={(e) => setSearchString(e.target.value)}
+                      endAdornment={!!searchString && (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            aria-label={t(
+                              'common:search.reset'
+                            )}
+                            onClick={handleReset}
+                            edge='end'
+                          >
+                            {waiting ? (
+                              <CircularProgress />
+                            ) : (
+                              <HighlightOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      )}
+                    />
+                  </FormControl>
+                  <Typography component='p' variant='caption'>
+                    {currentSearchString ? (
+                      resultsLabel
+                    ) : (
+                      <>&nbsp;</>
+                    )}
+                  </Typography>
                   <Accordion elevation={0} square>
                     <AccordionSummary
-                      expandIcon={<ExpandMore />}
+                      expandIcon={
+                        <ExpandMore fontSize='large' color='primary' />
+                      }
                       aria-controls='filter-content'
                       id='filter-header'
                     >
@@ -429,7 +419,7 @@ function Index ({
                     </AccordionSummary>
                     <AccordionDetails>
                       <Grid container spacing={2}>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                           <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-region-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
@@ -449,7 +439,7 @@ function Index ({
                             />
                           </FormControl>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={8}>
                           <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-buyer-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
@@ -471,61 +461,54 @@ function Index ({
                         </Grid>
                       </Grid>
                       <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <FormControl variant='outlined'>
-                            <FormLabel component='label' htmlFor='search-minAmount-field'>
-                              <Typography variant='subtitle1' color='textPrimary'>
-                                {t('search:minAmount.label')}
-                              </Typography>
-                            </FormLabel>
-                            <TextField
-                              id='search-minAmount-field'
-                              variant='outlined'
-                              type='number'
-                              value={minAmount}
-                              onChange={(event) => setMinAmount(+event.target.value)}
-                              inputProps={{
-                                min: 0,
-                                step: 1000
-                              }}
-                              InputProps={{
-                                startAdornment: <InputAdornment position='start'>&euro;</InputAdornment>
-                              }}
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                            />
-                          </FormControl>
+                        <Grid item xs={4}>
+                          <Typography variant='subtitle1' color='textPrimary'>
+                            {t('search:rangeFlags.label')}
+                          </Typography>
+                          <Box mx={2}>
+                            <Grid container spacing={2}>
+                              <Grid item><Typography variant='body1'>{0}</Typography></Grid>
+                              <Grid item xs>
+                                <Slider
+                                  min={0}
+                                  max={redflagsCount}
+                                  step={1}
+                                  //valueLabelDisplay="auto"
+                                  marks
+                                  value={rangeFlags}
+                                  onChange={(event, rangeFlags) => setRangeFlags(rangeFlags)}
+                                />
+                              </Grid>
+                              <Grid item><Typography variant='body1'>{redflagsCount}</Typography></Grid>
+                            </Grid>
+                          </Box>
                         </Grid>
-                        <Grid item xs={6}>
-                          <FormControl variant='outlined'>
-                            <FormLabel component='label' htmlFor='search-maxAmount-field'>
-                              <Typography variant='subtitle1' color='textPrimary'>
-                                {t('search:maxAmount.label')}
-                              </Typography>
-                            </FormLabel>
-                            <TextField
-                              id='search-maxAmount-field'
-                              variant='outlined'
-                              type='number'
-                              value={maxAmount}
-                              onChange={(event) => setMaxAmount(+event.target.value)}
-                              inputProps={{
-                                min: 0,
-                                step: 1000
-                              }}
-                              InputProps={{
-                                startAdornment: <InputAdornment position='start'>&euro;</InputAdornment>
-                              }}
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                            />
-                          </FormControl>
+                        <Grid item xs={8}>
+                          <Typography variant='subtitle1' color='textPrimary'>
+                            {t('search:rangeAmount.label')} (&euro;)
+                          </Typography>
+                          <Box mx={2}>
+                            <Grid container spacing={2}>
+                              <Grid item><Typography variant='body1'>{nf(LARGE_INTEGER_FORMAT)(0)}</Typography></Grid>
+                              <Grid item xs>
+                                <Slider
+                                  min={0}
+                                  max={largestAmount}
+                                  step={10^6}
+                                  //scale={(x) => Math.exp(x)}
+                                  valueLabelFormat={(value) => nf(LARGE_INTEGER_FORMAT)(value)}
+                                  valueLabelDisplay="auto"
+                                  value={rangeAmount}
+                                  onChange={(event, rangeAmount) => setRangeAmount(rangeAmount)}
+                                />
+                              </Grid>
+                              <Grid item><Typography variant='body1'>{nf(LARGE_INTEGER_FORMAT)(largestAmount)}+</Typography></Grid>
+                            </Grid>
+                          </Box>
                         </Grid>
                       </Grid>
                       <Grid container spacing={2}>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                           <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-minDate-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
@@ -533,23 +516,24 @@ function Index ({
                               </Typography>
                             </FormLabel>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <DatePicker
+                              <KeyboardDatePicker
                                 autoOk
-                                disableToolbar
+                                //disableToolbar
                                 views={['year', 'month']}
                                 variant='inline'
                                 inputVariant='outlined'
-                                // format="MM/yyyy"
+                                InputAdornmentProps={{ position: "end" }}
+                                format="MM/yyyy"
                                 // margin="normal"
                                 id='search-minDate-field'
-                                // label="Date picker inline"
+                                label="MM/yyyy"
                                 value={minDate}
                                 onChange={(date) => setMinDate(date)}
                               />
                             </MuiPickersUtilsProvider>
                           </FormControl>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                           <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-maxDate-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
@@ -557,16 +541,16 @@ function Index ({
                               </Typography>
                             </FormLabel>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <DatePicker
+                              <KeyboardDatePicker
                                 autoOk
-                                disableToolbar
+                                //disableToolbar
                                 views={['year', 'month']}
                                 variant='inline'
                                 inputVariant='outlined'
-                                // format="MM/yyyy"
+                                format="MM/yyyy"
                                 // margin="normal"
                                 id='search-minDate-field'
-                                // label="Date picker inline"
+                                label="MM/yyyy"
                                 value={maxDate}
                                 onChange={(date) => setMaxDate(date)}
                               />
@@ -574,74 +558,18 @@ function Index ({
                           </FormControl>
                         </Grid>
                       </Grid>
-                      <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                          <FormControl variant='outlined'>
-                            <FormLabel component='label' htmlFor='search-minFlags-field'>
-                              <Typography variant='subtitle1' color='textPrimary'>
-                                {t('search:minFlags.label')}
-                              </Typography>
-                            </FormLabel>
-                            <TextField
-                              id='search-minFlags-field'
-                              select
-                              // label="Native select"
-                              value={minFlags}
-                              onChange={(event) => setMinFlags(+event.target.value)}
-                              SelectProps={{
-                                native: true
-                              }}
-                              // helperText="Please select your currency"
-                              variant='outlined'
-                            >
-                              {
-                                map(
-                                  range(redflagsCount + 1),
-                                  (option) => (
-                                    <option key={option} value={option}>
-                                      {option}
-                                    </option>
-                                  )
-                                )
-                              }
-                            </TextField>
-                          </FormControl>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <FormControl variant='outlined'>
-                            <FormLabel component='label' htmlFor='search-maxFlags-field'>
-                              <Typography variant='subtitle1' color='textPrimary'>
-                                {t('search:maxFlags.label')}
-                              </Typography>
-                            </FormLabel>
-                            <TextField
-                              id='search-maxFlags-field'
-                              select
-                              // label="Native select"
-                              value={maxFlags}
-                              onChange={(event) => setMaxFlags(+event.target.value)}
-                              SelectProps={{
-                                native: true
-                              }}
-                              // helperText="Please select your currency"
-                              variant='outlined'
-                            >
-                              {
-                                map(
-                                  range(redflagsCount + 1 - minFlags),
-                                  (option) => (
-                                    <option key={option + minFlags} value={option + minFlags}>
-                                      {option + minFlags}
-                                    </option>
-                                  )
-                                )
-                              }
-                            </TextField>
-                          </FormControl>
-                        </Grid>
-                      </Grid>
                     </AccordionDetails>
                   </Accordion>
+                  <Box textAlign='right'>
+                    <Button
+                      variant='contained'
+                      color='secondary'
+                      disableElevation
+                      type='submit'
+                    >
+                      {t('common:search.cta')}
+                    </Button>
+                  </Box>
                 </form>
               </Grid>
             </Grid>
@@ -729,6 +657,7 @@ export const getStaticProps = async (ctx) => {
       redTendersCount: await getRedTendersCount(),
       buyersCount: await getBuyersCount(),
       redflagsCount: await getRedflagsCount(),
+      largestAmount: (await getMinMaxAmount())[1],
       buyers: map((await getBuyers()).hits, '_source'),
       regions: map((await getRegions()).hits, '_source')
     },

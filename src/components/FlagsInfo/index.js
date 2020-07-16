@@ -31,6 +31,7 @@ export default function Index ({ flags = [] }) {
         flags, // map(range(1,+t("redflags:flags")+1), redflag => padStart(redflag,2,0)),
         (flag) => (
           <Accordion
+            className={classes.root}
             elevation={0}
             key={flag}
             expanded={expanded === flag}
@@ -71,7 +72,9 @@ export default function Index ({ flags = [] }) {
                 </Typography>
               </Box>
             </AccordionSummary>
-            <AccordionDetails>
+            <AccordionDetails
+              className={classes.details}
+            >
               <Typography
                 variant='body2'
                 className={classes.description}

@@ -426,6 +426,38 @@ export const getBuyersBySupplier = async (supplier) =>
     'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id'
   )
 
+async function getMinMax (index, aggKey) {
+  const { body } = await es.search({
+    index,
+    body: {
+      size: 0,
+      aggs: {
+        min: {
+          min: {
+            field: aggKey
+          }
+        },
+        max: {
+          max: {
+            field: aggKey
+          }
+        }
+      }
+    }
+  })
+
+  return [
+    body.aggregations.min.value,
+    body.aggregations.max.value
+  ]
+}
+
+export const getMinMaxAmount = async () =>
+  await getMinMax(
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'ocds:releases/0/awards/0/value/amount'
+  )
+
 export async function getTenderById (id, index) {
   if (!id) return {}
 
