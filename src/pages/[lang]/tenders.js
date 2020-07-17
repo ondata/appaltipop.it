@@ -397,7 +397,7 @@ function Index ({
                           <Typography variant='subtitle1' color='textPrimary'>
                             {t('search:rangeFlags.label')}
                           </Typography>
-                          <Box mx={2}>
+                          <Box mx={1}>
                             <Grid container spacing={2}>
                               <Grid item><Typography variant='body1'>{0}</Typography></Grid>
                               <Grid item xs>
@@ -419,7 +419,7 @@ function Index ({
                           <Typography variant='subtitle1' color='textPrimary'>
                             {t('search:rangeAmount.label')} (&euro;)
                           </Typography>
-                          <Box mx={2}>
+                          <Box mx={1}>
                             <Grid container spacing={2}>
                               <Grid item><Typography variant='body1'>{nf(LARGE_INTEGER_FORMAT)(0)}</Typography></Grid>
                               <Grid item xs>
