@@ -126,13 +126,13 @@ function Index ({
     setRangeFlags([qs.minFlags ? +qs.minFlags : 0, qs.maxFlags ? +qs.maxFlags : redflagsCount])
     setPage(qs.page ? +qs.page : 1)
     if (keys(qs).length > 1) {
-      handleRequest(qs)
+      handleRequest({ page: 1, ...qs })
     }
   }, [qs])
 
   function handleSubmit (e) {
     setResultsLabel(<>&nbsp;</>)
-    handleRequest()
+    handleRequest({ page: 1 })
     e && e.preventDefault()
   }
 
@@ -157,7 +157,7 @@ function Index ({
       axios
         .get(`/api/${API_VERSION}/tenders`, {
           params: {
-            q: qs.q || searchString.replace(/\*/g, ''),
+            q: qs.q || searchString,
             buyer: qs.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
             region: qs.region || (region ? region['istat:COD_REG'] : ''),
             minAmount: qs.minAmount || rangeAmount[0],
@@ -182,12 +182,6 @@ function Index ({
       setTenders([])
     }
   }
-
-  useEffect(() => {
-    if (page) {
-      handleRequest()
-    }
-  }, [page])
 
   useEffect(() => {
     setResultsLabel(
@@ -522,7 +516,10 @@ function Index ({
                       shape='rounded'
                       page={page}
                       count={pages}
-                      onChange={(e, value) => setPage(value)}
+                      onChange={(e, value) => {
+                        setPage(value)
+                        handleRequest({ page: value })
+                      }}
                     />
                   )}
 
@@ -569,7 +566,10 @@ function Index ({
                       shape='rounded'
                       page={page}
                       count={pages}
-                      onChange={(e, value) => setPage(value)}
+                      onChange={(e, value) => {
+                        setPage(value)
+                        handleRequest({ page: value })
+                      }}
                     />
                   )}
 
