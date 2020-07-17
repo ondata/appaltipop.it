@@ -200,7 +200,7 @@ function Index ({
                         <CtaCard
                           {...t(
                             `cta:${cta}`,
-                            { qs: `?q=*&buyer=${buyer['ocds:releases/0/buyer/id']}` },
+                            { qs: `?buyer=${buyer['ocds:releases/0/buyer/id']}` },
                             { returnObjects: true }
                           )}
                         />

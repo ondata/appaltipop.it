@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown'
 
 import axios from 'axios'
 
-import { map, sortBy, find, filter } from 'lodash'
+import { map, sortBy, find, filter, keys } from 'lodash'
 
 import {
   Container,
@@ -57,7 +57,7 @@ import {
   API_VERSION
 } from '../../config/constants'
 
-import { numberFormat, timeFormat } from '../../utils/formats'
+import { numberFormat } from '../../utils/formats'
 
 import {
   getTendersCount,
@@ -89,34 +89,19 @@ function Index ({
   const { t, lang } = useTranslation()
   const nf = numberFormat(lang).format
   const { query: qs } = useRouter()
-  
+
   const [tenders, setTenders] = useState([])
 
-  const [results, setResults] = useState(0)
+  const [resultsCount, setResultsCount] = useState(0)
   const [resultsLabel, setResultsLabel] = useState(<>&nbsp;</>)
 
   const [searchString, setSearchString] = useState('')
-  const [currentSearchString, setCurrentSearchString] = useState('')
-
   const [buyer, setBuyer] = useState(null)
-  const [currentBuyer, setCurrentBuyer] = useState(null)
-
   const [region, setRegion] = useState(null)
-  const [currentRegion, setCurrentRegion] = useState(null)
-
   const [rangeAmount, setRangeAmount] = useState([0, largestAmount])
-  const [currentMinAmount, setCurrentMinAmount] = useState(0)
-  const [currentMaxAmount, setCurrentMaxAmount] = useState(largestAmount)
-
   const [minDate, setMinDate] = useState(null)
-  const [currentMinDate, setCurrentMinDate] = useState(null)
-
   const [maxDate, setMaxDate] = useState(null)
-  const [currentMaxDate, setCurrentMaxDate] = useState(null)
-
   const [rangeFlags, setRangeFlags] = useState([0, redflagsCount])
-  const [currentMinFlags, setCurrentMinFlags] = useState(0)
-  const [currentMaxFlags, setCurrentMaxFlags] = useState(redflagsCount)
 
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState(1)
@@ -133,35 +118,21 @@ function Index ({
 
   useEffect(() => {
     setSearchString(qs.q || '')
-    setCurrentSearchString(qs.q || '')
     setBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
-    setCurrentBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
     setRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
-    setCurrentRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
     setRangeAmount([qs.minAmount ? +qs.minAmount : 0, qs.maxAmount ? +qs.maxAmount : largestAmount])
-    setCurrentMinAmount(qs.minAmount ? +qs.minAmount : 0)
-    setCurrentMaxAmount(qs.maxAmount ? +qs.maxAmount : largestAmount)
     setMinDate(qs.minDate ? new Date(qs.minDate) : null)
-    setCurrentMinDate(qs.minDate ? new Date(qs.minDate) : null)
     setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
-    setCurrentMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
     setRangeFlags([qs.minFlags ? +qs.minFlags : 0, qs.maxFlags ? +qs.maxFlags : redflagsCount])
-    setCurrentMinFlags(qs.minFlags ? +qs.minFlags : 0)
-    setCurrentMaxFlags(qs.maxFlags ? +qs.maxFlags : redflagsCount)
     setPage(qs.page ? +qs.page : 1)
+    if (keys(qs).length > 1) {
+      handleRequest(qs)
+    }
   }, [qs])
 
   function handleSubmit (e) {
     setResultsLabel(<>&nbsp;</>)
-    setCurrentSearchString(searchString)
-    setCurrentBuyer(buyer)
-    setCurrentRegion(region)
-    setCurrentMinAmount(rangeAmount[0])
-    setCurrentMaxAmount(rangeAmount[1])
-    setCurrentMinDate(minDate)
-    setCurrentMaxDate(maxDate)
-    setCurrentMinFlags(rangeFlags[0])
-    setCurrentMaxFlags(rangeFlags[1])
+    handleRequest()
     e && e.preventDefault()
   }
 
@@ -175,45 +146,35 @@ function Index ({
     setMaxDate(null)
     setRangeFlags([0, redflagsCount])
     setTenders([])
-    setResults(0)
+    setResultsCount(0)
     setPage(1)
-    setCurrentSearchString('')
-    setCurrentBuyer(null)
-    setCurrentRegion(null)
-    setCurrentMinAmount(0)
-    setCurrentMaxAmount(largestAmount)
-    setCurrentMinDate(null)
-    setCurrentMaxDate(null)
-    setCurrentMinFlags(0)
-    setCurrentMaxFlags(redflagsCount)
+    setPages(1)
   }
 
-  function handleChangePage (e, value) {
-    setPage(value)
-  }
-
-  function handleRequest () {
-    if (currentSearchString) {
+  function handleRequest (qs = {}) {
+    if (!waiting) {
       setWaiting(true)
       axios
         .get(`/api/${API_VERSION}/tenders`, {
           params: {
-            q: currentSearchString.replace(/\*/g,''),
-            buyer: currentBuyer ? currentBuyer['ocds:releases/0/buyer/id'] : '',
-            region: currentRegion ? currentRegion['istat:COD_REG'] : '',
-            minAmount: currentMinAmount,
-            maxAmount: currentMaxAmount,
-            minDate: currentMinDate ? currentMinDate.toISOString().split('T')[0] : '',
-            maxDate: currentMaxDate ? currentMaxDate.toISOString().split('T')[0] : '',
-            minFlags: currentMinFlags,
-            maxFlags: currentMaxFlags,
+            q: qs.q || searchString.replace(/\*/g, ''),
+            buyer: qs.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
+            region: qs.region || (region ? region['istat:COD_REG'] : ''),
+            minAmount: qs.minAmount || rangeAmount[0],
+            maxAmount: qs.maxAmount || rangeAmount[1],
+            minDate: qs.minDate || (minDate ? minDate.toISOString().split('T')[0] : ''),
+            maxDate: qs.maxDate || (maxDate ? maxDate.toISOString().split('T')[0] : ''),
+            minFlags: qs.minFlags || rangeFlags[0],
+            maxFlags: qs.maxFlags || rangeFlags[1],
             lang: qs.lang || lang,
-            page: page - 1
+            page: (qs.page || page) - 1
           }
         })
         .then((res) => {
-          setResults(res.data.total.value)
+          setResultsCount(res.data.total.value)
           setTenders(map(res.data.hits, '_source'))
+        })
+        .finally(() => {
           setWaiting(false)
         })
     } else {
@@ -222,46 +183,27 @@ function Index ({
     }
   }
 
-  useEffect(
-    () => {
-      setResults(0)
-      setPage(0)
-    },
-    [
-      currentSearchString,
-      currentBuyer,
-      currentRegion,
-      currentMinAmount,
-      currentMaxAmount,
-      currentMinDate,
-      currentMaxDate,
-      currentMinFlags,
-      currentMaxFlags
-    ]
-  )
-
   useEffect(() => {
     if (page) {
       handleRequest()
-    } else {
-      setPage(1)
     }
   }, [page])
 
   useEffect(() => {
     setResultsLabel(
       t('search:results', {
-        query: currentSearchString,
-        count: results
+        query: searchString || '*',
+        count: resultsCount,
+        plus: resultsCount === 10 ^ 4 ? '+' : ''
       })
     )
 
-    if (results) {
+    if (resultsCount) {
       setPages(
-        Math.floor(results / PAGE_SIZE) + (results % PAGE_SIZE ? 1 : 0)
+        Math.floor(resultsCount / PAGE_SIZE) + (resultsCount % PAGE_SIZE ? 1 : 0)
       )
     }
-  }, [results])
+  }, [resultsCount])
 
   return (
     <>
@@ -377,7 +319,7 @@ function Index ({
                       )}
                       value={searchString}
                       onChange={(e) => setSearchString(e.target.value)}
-                      endAdornment={!!searchString && (
+                      endAdornment={
                         <InputAdornment position='end'>
                           <IconButton
                             aria-label={t(
@@ -393,15 +335,11 @@ function Index ({
                             )}
                           </IconButton>
                         </InputAdornment>
-                      )}
+                      }
                     />
                   </FormControl>
                   <Typography component='p' variant='caption'>
-                    {currentSearchString ? (
-                      resultsLabel
-                    ) : (
-                      <>&nbsp;</>
-                    )}
+                    {resultsLabel}
                   </Typography>
                   <Accordion elevation={0} square>
                     <AccordionSummary
@@ -473,7 +411,7 @@ function Index ({
                                   min={0}
                                   max={redflagsCount}
                                   step={1}
-                                  //valueLabelDisplay="auto"
+                                  // valueLabelDisplay="auto"
                                   marks
                                   value={rangeFlags}
                                   onChange={(event, rangeFlags) => setRangeFlags(rangeFlags)}
@@ -494,10 +432,10 @@ function Index ({
                                 <Slider
                                   min={0}
                                   max={largestAmount}
-                                  step={10^6}
-                                  //scale={(x) => Math.exp(x)}
+                                  step={10 ^ 6}
+                                  // scale={(x) => Math.exp(x)}
                                   valueLabelFormat={(value) => nf(LARGE_INTEGER_FORMAT)(value)}
-                                  valueLabelDisplay="auto"
+                                  valueLabelDisplay='auto'
                                   value={rangeAmount}
                                   onChange={(event, rangeAmount) => setRangeAmount(rangeAmount)}
                                 />
@@ -518,15 +456,15 @@ function Index ({
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <KeyboardDatePicker
                                 autoOk
-                                //disableToolbar
+                                // disableToolbar
                                 views={['year', 'month']}
                                 variant='inline'
                                 inputVariant='outlined'
-                                InputAdornmentProps={{ position: "end" }}
-                                format="MM/yyyy"
+                                InputAdornmentProps={{ position: 'end' }}
+                                format='MM/yyyy'
                                 // margin="normal"
                                 id='search-minDate-field'
-                                label="MM/yyyy"
+                                label='MM/yyyy'
                                 value={minDate}
                                 onChange={(date) => setMinDate(date)}
                               />
@@ -543,14 +481,14 @@ function Index ({
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <KeyboardDatePicker
                                 autoOk
-                                //disableToolbar
+                                // disableToolbar
                                 views={['year', 'month']}
                                 variant='inline'
                                 inputVariant='outlined'
-                                format="MM/yyyy"
+                                format='MM/yyyy'
                                 // margin="normal"
                                 id='search-minDate-field'
-                                label="MM/yyyy"
+                                label='MM/yyyy'
                                 value={maxDate}
                                 onChange={(date) => setMaxDate(date)}
                               />
@@ -577,66 +515,64 @@ function Index ({
             <Grid container>
               <Grid item xs={12}>
                 <Box mt={4}>
-                  {!!currentSearchString && (
-                    <>
-                      {pages > 1 && (
-                        <Pagination
-                          variant='outlined'
-                          shape='rounded'
-                          page={page}
-                          count={pages}
-                          onChange={handleChangePage}
-                        />
-                      )}
 
-                      <List>
-                        {map(
-                          tenders,
-                          (tender, index) => (
-                            <Box
-                              component='li'
-                              key={tender[
-                                'ocds:releases/0/id'
-                              ]}
-                            >
-                              {!!index && (
-                                <Divider />
-                              )}
-                              <Link
-                                href='/tender/[id]'
-                                as={`/tender/${tender['ocds:releases/0/id']}`}
-                                passHref
-                              >
-                                <ListItem
-                                  component='a'
-                                  button
-                                >
-                                  <ListItemIcon>
-                                    <AvatarIcon color='primary'>
-                                      <ArrowForward />
-                                    </AvatarIcon>
-                                  </ListItemIcon>
-                                  <Tender
-                                    {...tender}
-                                  />
-                                </ListItem>
-                              </Link>
-                            </Box>
-                          )
-                        )}
-                      </List>
-
-                      {pages > 1 && (
-                        <Pagination
-                          variant='outlined'
-                          shape='rounded'
-                          page={page}
-                          count={pages}
-                          onChange={handleChangePage}
-                        />
-                      )}
-                    </>
+                  {pages > 1 && (
+                    <Pagination
+                      variant='outlined'
+                      shape='rounded'
+                      page={page}
+                      count={pages}
+                      onChange={(e, value) => setPage(value)}
+                    />
                   )}
+
+                  <List>
+                    {map(
+                      tenders,
+                      (tender, index) => (
+                        <Box
+                          component='li'
+                          key={tender[
+                            'ocds:releases/0/id'
+                          ]}
+                        >
+                          {!!index && (
+                            <Divider />
+                          )}
+                          <Link
+                            href='/tender/[id]'
+                            as={`/tender/${tender['ocds:releases/0/id']}`}
+                            passHref
+                          >
+                            <ListItem
+                              component='a'
+                              button
+                            >
+                              <ListItemIcon>
+                                <AvatarIcon color='primary'>
+                                  <ArrowForward />
+                                </AvatarIcon>
+                              </ListItemIcon>
+                              <Tender
+                                {...tender}
+                              />
+                            </ListItem>
+                          </Link>
+                        </Box>
+                      )
+                    )}
+                  </List>
+
+                  {pages > 1 && (
+                    <Pagination
+                      variant='outlined'
+                      shape='rounded'
+                      page={page}
+                      count={pages}
+                      onChange={(e, value) => setPage(value)}
+                    />
+                  )}
+
                 </Box>
               </Grid>
             </Grid>

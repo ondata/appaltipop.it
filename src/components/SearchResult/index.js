@@ -4,9 +4,9 @@ import useTranslation from 'next-translate/useTranslation'
 
 import axios from 'axios'
 
-import { map, isEmpty, startCase, toLower, upperFirst, toUpper } from 'lodash'
+import { map, isEmpty, startCase, toLower, upperFirst, toUpper, uniqBy } from 'lodash'
 
-import { Grid, Typography } from '@material-ui/core'
+import { Grid, Typography, Tooltip } from '@material-ui/core'
 
 import { Flag } from '@material-ui/icons'
 
@@ -177,12 +177,17 @@ export function Tender (tender) {
           {isEmpty(tender['appaltipop:releases/0/redflags'])
             ? '-'
             : map(
-              tender['appaltipop:releases/0/redflags'],
+              uniqBy(
+                tender['appaltipop:releases/0/redflags'],
+                'appaltipop:releases/0/redflag/code'
+              ),
               (flag) => (
-                <Flag
+                <Tooltip
                   key={flag['appaltipop:releases/0/redflag/code']}
-                  color='secondary'
-                />
+                  title={flag['appaltipop:releases/0/redflag/description']}
+                >
+                  <Flag color='secondary' />
+                </Tooltip>
               )
             )}
         </Typography>

@@ -1,7 +1,7 @@
 {
   "results": "Ricerca per \"{{query}}\": un risultato.",
   "results_0": "Ricerca per \"{{query}}\": nessun risultato.",
-  "results_plural": "Ricerca per \"{{query}}\": {{count}} risultati.",
+  "results_plural": "Ricerca per \"{{query}}\": {{count}}{{plus}} risultati.",
   "title": "Ricerca i contratti che vuoi monitorare",
   "description": "In questa pagina puoi cercare un appalto assegnato a una delle pubbliche amministrazioni presenti in AppaltiPOP. Cerca per titolo dell'appalto oppure inserisci il CIG completo. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](/it/buyers)**.",
   "label": "Cerca appalti",

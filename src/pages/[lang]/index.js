@@ -157,7 +157,7 @@ function Index ({
                   )
 
                   return {
-                    id: redflag['appaltipop:releases/0/redflag/code'],
+                    id,
                     title: isEmpty(title) ? `${t('common:redflag')} ${redflag['appaltipop:releases/0/redflag/code']}` : title,
                     description: isEmpty(description) ? redflag['appaltipop:releases/0/redflag/description'] : description
                   }

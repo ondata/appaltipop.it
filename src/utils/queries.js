@@ -35,7 +35,8 @@ async function getItems (
   index,
   query = { match_all: {} },
   from = 0,
-  size = PAGE_SIZE
+  size = PAGE_SIZE,
+  sort
 ) {
   const { body } = await es.search({
     index,
@@ -43,7 +44,8 @@ async function getItems (
       from,
       size,
       query
-    }
+    },
+    sort
   })
 
   return body.hits || {}
@@ -166,7 +168,9 @@ export const searchForTenders = async ({
         }
       }
     },
-    (page || 0) * PAGE_SIZE
+    (page || 0) * PAGE_SIZE,
+    PAGE_SIZE,
+    !q ? 'ocds:releases/0/tender/contractPeriod/startDate:desc' : undefined
   )
 }
 
