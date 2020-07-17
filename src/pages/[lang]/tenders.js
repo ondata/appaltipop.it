@@ -125,7 +125,7 @@ function Index ({
     setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
     setRangeFlags([qs.minFlags ? +qs.minFlags : 0, qs.maxFlags ? +qs.maxFlags : redflagsCount])
     setPage(qs.page ? +qs.page : 1)
-    if (keys(qs).length > 1) {
+    if (!location.search || keys(qs).length > 1) {
       handleRequest({ page: 1, ...qs })
     }
   }, [qs])
@@ -188,7 +188,7 @@ function Index ({
       t('search:results', {
         query: searchString || '*',
         count: resultsCount,
-        plus: resultsCount === 10 ^ 4 ? '+' : ''
+        plus: resultsCount === 10**4 ? '+' : ''
       })
     )
 
@@ -426,7 +426,7 @@ function Index ({
                                 <Slider
                                   min={0}
                                   max={largestAmount}
-                                  step={10 ^ 6}
+                                  step={10**6}
                                   // scale={(x) => Math.exp(x)}
                                   valueLabelFormat={(value) => nf(LARGE_INTEGER_FORMAT)(value)}
                                   valueLabelDisplay='auto'
