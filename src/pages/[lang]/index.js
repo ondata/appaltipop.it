@@ -146,19 +146,19 @@ function Index ({
                 redflag => {
                   const id = redflag['appaltipop:releases/0/redflag/code']
                   const title = t(
-                    `redflags:${redflag['appaltipop:releases/0/redflag/code']}.title`,
+                    `redflags:${id}.title`,
                     {},
                     { returnObjects: true }
                   )
                   const description = t(
-                    `redflags:${redflag['appaltipop:releases/0/redflag/code']}.description`,
+                    `redflags:${id}.description`,
                     {},
                     { returnObjects: true }
                   )
 
                   return {
                     id,
-                    title: isEmpty(title) ? `${t('common:redflag')} ${redflag['appaltipop:releases/0/redflag/code']}` : title,
+                    title: isEmpty(title) ? `${t('common:redflag')} ${id}` : title,
                     description: isEmpty(description) ? redflag['appaltipop:releases/0/redflag/description'] : description
                   }
                 }

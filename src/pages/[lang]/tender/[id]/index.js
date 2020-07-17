@@ -283,10 +283,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     {t('common:redflag', { count: redflags.length })}
                   </Typography>
                   <FlagsInfo
-                    flags={map(
-                      redflags,
-                      'appaltipop:releases/0/redflag/code'
-                    )}
+                    flags={redflags}
                   />
                 </Box>
               )
