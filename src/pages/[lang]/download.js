@@ -111,6 +111,7 @@ function Index ({ buyers }) {
                                 description={resource['appaltipop:releases/0/buyer/resource/json/size'] || '- KB'}
                                 url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/json']}`}
                                 icon='/icons/download.svg'
+                                noMargins
                               />
                             </Grid>
                         }
@@ -121,7 +122,8 @@ function Index ({ buyers }) {
                                 title={t('download:xlsx')}
                                 description={resource['appaltipop:releases/0/buyer/resource/xlsx/size'] || '- KB'}
                                 url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/xlsx']}`}
-                                icon='/icons/download.svg'
+                              icon='/icons/download.svg'
+                              noMargins
                               />
                             </Grid>
                         }

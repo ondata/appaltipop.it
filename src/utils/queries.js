@@ -189,7 +189,7 @@ export const getRedflags = async () =>
   await getItems(`${ES_INDEX_PREFIX}-redflags`)
 
 export const getBuyers = async () =>
-  await getItems(`${ES_INDEX_PREFIX}-buyers-*`, { match_all: {} }, 0, 100)
+  await getItems(`${ES_INDEX_PREFIX}-buyers-*`, { exists: { field: 'ocds:releases/0/parties/address/region' } }, 0, 100)
 
 export const searchForBuyers = async (q, lang = defaultLanguage, page = 0) =>
   await getItems(
