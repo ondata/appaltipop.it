@@ -7,5 +7,5 @@
     "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
     "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
     "appaltipop/releases/0/tender/participants/total": "N. di partecipanti",
-    "ctas": ["download","discover"]
+    "ctas": ["download","discover","warning"]
 }
