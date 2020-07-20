@@ -66,7 +66,8 @@ import {
   getBuyers,
   getRegions,
   getRedflagsCount,
-  getMinMaxAmount
+  getMinMaxAmount,
+  getTenderMethods
 } from '../../utils/queries'
 
 import Link from '../../components/Link'
@@ -84,7 +85,8 @@ function Index ({
   redflagsCount = 0,
   largestAmount = 0,
   buyers = [],
-  regions = []
+  regions = [],
+  methods = []
 }) {
   const { t, lang } = useTranslation()
   const nf = numberFormat(lang).format
@@ -98,6 +100,7 @@ function Index ({
   const [searchString, setSearchString] = useState('')
   const [buyer, setBuyer] = useState(null)
   const [region, setRegion] = useState(null)
+  const [method, setMethod] = useState(null)
   const [rangeAmount, setRangeAmount] = useState([0, largestAmount])
   const [minDate, setMinDate] = useState(null)
   const [maxDate, setMaxDate] = useState(null)
@@ -120,6 +123,7 @@ function Index ({
     setSearchString(qs.q || '')
     setBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
     setRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
+    setMethod(qs.method || null)
     setRangeAmount([qs.minAmount ? +qs.minAmount : 0, qs.maxAmount ? +qs.maxAmount : largestAmount])
     setMinDate(qs.minDate ? new Date(qs.minDate) : null)
     setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
@@ -141,6 +145,7 @@ function Index ({
     setSearchString('')
     setBuyer(null)
     setRegion(null)
+    setMethod(null)
     setRangeAmount([0, largestAmount])
     setMinDate(null)
     setMaxDate(null)
@@ -160,6 +165,7 @@ function Index ({
             q: qs.q || searchString,
             buyer: qs.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
             region: qs.region || (region ? region['istat:COD_REG'] : ''),
+            method: qs.method || method,
             minAmount: qs.minAmount || rangeAmount[0],
             maxAmount: qs.maxAmount || rangeAmount[1],
             minDate: qs.minDate || (minDate ? minDate.toISOString().split('T')[0] : ''),
@@ -393,28 +399,6 @@ function Index ({
                         </Grid>
                       </Grid>
                       <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                          <Typography variant='subtitle1' color='textPrimary'>
-                            {t('search:rangeFlags.label')}
-                          </Typography>
-                          <Box mx={1}>
-                            <Grid container spacing={2}>
-                              <Grid item><Typography variant='body1'>{0}</Typography></Grid>
-                              <Grid item xs>
-                                <Slider
-                                  min={0}
-                                  max={redflagsCount}
-                                  step={1}
-                                  // valueLabelDisplay="auto"
-                                  marks
-                                  value={rangeFlags}
-                                  onChange={(event, rangeFlags) => setRangeFlags(rangeFlags)}
-                                />
-                              </Grid>
-                              <Grid item><Typography variant='body1'>{redflagsCount}</Typography></Grid>
-                            </Grid>
-                          </Box>
-                        </Grid>
                         <Grid item xs={8}>
                           <Typography variant='subtitle1' color='textPrimary'>
                             {t('search:rangeAmount.label')} (&euro;)
@@ -438,9 +422,51 @@ function Index ({
                             </Grid>
                           </Box>
                         </Grid>
+                        <Grid item xs={4}>
+                          <Typography variant='subtitle1' color='textPrimary'>
+                            {t('search:rangeFlags.label')}
+                          </Typography>
+                          <Box mx={1}>
+                            <Grid container spacing={2}>
+                              <Grid item><Typography variant='body1'>{0}</Typography></Grid>
+                              <Grid item xs>
+                                <Slider
+                                  min={0}
+                                  max={redflagsCount}
+                                  step={1}
+                                  // valueLabelDisplay="auto"
+                                  marks
+                                  value={rangeFlags}
+                                  onChange={(event, rangeFlags) => setRangeFlags(rangeFlags)}
+                                />
+                              </Grid>
+                              <Grid item><Typography variant='body1'>{redflagsCount}</Typography></Grid>
+                            </Grid>
+                          </Box>
+                        </Grid>
                       </Grid>
                       <Grid container spacing={2}>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
+                          <FormControl variant='outlined'>
+                            <FormLabel component='label' htmlFor='search-method-field'>
+                              <Typography variant='subtitle1' color='textPrimary'>
+                                {t('search:method.label')}
+                              </Typography>
+                            </FormLabel>
+                            <Autocomplete
+                              id='search-method-field'
+                              fullWidth
+                              autoHighlight
+                              autoComplete
+                              value={method}
+                              onChange={(event, newValue) => setMethod(newValue)}
+                              options={methods}
+                              //getOptionLabel={(option) => option['ocds:releases/0/parties/address/region']}
+                              renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
+                            />
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={3}>
                           <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-minDate-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
@@ -465,7 +491,7 @@ function Index ({
                             </MuiPickersUtilsProvider>
                           </FormControl>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <FormControl variant='outlined'>
                             <FormLabel component='label' htmlFor='search-maxDate-field'>
                               <Typography variant='subtitle1' color='textPrimary'>
@@ -497,6 +523,7 @@ function Index ({
                       variant='contained'
                       color='secondary'
                       disableElevation
+                      fontSize='large'
                       type='submit'
                     >
                       {t('common:search.cta')}
@@ -595,7 +622,8 @@ export const getStaticProps = async (ctx) => {
       redflagsCount: await getRedflagsCount(),
       largestAmount: (await getMinMaxAmount())[1],
       buyers: map((await getBuyers()).hits, '_source'),
-      regions: map((await getRegions()).hits, '_source')
+      regions: map((await getRegions()).hits, '_source'),
+      methods: map((await getTenderMethods()).buckets, 'key')
     },
     unstable_revalidate: 3600
   }

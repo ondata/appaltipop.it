@@ -16,6 +16,9 @@
   "region": {
     "label": "Regione"
   },
+  "method": {
+    "label": "Modalità"
+  },
   "rangeAmount": {
     "label": "Importo"
   },
