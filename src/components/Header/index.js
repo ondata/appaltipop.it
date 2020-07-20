@@ -114,7 +114,7 @@ export default function Index () {
                 {t('common:about')}
               </Button>
             </Link>
-            <IconButton
+            {/* <IconButton
               color='inherit'
               className={classes.menuButton}
               onClick={(e) => setAnchorEl(e.currentTarget)}
@@ -169,7 +169,7 @@ export default function Index () {
                   </Button>
                 </Link>
               </MenuItem>
-            </Menu>
+            </Menu> */}
           </Hidden>
           <Hidden implementation='css' mdUp>
             <IconButton
@@ -262,7 +262,7 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
-                <Divider />
+                {/* <Divider />
                 <Link
                   href={router.pathname}
                   lang='it'
@@ -294,7 +294,7 @@ export default function Index () {
                       primary={t('common:english')}
                     />
                   </ListItem>
-                </Link>
+                </Link> */}
               </List>
             </Drawer>
           </Hidden>
