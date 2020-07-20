@@ -98,7 +98,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                   >
                     <Grid container spacing={2} alignItems='center'>
                       <Grid item>
-                        <a className='MuiButtonBase-root' target='_blank' href='#'>
+                        <a className='MuiButtonBase-root' onClick={() => window.print()}>
                           {t('common:print')}
                         </a>
                       </Grid>
@@ -243,30 +243,36 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     {t('common:supplier', { count: suppliers.length })}
                   </Typography>
 
-                  <List>
-                    {map(suppliers, (supplier, index) => (
-                      <Box
-                        component='li'
-                        key={supplier['ocds:releases/0/parties/0/id']}
-                      >
-                        {!!index && <Divider />}
-                        <Link
-                          href='/supplier/[id]'
-                          as={`/supplier/${supplier['ocds:releases/0/parties/0/id']}`}
-                          passHref
-                        >
-                          <ListItem component='a' button>
-                            <ListItemIcon>
-                              <AvatarIcon color='primary'>
-                                <ArrowForward />
-                              </AvatarIcon>
-                            </ListItemIcon>
-                            <Supplier {...supplier} />
-                          </ListItem>
-                        </Link>
-                      </Box>
-                    ))}
-                  </List>
+                  {
+                    suppliers.length ? (
+                      <List>
+                        {map(suppliers, (supplier, index) => (
+                          <Box
+                            component='li'
+                            key={supplier['ocds:releases/0/parties/0/id']}
+                          >
+                            {!!index && <Divider />}
+                            <Link
+                              href='/supplier/[id]'
+                              as={`/supplier/${supplier['ocds:releases/0/parties/0/id']}`}
+                              passHref
+                            >
+                              <ListItem component='a' button>
+                                <ListItemIcon>
+                                  <AvatarIcon color='primary'>
+                                    <ArrowForward />
+                                  </AvatarIcon>
+                                </ListItemIcon>
+                                <Supplier {...supplier} />
+                              </ListItem>
+                            </Link>
+                          </Box>
+                        ))}
+                      </List>
+                    ) : (
+                        <Typography variant='body2'>{t('common:search.noResults')}</Typography>
+                    )
+                  }
 
                 </Grid>
 
@@ -298,6 +304,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     title={t('cta:foia.title')}
                     icon='/icons/foia.png'
                     url={t('cta:foia.url')}
+                    noMargins
                   />
                 </Grid>
                 <Grid item xs={6} sm={4}>
@@ -305,6 +312,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     title={t('cta:whistle.title')}
                     icon='/icons/whistle.svg'
                     url={t('cta:whistle.url')}
+                    noMargins
                   />
                 </Grid>
               </Grid>
