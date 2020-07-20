@@ -1,16 +1,3 @@
 {
-  "introduction": {
-    "source": "it/home/introduction.md"
-  },
-  "ocds": {
-    "title": "Di quali dati parliamo?",
-    "source": "it/home/ocds.md",
-    "image": "/images/ocds.svg"
-  },
-  "ctas": ["monitor","discover","getInvolved","download"],
-  "redflag": {
-    "title": "Gli indicatori di monitoraggio: le red flag",
-    "source": "it/home/redflag.md",
-    "image": "/images/flag-stars.svg"
-  }
+  "ctas": ["monitor","discover","getInvolved","download"]
 }
