@@ -4,7 +4,7 @@ export async function getStaticPage (page) {
   return {
     ...page,
     content: page.source
-      ? await fs.readFile(`./src/static/${page.source}`, 'utf8')
+      ? await fs.readFile(`./src/locales/${page.source}`, 'utf8')
       : page.content
   }
 }
