@@ -101,7 +101,7 @@ function Index ({
   const [buyer, setBuyer] = useState(null)
   const [region, setRegion] = useState(null)
   const [method, setMethod] = useState(null)
-  const [rangeAmount, setRangeAmount] = useState([0, largestAmount])
+  const [rangeAmount, setRangeAmount] = useState([0, Math.ceil(Math.log10(largestAmount))])
   const [minDate, setMinDate] = useState(null)
   const [maxDate, setMaxDate] = useState(null)
   const [rangeFlags, setRangeFlags] = useState([0, redflagsCount])
@@ -124,7 +124,7 @@ function Index ({
     setBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
     setRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
     setMethod(qs.method || null)
-    setRangeAmount([qs.minAmount ? +qs.minAmount : 0, qs.maxAmount ? +qs.maxAmount : largestAmount])
+    setRangeAmount([qs.minAmount ? Math.ceil(Math.log10(Math.max(+qs.minAmount, 1))) : 0, qs.maxAmount ? Math.ceil(Math.log10(+qs.maxAmount)) : Math.ceil(Math.log10(largestAmount))])
     setMinDate(qs.minDate ? new Date(qs.minDate) : null)
     setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
     setRangeFlags([qs.minFlags ? +qs.minFlags : 0, qs.maxFlags ? +qs.maxFlags : redflagsCount])
@@ -146,7 +146,7 @@ function Index ({
     setBuyer(null)
     setRegion(null)
     setMethod(null)
-    setRangeAmount([0, largestAmount])
+    setRangeAmount([0, Math.ceil(Math.log10(largestAmount))])
     setMinDate(null)
     setMaxDate(null)
     setRangeFlags([0, redflagsCount])
@@ -166,8 +166,8 @@ function Index ({
             buyer: qs.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
             region: qs.region || (region ? region['istat:COD_REG'] : ''),
             method: qs.method || method,
-            minAmount: qs.minAmount || rangeAmount[0],
-            maxAmount: qs.maxAmount || rangeAmount[1],
+            minAmount: qs.minAmount || 10**rangeAmount[0],
+            maxAmount: qs.maxAmount || 10**rangeAmount[1],
             minDate: qs.minDate || (minDate ? minDate.toISOString().split('T')[0] : ''),
             maxDate: qs.maxDate || (maxDate ? maxDate.toISOString().split('T')[0] : ''),
             minFlags: qs.minFlags || rangeFlags[0],
@@ -409,9 +409,10 @@ function Index ({
                               <Grid item xs>
                                 <Slider
                                   min={0}
-                                  max={largestAmount}
-                                  step={10**6}
-                                  // scale={(x) => Math.exp(x)}
+                                  max={Math.ceil(Math.log10(largestAmount))}
+                                  step={1}
+                                  marks
+                                  scale={(x) => 10**x}
                                   valueLabelFormat={(value) => nf(LARGE_INTEGER_FORMAT)(value)}
                                   valueLabelDisplay='auto'
                                   value={rangeAmount}
