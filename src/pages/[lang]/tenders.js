@@ -11,6 +11,8 @@ import axios from 'axios'
 
 import { map, sortBy, find, filter, keys } from 'lodash'
 
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+
 import {
   Container,
   Box,
@@ -32,10 +34,11 @@ import {
   FormLabel,
   TextField,
   Hidden,
-  Slider
+  Slider,
+  Tooltip
 } from '@material-ui/core'
 
-import { HighlightOff, ArrowForward, ExpandMore } from '@material-ui/icons'
+import { HighlightOff, ArrowForward, ExpandMore, Link as LinkIcon } from '@material-ui/icons'
 
 import { Pagination, Autocomplete } from '@material-ui/lab'
 
@@ -90,7 +93,7 @@ function Index ({
 }) {
   const { t, lang } = useTranslation()
   const nf = numberFormat(lang).format
-  const { query: qs } = useRouter()
+  const { query, push } = useRouter()
 
   const [tenders, setTenders] = useState([])
 
@@ -106,8 +109,11 @@ function Index ({
   const [maxDate, setMaxDate] = useState(null)
   const [rangeFlags, setRangeFlags] = useState([0, redflagsCount])
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [pages, setPages] = useState(1)
+
+  const [permalink, setPermalink] = useState('')
+  const [copied, setCopied] = useState(false)
 
   const [waiting, setWaiting] = useState(false)
 
@@ -120,24 +126,52 @@ function Index ({
   }, [largestAmount])
 
   useEffect(() => {
-    setSearchString(qs.q || '')
-    setBuyer(qs.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === qs.buyer) : null)
-    setRegion(qs.region ? find(regions, region => region['istat:COD_REG'] === qs.region) : null)
-    setMethod(qs.method || null)
-    setRangeAmount([qs.minAmount ? Math.ceil(Math.log10(Math.max(+qs.minAmount, 1))) : 0, qs.maxAmount ? Math.ceil(Math.log10(+qs.maxAmount)) : Math.ceil(Math.log10(largestAmount))])
-    setMinDate(qs.minDate ? new Date(qs.minDate) : null)
-    setMaxDate(qs.maxDate ? new Date(qs.maxDate) : null)
-    setRangeFlags([qs.minFlags ? +qs.minFlags : 0, qs.maxFlags ? +qs.maxFlags : redflagsCount])
-    setPage(qs.page ? +qs.page : 1)
-    if (!location.search || keys(qs).length > 1) {
-      handleRequest({ page: 1, ...qs })
+    setSearchString(query.q || searchString)
+    setBuyer(query.buyer ? find(buyers, buyer => buyer['ocds:releases/0/buyer/id'] === query.buyer) : buyer)
+    setRegion(query.region ? find(regions, region => region['istat:COD_REG'] === query.region) : region)
+    setMethod(query.method || method)
+    setRangeAmount(query.minAmount || query.maxAmount ? [query.minAmount ? Math.ceil(Math.log10(Math.max(+query.minAmount, 1))) : 0, query.maxAmount ? Math.ceil(Math.log10(+query.maxAmount)) : Math.ceil(Math.log10(largestAmount))] : rangeAmount)
+    setMinDate(query.minDate ? new Date(query.minDate) : minDate)
+    setMaxDate(query.maxDate ? new Date(query.maxDate) : maxDate)
+    setRangeFlags(query.minFlags || query.maxFlags ? [query.minFlags ? +query.minFlags : 0, query.maxFlags ? +query.maxFlags : redflagsCount] : rangeFlags)
+    setPage(query.page ? +query.page : page)
+    setPermalink(`${location.origin}${location.pathname}?${(new URLSearchParams(query)).toString()}`)
+    setCopied(false)
+    if (!location.search || keys(query).length > 1) {
+      handleRequest({ page: 0, ...query })
     }
-  }, [qs])
+  }, [query])
 
   function handleSubmit (e) {
+    const query = {
+      lang: lang,
+      q: searchString,
+      buyer: buyer ? buyer['ocds:releases/0/buyer/id'] : '',
+      region: region ? region['istat:COD_REG'] : '',
+      method: method,
+      minAmount: 10 ** rangeAmount[0],
+      maxAmount: 10 ** rangeAmount[1],
+      minDate: minDate ? minDate.toISOString().split('T')[0] : '',
+      maxDate: maxDate ? maxDate.toISOString().split('T')[0] : '',
+      minFlags: rangeFlags[0],
+      maxFlags: rangeFlags[1],
+      page: e?.page || 0
+    }
+
+    push(
+      {
+        pathname: '/[lang]/tenders',
+        query
+      },
+      {
+        pathname: `/${lang}/tenders`,
+        query
+      },
+      { shallow: true }
+    )
+
     setResultsLabel(<>&nbsp;</>)
-    handleRequest({ page: 1 })
-    e && e.preventDefault()
+    e?.preventDefault?.()
   }
 
   function handleReset () {
@@ -152,28 +186,28 @@ function Index ({
     setRangeFlags([0, redflagsCount])
     setTenders([])
     setResultsCount(0)
-    setPage(1)
+    setPage(0)
     setPages(1)
   }
 
-  function handleRequest (qs = {}) {
+  function handleRequest (query = {}) {
     if (!waiting) {
       setWaiting(true)
       axios
         .get(`/api/${API_VERSION}/tenders`, {
           params: {
-            q: qs.q || searchString,
-            buyer: qs.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
-            region: qs.region || (region ? region['istat:COD_REG'] : ''),
-            method: qs.method || method,
-            minAmount: qs.minAmount || 10**rangeAmount[0],
-            maxAmount: qs.maxAmount || 10**rangeAmount[1],
-            minDate: qs.minDate || (minDate ? minDate.toISOString().split('T')[0] : ''),
-            maxDate: qs.maxDate || (maxDate ? maxDate.toISOString().split('T')[0] : ''),
-            minFlags: qs.minFlags || rangeFlags[0],
-            maxFlags: qs.maxFlags || rangeFlags[1],
-            lang: qs.lang || lang,
-            page: (qs.page || page) - 1
+            lang: query.lang || lang,
+            q: query.q || searchString,
+            buyer: query.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
+            region: query.region || (region ? region['istat:COD_REG'] : ''),
+            method: query.method || method,
+            minAmount: query.minAmount || 10 ** rangeAmount[0],
+            maxAmount: query.maxAmount || 10 ** rangeAmount[1],
+            minDate: query.minDate || (minDate ? minDate.toISOString().split('T')[0] : ''),
+            maxDate: query.maxDate || (maxDate ? maxDate.toISOString().split('T')[0] : ''),
+            minFlags: query.minFlags || rangeFlags[0],
+            maxFlags: query.maxFlags || rangeFlags[1],
+            page: query.page || page
           }
         })
         .then((res) => {
@@ -183,9 +217,6 @@ function Index ({
         .finally(() => {
           setWaiting(false)
         })
-    } else {
-      setResultsLabel(t('search:error'))
-      setTenders([])
     }
   }
 
@@ -194,7 +225,7 @@ function Index ({
       t('search:results', {
         query: searchString || '*',
         count: resultsCount,
-        plus: resultsCount === 10**4 ? '+' : ''
+        plus: resultsCount === 10 ** 4 ? '+' : ''
       })
     )
 
@@ -412,7 +443,7 @@ function Index ({
                                   max={Math.ceil(Math.log10(largestAmount))}
                                   step={1}
                                   marks
-                                  scale={(x) => 10**x}
+                                  scale={(x) => 10 ** x}
                                   valueLabelFormat={(value) => nf(LARGE_INTEGER_FORMAT)(value)}
                                   valueLabelDisplay='auto'
                                   value={rangeAmount}
@@ -524,11 +555,25 @@ function Index ({
                       variant='contained'
                       color='secondary'
                       disableElevation
-                      fontSize='large'
+                      size='large'
                       type='submit'
                     >
                       {t('common:search.cta')}
                     </Button>
+                    <Tooltip
+                      title={t('search:copy')}
+                    >
+                      <CopyToClipboard
+                        text={permalink}
+                        onCopy={() => setCopied(true)}
+                      >
+                        <IconButton
+                          color='primary'
+                        >
+                          <LinkIcon />
+                        </IconButton>
+                      </CopyToClipboard>
+                    </Tooltip>
                   </Box>
                 </form>
               </Grid>
@@ -542,11 +587,11 @@ function Index ({
                     <Pagination
                       variant='outlined'
                       shape='rounded'
-                      page={page}
+                      page={page+1}
                       count={pages}
                       onChange={(e, value) => {
-                        setPage(value)
-                        handleRequest({ page: value })
+                        setPage(value-1)
+                        handleSubmit({ page: value-1 })
                       }}
                     />
                   )}
@@ -592,11 +637,11 @@ function Index ({
                     <Pagination
                       variant='outlined'
                       shape='rounded'
-                      page={page}
+                      page={page+1}
                       count={pages}
                       onChange={(e, value) => {
-                        setPage(value)
-                        handleRequest({ page: value })
+                        setPage(value-1)
+                        handleSubmit({ page: value-1 })
                       }}
                     />
                   )}

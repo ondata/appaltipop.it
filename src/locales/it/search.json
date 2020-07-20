@@ -6,6 +6,7 @@
   "description": "In questa pagina puoi cercare un appalto assegnato a una delle pubbliche amministrazioni presenti in AppaltiPOP. Cerca per titolo dell'appalto oppure inserisci il CIG completo. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](/it/buyers)**.",
   "label": "Cerca appalti",
   "filter": "Ricerca avanzata",
+  "copy": "Copia il permalink",
   "text": {
     "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
     "label": "Campo libero di ricerca"
