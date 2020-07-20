@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import { map, sortBy } from 'lodash'
+import { map, sortBy, isEmpty } from 'lodash'
 
 import useTranslation from 'next-translate/useTranslation'
 
@@ -143,11 +143,25 @@ function Index ({
                   redflags,
                   'appaltipop:releases/0/redflag/code'
                 ),
-                redflag => ({
-                  id: redflag['appaltipop:releases/0/redflag/code'],
-                  title: t(`redflags:${redflag['appaltipop:releases/0/redflag/code']}.title`),
-                  description: t(`redflags:${redflag['appaltipop:releases/0/redflag/code']}.description`)
-                })
+                redflag => {
+                  const id = redflag['appaltipop:releases/0/redflag/code']
+                  const title = t(
+                    `redflags:${id}.title`,
+                    {},
+                    { returnObjects: true }
+                  )
+                  const description = t(
+                    `redflags:${id}.description`,
+                    {},
+                    { returnObjects: true }
+                  )
+
+                  return {
+                    id,
+                    title: isEmpty(title) ? `${t('common:redflag')} ${id}` : title,
+                    description: isEmpty(description) ? redflag['appaltipop:releases/0/redflag/description'] : description
+                  }
+                }
               )}
             />
           </Container>

@@ -204,7 +204,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                 <Grid item xs={6} sm={3}>
                   <KeyValue
                     title={t('tender:appaltipop/releases/0/tender/participants/total')}
-                    label={nf(INTEGER_FORMAT)(suppliers.length)}
+                    label={nf(INTEGER_FORMAT)(tender['appaltipop:releases/0/tender/participants/total'])}
                   />
                 </Grid>
 
@@ -283,10 +283,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     {t('common:redflag', { count: redflags.length })}
                   </Typography>
                   <FlagsInfo
-                    flags={map(
-                      redflags,
-                      'appaltipop:releases/0/redflag/code'
-                    )}
+                    flags={redflags}
                   />
                 </Box>
               )

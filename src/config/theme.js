@@ -82,6 +82,11 @@ export default createMuiTheme({
         borderRadius: spacing(1)
       }
     },
+    MuiPopover: {
+      paper: {
+        padding: 0
+      }
+    },
     MuiDrawer: {
       paper: {
         padding: spacing(2)
@@ -159,8 +164,7 @@ export default createMuiTheme({
           backgroundColor: greyColor,
           border: `${spacing(0.5)}px solid ${greyColor}`,
           borderRadius: spacing(2),
-          marginTop: spacing(2),
-          padding: `${spacing(4)}px ${spacing(2)}px`
+          marginTop: spacing(2)
         }
       }
     },
@@ -171,7 +175,8 @@ export default createMuiTheme({
     },
     MuiAccordionDetails: {
       root: {
-        display: 'block'
+        display: 'block',
+        padding: 0
       }
     },
     MuiFormControl: {
@@ -203,6 +208,24 @@ export default createMuiTheme({
     MuiBreadcrumbs: {
       li: {
         fontSize: '1rem'
+      }
+    },
+    MuiSlider: {
+      mark: {
+        width: 1,
+        height: 10,
+        marginTop: -4,
+        opacity: 0.38
+      },
+      markActive: {
+        width: 1,
+        height: 10,
+        marginTop: -4,
+        opacity: 0.8,
+        backgroundColor: primaryColor
+      },
+      markLabel: {
+        fontFamily: sansFont
       }
     }
   }

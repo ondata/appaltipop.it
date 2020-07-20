@@ -35,7 +35,8 @@ async function getItems (
   index,
   query = { match_all: {} },
   from = 0,
-  size = PAGE_SIZE
+  size = PAGE_SIZE,
+  sort
 ) {
   const { body } = await es.search({
     index,
@@ -43,7 +44,8 @@ async function getItems (
       from,
       size,
       query
-    }
+    },
+    sort
   })
 
   return body.hits || {}
@@ -59,6 +61,7 @@ export const searchForTenders = async ({
   q,
   buyer,
   region,
+  method,
   minAmount,
   maxAmount,
   minDate,
@@ -85,6 +88,16 @@ export const searchForTenders = async ({
       term: {
         'appaltipop:releases/0/buyers.istat:COD_REG': {
           value: region
+        }
+      }
+    })
+  }
+
+  if (method) {
+    filter.push({
+      term: {
+        'ocds:releases/0/tender/procurementMethodDetails': {
+          value: method
         }
       }
     })
@@ -146,10 +159,10 @@ export const searchForTenders = async ({
 
   return await getItems(
     `${ES_INDEX_PREFIX}-tenders-*`,
-    q && {
+    {
       bool: {
         filter,
-        must: {
+        must: q ? {
           multi_match: {
             query: q,
             type: 'cross_fields',
@@ -161,10 +174,14 @@ export const searchForTenders = async ({
               'appaltipop:releases/0/buyers.istat:DEN_CM'
             ]
           }
+        } : {
+          match_all: {}
         }
       }
     },
-    (page || 0) * PAGE_SIZE
+    (page || 0) * PAGE_SIZE,
+    PAGE_SIZE,
+    !q ? 'ocds:releases/0/tender/contractPeriod/startDate:desc' : undefined
   )
 }
 
@@ -317,6 +334,31 @@ export const getRedTendersCount = async () =>
     }
   })
 
+async function getTerms (index, field) {
+  const { body } = await es.search({
+    index,
+    body: {
+      size: 0,
+      aggs: {
+        terms: {
+          terms: {
+            field,
+            size: PAGE_SIZE
+          }
+        }
+      }
+    }
+  })
+
+  return body.aggregations.terms
+}
+
+export const getTenderMethods = async () =>
+  await getTerms(
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'ocds:releases/0/tender/procurementMethodDetails'
+  )
+
 async function getSum (index, filterKey, filterValue, aggKey) {
   const { body } = await es.search({
     index,
@@ -422,6 +464,38 @@ export const getBuyersBySupplier = async (supplier) =>
     'appaltipop:releases/0/suppliers.ocds:releases/0/parties/0/id.raw',
     supplier,
     'appaltipop:releases/0/buyers.ocds:releases/0/buyer/id'
+  )
+
+async function getMinMax (index, aggKey) {
+  const { body } = await es.search({
+    index,
+    body: {
+      size: 0,
+      aggs: {
+        min: {
+          min: {
+            field: aggKey
+          }
+        },
+        max: {
+          max: {
+            field: aggKey
+          }
+        }
+      }
+    }
+  })
+
+  return [
+    body.aggregations.min.value,
+    body.aggregations.max.value
+  ]
+}
+
+export const getMinMaxAmount = async () =>
+  await getMinMax(
+    `${ES_INDEX_PREFIX}-tenders-*`,
+    'ocds:releases/0/awards/0/value/amount'
   )
 
 export async function getTenderById (id, index) {

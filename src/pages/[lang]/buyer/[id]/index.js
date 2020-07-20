@@ -197,7 +197,13 @@ function Index ({
                     t('buyer:ctas', {}, { returnObjects: true }),
                     (cta) => (
                       <Grid item key={t(`cta:${cta}.url`)} xs={12} sm={6} md={4}>
-                        <CtaCard {...t(`cta:${cta}`, {}, { returnObjects: true })} />
+                        <CtaCard
+                          {...t(
+                            `cta:${cta}`,
+                            { qs: `?buyer=${buyer['ocds:releases/0/buyer/id']}` },
+                            { returnObjects: true }
+                          )}
+                        />
                       </Grid>
                     )
                   )

@@ -1,48 +1,30 @@
 {
-
-    "results": "Ricerca per \"{{query}}\": un risultato.",
-    "results_0": "Ricerca per \"{{query}}\": nessun risultato.",
-    "results_plural": "Ricerca per \"{{query}}\": {{count}} risultati.",
-
-    "title": "Ricerca i contratti che vuoi monitorare",
-    "description": "In questa pagina puoi cercare un appalto assegnato a una delle pubbliche amministrazioni presenti in AppaltiPOP. Cerca per titolo dell'appalto oppure inserisci il CIG completo. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](/it/buyers)**.",
-    "filter": "Filtra per...",
-
-    "text": {
-      "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
-      "label": "Cerca tra gli appalti"
-    },
-
-    "buyer": {
-      "label": "Pubblica amministrazione"
-    },
-
-    "region": {
-      "label": "Regione"
-    },
-
-    "minAmount": {
-      "label": "Valore minimo"
-    },
-
-    "maxAmount": {
-      "label": "Valore massimo"
-    },
-
-    "minDate": {
-      "label": "A partire da..."
-    },
-
-    "maxDate": {
-      "label": "... fino a..."
-    },
-
-    "minFlags": {
-      "label": "Numero minimo di redflag"
-    },
-
-    "maxFlags": {
-      "label": "Numero massimo di redflag"
-    }
-
+  "results": "Ricerca per \"{{query}}\": un risultato.",
+  "results_0": "Ricerca per \"{{query}}\": nessun risultato.",
+  "results_plural": "Ricerca per \"{{query}}\": {{count}} risultati.",
+  "title": "Ricerca i contratti che vuoi monitorare",
+  "description": "In questa pagina puoi cercare un appalto assegnato a una delle pubbliche amministrazioni presenti in AppaltiPOP. Cerca per titolo dell'appalto oppure inserisci il CIG completo. Per sapere quali sono le pubbliche amministrazioni presenti, consulta la pagina **[Pubbliche amministrazioni](/it/buyers)**.",
+  "filter": "Filtra per...",
+  "text": {
+    "help": "es. \"strade\" oppure \"Z59273DD9A\"...",
+    "label": "Cerca tra gli appalti"
+  },
+  "buyer": {
+    "label": "Pubblica amministrazione"
+  },
+  "region": {
+    "label": "Regione"
+  },
+  "rangeAmount": {
+    "label": "Importo"
+  },
+  "minDate": {
+    "label": "A partire da..."
+  },
+  "maxDate": {
+    "label": "... fino a..."
+  },
+  "rangeFlags": {
+    "label": "Numero di redflag"
+  }
 }
