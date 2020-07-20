@@ -311,7 +311,7 @@ function Index ({
                       t('tender:ctas', {}, { returnObjects: true }),
                       cta => (
                         <Grid item key={t(`cta:${cta}.url`)} xs={12} sm={6}>
-                          <CtaCard {...t(`cta:${cta}`, {}, { returnObjects: true })} />
+                          <CtaCard noMargins {...t(`cta:${cta}`, {}, { returnObjects: true })} />
                         </Grid>
                       )
                     )

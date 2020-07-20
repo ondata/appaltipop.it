@@ -1,4 +1,4 @@
-import { includes } from 'lodash'
+import { includes, startsWith } from 'lodash'
 
 import {
   Card as MuiCard,
@@ -24,14 +24,15 @@ export function Button ({
   title = '',
   description = '',
   url = '',
-  icon = ''
+  icon = '',
+  noMargins = false
 }) {
-  const classes = useStyles()
+  const classes = useStyles(noMargins)
 
   return (
     <MuiCard elevation={4} className={classes.button}>
       {
-        includes(url, '://')
+        includes(url, '://') || startsWith(url, '//') || startsWith(url, 'mailto:')
           ? (
             <a href={url} target='_blank' rel='noopener noreferrer'>
               <Grid container alignItems='center'>
@@ -72,9 +73,10 @@ export function Card ({
   title = '',
   description = '',
   url = '',
-  icon = ''
+  icon = '',
+  noMargins = false
 }) {
-  const classes = useStyles()
+  const classes = useStyles(noMargins)
 
   return (
     <MuiCard elevation={4} className={classes.card}>

@@ -21,7 +21,7 @@ export default function Index ({
 
   return (
     <Grid container spacing={4} alignItems='center'>
-      <Grid item xs={12} md={8}>
+      <Grid item xs={12} md={image ? 8 : 12}>
         <List className={classes.root}>
           {map(
             items,

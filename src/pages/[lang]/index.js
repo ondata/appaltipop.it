@@ -1,10 +1,9 @@
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 
 import { map, sortBy, isEmpty } from 'lodash'
 
 import useTranslation from 'next-translate/useTranslation'
-
-import ReactMarkdown from 'react-markdown'
 
 import {
   Container,
@@ -17,8 +16,6 @@ import {
 import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
 import { CONTAINER_BREAKPOINT } from '../../config/constants'
-
-import { getStaticPage } from '../../utils/pages'
 
 import {
   getTendersCount,
@@ -37,10 +34,12 @@ function Index ({
   tendersCount,
   buyersCount,
   suppliersCount,
-  redflags,
-  contents
+  redflags
 }) {
-  const { t } = useTranslation()
+  const { t, lang } = useTranslation()
+  const MDXContentIntroduction = dynamic(() => import(`../../locales/${lang}/home/introduction.mdx`))
+  const MDXContentOcds = dynamic(() => import(`../../locales/${lang}/home/ocds.mdx`))
+  const MDXContentRedflag = dynamic(() => import(`../../locales/${lang}/home/redflag.mdx`))
 
   return (
     <>
@@ -69,34 +68,20 @@ function Index ({
         <Container component='section' maxWidth={CONTAINER_BREAKPOINT}>
           <Box mb={8} mt={8}>
             <Paper elevation={0}>
-              <Typography component='div' variant='body2'>
-                <ReactMarkdown
-                  source={
-                    contents.introduction.content
-                  }
-                />
-              </Typography>
+              <MDXContentIntroduction />
             </Paper>
           </Box>
         </Container>
 
         <Box component='section' className='band band-b band-home'>
           <Container maxWidth={CONTAINER_BREAKPOINT}>
-            <Typography variant='h2'>
-              {t`home:ocds.title`}
-            </Typography>
-            <Grid container spacing={4}>
+            <Grid container spacing={4} alignItems='center'>
               <Grid item xs={12} sm={6}>
-                <Typography component='div' variant='body2'>
-                  <ReactMarkdown
-                    source={contents.ocds.content}
-                  // linkTarget="_blank"
-                  />
-                </Typography>
+                <MDXContentOcds />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <img
-                  src={t`home:ocds.image`}
+                  src='/images/ocds.svg'
                   alt='OCDS'
                   title='OCDS'
                   style={{ width: '100%' }}
@@ -114,7 +99,7 @@ function Index ({
                   t('home:ctas', {}, { returnObjects: true }),
                   (cta, index) => (
                     <Grid item key={t(`cta:${cta}.url`)} xs={10} sm={(Math.floor(index / 2)) % 2 ? (index % 2 ? 6 : 4) : (index % 2 ? 4 : 6)}>
-                      <CtaCard {...t(`cta:${cta}`, {}, { returnObjects: true })} />
+                      <CtaCard noMargins {...t(`cta:${cta}`, {}, { returnObjects: true })} />
                     </Grid>
                   )
                 )
@@ -126,44 +111,34 @@ function Index ({
         <Box component='section' className='band band-w band-home'>
           <Container maxWidth={CONTAINER_BREAKPOINT}>
             <Box mb={8}>
-              <Typography variant='h2'>
-                {t`home:redflag.title`}
-              </Typography>
-              <Typography component='div' variant='body2' gutterBottom>
-                <ReactMarkdown
-                  source={contents.redflag.content}
-                // linkTarget="_blank"
-                />
-              </Typography>
-            </Box>
-            <Redflags
-              image={t`home:redflag.image`}
-              items={map(
-                sortBy(
-                  redflags,
-                  'appaltipop:releases/0/redflag/code'
-                ),
-                redflag => {
-                  const id = redflag['appaltipop:releases/0/redflag/code']
-                  const title = t(
-                    `redflags:${id}.title`,
-                    {},
-                    { returnObjects: true }
-                  )
-                  const description = t(
-                    `redflags:${id}.description`,
-                    {},
-                    { returnObjects: true }
-                  )
-
-                  return {
-                    id,
-                    title: isEmpty(title) ? `${t('common:redflag')} ${id}` : title,
-                    description: isEmpty(description) ? redflag['appaltipop:releases/0/redflag/description'] : description
+              <MDXContentRedflag
+                redflags={map(
+                  sortBy(
+                    redflags,
+                    'appaltipop:releases/0/redflag/code'
+                  ),
+                  redflag => {
+                    const id = redflag['appaltipop:releases/0/redflag/code']
+                    const title = t(
+                      `redflags:${id}.title`,
+                      {},
+                      { returnObjects: true }
+                    )
+                    const description = t(
+                      `redflags:${id}.description`,
+                      {},
+                      { returnObjects: true }
+                    )
+  
+                    return {
+                      id,
+                      title: isEmpty(title) ? `${t('common:redflag')} ${id}` : title,
+                      description: isEmpty(description) ? redflag['appaltipop:releases/0/redflag/description'] : description
+                    }
                   }
-                }
-              )}
-            />
+                )}
+              />
+            </Box>
           </Container>
         </Box>
 
@@ -189,12 +164,7 @@ export const getStaticProps = async (ctx) => {
       tendersCount: await getTendersCount(),
       buyersCount: await getBuyersCount(),
       suppliersCount: await getSuppliersCount(),
-      redflags: map((await getRedflags()).hits, '_source'),
-      contents: {
-        introduction: await getStaticPage(namespaces.home.introduction),
-        ocds: await getStaticPage(namespaces.home.ocds),
-        redflag: await getStaticPage(namespaces.home.redflag)
-      }
+      redflags: map((await getRedflags()).hits, '_source')
     }
   }
 }

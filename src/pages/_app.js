@@ -19,6 +19,8 @@ import {
   Card as CtaCard
 } from '../components/Cta'
 
+import Link from '../components/Link'
+
 import Redflags from '../components/Redflags'
 
 import SEO from '../config/next-seo'
@@ -33,6 +35,7 @@ export default function App ({ Component, pageProps }) {
     p: props => <Typography variant='body2' gutterBottom {...props} />,
     ul: props => <ul className='MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom' {...props} />,
     ol: props => <ol className='MuiTypography-root MuiTypography-body2 MuiTypography-gutterBottom' {...props} />,
+    a: props => <Link {...props} />,
     Button: props => <CtaButton {...props} />,
     Card: props => <CtaCard {...props} />,
     Redflags: props => <Redflags {...props} />,

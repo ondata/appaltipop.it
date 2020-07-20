@@ -1,14 +1,18 @@
 export default (theme) => ({
   card: {
-    backgroundColor: theme.palette.common.white,
+    margin: noMargins => noMargins ? 0 : theme.spacing(8, 0),
     padding: theme.spacing(2),
+    maxWidth: noMargins => noMargins ? 'none' : 400,
+    backgroundColor: theme.palette.common.white,
     '& > *': {
       height: '100%'
     }
   },
   button: {
-    backgroundColor: theme.palette.common.white,
+    margin: noMargins => noMargins ? 0 : theme.spacing(8, 0),
     padding: theme.spacing(0, 2),
+    maxWidth: noMargins => noMargins ? 'none' : 400,
+    backgroundColor: theme.palette.common.white,
     cursor: 'pointer',
     '& > *': {
       height: '100%'
