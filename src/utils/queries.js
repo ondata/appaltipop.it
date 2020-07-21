@@ -575,3 +575,14 @@ export async function getSupplierById (id, index) {
     return !isEmpty(body.hits.hits) ? body.hits.hits[0]._source : {}
   }
 }
+
+export async function postSearch (hit = {}) {
+  const timestamp = hit.timestamp ? new Date(hit.timestamp) : new Date()
+  await es.index({
+    index: `${ES_INDEX_PREFIX}-searches-${timestamp.getFullYear()}`,
+    body: {
+      ...hit,
+      timestamp: timestamp.getTime()
+    }
+  })
+}

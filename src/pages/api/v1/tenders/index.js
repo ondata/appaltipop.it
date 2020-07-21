@@ -1,10 +1,11 @@
 import { isEmpty } from 'lodash'
 
-import { searchForTenders } from '../../../../utils/queries'
+import { searchForTenders, postSearch } from '../../../../utils/queries'
 
 export default async (req, res) => {
   const {
     query: {
+      lang,
       q,
       buyer,
       region,
@@ -15,25 +16,25 @@ export default async (req, res) => {
       maxDate,
       minFlags,
       maxFlags,
-      lang,
       page
     }
   } = req
 
-  res.status(200).json(
-    await searchForTenders({
-      q,
-      buyer,
-      region,
-      method,
-      minAmount: !isEmpty(minAmount) ? +minAmount : undefined,
-      maxAmount: !isEmpty(maxAmount) ? +maxAmount : undefined,
-      minDate,
-      maxDate,
-      minFlags: !isEmpty(minFlags) ? +minFlags : undefined,
-      maxFlags: !isEmpty(maxFlags) ? +maxFlags : undefined,
-      lang,
-      page: !isEmpty(page) ? +page : undefined
-    })
-  )
+  const query = {
+    lang: lang || undefined,
+    q: q || undefined,
+    buyer: buyer || undefined,
+    region: region || undefined,
+    method: method || undefined,
+    minAmount: !isEmpty(minAmount) ? +minAmount : undefined,
+    maxAmount: !isEmpty(maxAmount) ? +maxAmount : undefined,
+    minDate: minDate || undefined,
+    maxDate: maxDate || undefined,
+    minFlags: !isEmpty(minFlags) ? +minFlags : undefined,
+    maxFlags: !isEmpty(maxFlags) ? +maxFlags : undefined,
+    page: !isEmpty(page) ? +page : undefined
+  }
+
+  await postSearch(query)
+  res.status(200).json(await searchForTenders(query))
 }
