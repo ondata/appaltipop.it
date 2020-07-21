@@ -20,15 +20,15 @@ import {
   Drawer,
   List,
   ListItem,
-  ListItemText,
-  Divider,
-  Menu,
-  MenuItem
+  ListItemText
+  // Divider,
+  // Menu,
+  // MenuItem
 } from '@material-ui/core'
 
 import {
   Menu as MenuIcon,
-  Language as LanguageIcon,
+  // Language as LanguageIcon,
   Close
 } from '@material-ui/icons'
 
@@ -42,10 +42,10 @@ const useStyles = makeStyles(style)
 export default function Index () {
   const router = useRouter()
   const classes = useStyles()
-  const { t, lang } = useTranslation()
+  const { t } = useTranslation()
 
   const [isMenuOpen, toggleMenu] = useState(false)
-  const [anchorEl, setAnchorEl] = useState(null)
+  // const [anchorEl, setAnchorEl] = useState(null)
 
   return (
     <AppBar position='sticky' color='inherit' className={classes.root}>

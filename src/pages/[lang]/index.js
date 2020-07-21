@@ -25,7 +25,6 @@ import {
 } from '../../utils/queries'
 
 import Footer from '../../components/Footer'
-import Redflags from '../../components/Redflags'
 import Header from '../../components/Header'
 
 import { Card as CtaCard } from '../../components/Cta'
@@ -129,7 +128,7 @@ function Index ({
                       {},
                       { returnObjects: true }
                     )
-  
+
                     return {
                       id,
                       title: isEmpty(title) ? `${t('common:redflag')} ${id}` : title,

@@ -19,7 +19,9 @@ import {
 
 import { getI18nPaths, getI18nProps, withI18n } from '../../utils/i18n'
 
-import { CONTAINER_BREAKPOINT, DOWNLOAD_URL } from '../../config/constants'
+import { CONTAINER_BREAKPOINT, DOWNLOAD_URL, DATE_FORMAT, FLOAT_FORMAT } from '../../config/constants'
+
+import { timeFormat, numberFormat } from '../../utils/formats'
 
 import { getBuyers } from '../../utils/queries'
 
@@ -30,6 +32,8 @@ import { Button as CtaButton } from '../../components/Cta'
 
 function Index ({ buyers }) {
   const { t, lang } = useTranslation()
+  const tf = timeFormat(lang).format
+  const nf = numberFormat(lang).format
   const MDXContent = dynamic(() => import(`../../locales/${lang}/download.mdx`))
 
   const [searchString, setSearchString] = useState('')
@@ -92,40 +96,32 @@ function Index ({ buyers }) {
                     ),
                     buyer => includes(buyer['ocds:releases/0/buyer/name'].toLowerCase(), searchString.toLowerCase())
                   ),
-                  ({ 'appaltipop:releases/0/buyer/resource': resource = {}, ...buyer }, index) => (
-                    <ListItem divider disableGutters key={resource['appaltipop:releases/0/buyer/resource/id'] || index}>
+                  (buyer, index) => (
+                    <ListItem divider disableGutters key={buyer['ocds:releases/0/buyer/id']}>
                       <Grid container spacing={2} alignItems='center'>
                         <Grid item xs={6} md>
                           <Typography variant='caption'>{t('common:buyer')}</Typography>
                           <Typography variant='body1' color='inherit'>{buyer['ocds:releases/0/buyer/name']}</Typography>
                         </Grid>
                         <Grid item xs={6} md='auto'>
-                          <Typography variant='caption'>{t('download:lastUpdate')}</Typography>
-                          <Typography variant='body1' color='inherit'>{resource['appaltipop:releases/0/buyer/resource/year'] || '-'}</Typography>
+                          <Typography variant='caption'>{t('buyer:appaltipop/releases/0/buyer/dataSource/lastUpdate')}</Typography>
+                          <Typography variant='body1' color='inherit'>{tf(DATE_FORMAT)(new Date(buyer['appaltipop:releases/0/buyer/dataSource/lastUpdate']))}</Typography>
                         </Grid>
                         {
-                          !!resource['appaltipop:releases/0/buyer/resource/json'] &&
-                            <Grid item xs={6} md='auto'>
-                              <CtaButton
-                                title={t('download:json')}
-                                description={resource['appaltipop:releases/0/buyer/resource/json/size'] || '- KB'}
-                                url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/json']}`}
-                                icon='/icons/download.svg'
-                                noMargins
-                              />
-                            </Grid>
-                        }
-                        {
-                          !!resource['appaltipop:releases/0/buyer/resource/xlsx'] &&
-                            <Grid item xs={6} md='auto'>
-                              <CtaButton
-                                title={t('download:xlsx')}
-                                description={resource['appaltipop:releases/0/buyer/resource/xlsx/size'] || '- KB'}
-                                url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/xlsx']}`}
-                              icon='/icons/download.svg'
-                              noMargins
-                              />
-                            </Grid>
+                          map(
+                            buyer['appaltipop:releases/0/buyer/dataSource/resources'],
+                            resource => (
+                              <Grid item xs={6} md='auto' key={resource['appaltipop:releases/0/buyer/resource/format']}>
+                                <CtaButton
+                                  title={t(`download:formats.${resource['appaltipop:releases/0/buyer/resource/format']}`)}
+                                  description={`${nf(FLOAT_FORMAT)(resource['appaltipop:releases/0/buyer/resource/sizeBytes'] / 10 ** 6)} MB`}
+                                  url={`${DOWNLOAD_URL}/${resource['appaltipop:releases/0/buyer/resource/url']}`}
+                                  icon='/icons/download.svg'
+                                  noMargins
+                                />
+                              </Grid>
+                            )
+                          )
                         }
                       </Grid>
                     </ListItem>
@@ -147,7 +143,7 @@ function Index ({ buyers }) {
 
 export const getStaticProps = async (ctx) => ({
   props: {
-    ...(await getI18nProps(ctx, ['common', 'download'])),
+    ...(await getI18nProps(ctx, ['common', 'download', 'buyer'])),
     buyers: map((await getBuyers()).hits, '_source')
   }
 })

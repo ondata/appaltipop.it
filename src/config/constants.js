@@ -8,7 +8,7 @@ export const ES_URL = `${ES_SCHEME}://${ES_HOST}:${ES_PORT}`
 
 export const ES_INDEX_PREFIX = process.env.ES_INDEX_PREFIX || 'es'
 
-export const FLOAT_FORMAT = '.2f'
+export const FLOAT_FORMAT = ',.2f'
 export const INTEGER_FORMAT = ',d'
 export const PERCENTAGE_FORMAT = '.0%'
 export const CURRENCY_FORMAT = '($,.2f'

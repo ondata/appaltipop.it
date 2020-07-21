@@ -270,7 +270,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                         ))}
                       </List>
                     ) : (
-                        <Typography variant='body2'>{t('common:search.noResults')}</Typography>
+                      <Typography variant='body2'>{t('common:search.noResults')}</Typography>
                     )
                   }
 

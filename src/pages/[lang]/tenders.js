@@ -113,7 +113,7 @@ function Index ({
   const [pages, setPages] = useState(1)
 
   const [permalink, setPermalink] = useState('')
-  const [copied, setCopied] = useState(false)
+  // const [copied, setCopied] = useState(false)
 
   const [waiting, setWaiting] = useState(false)
 
@@ -136,7 +136,7 @@ function Index ({
     setRangeFlags(query.minFlags || query.maxFlags ? [query.minFlags ? +query.minFlags : 0, query.maxFlags ? +query.maxFlags : redflagsCount] : rangeFlags)
     setPage(query.page ? +query.page : page)
     setPermalink(`${location.origin}${location.pathname}?${(new URLSearchParams(query)).toString()}`)
-    setCopied(false)
+    // setCopied(false)
     if (!location.search || keys(query).length > 1) {
       handleRequest({ page: 0, ...query })
     }
@@ -310,7 +310,7 @@ function Index ({
                     map(
                       t('tender:ctas', {}, { returnObjects: true }),
                       (cta, index, ctas) => (
-                        <Grid item key={t(`cta:${cta}.url`)} xs={12} sm={ctas.length%2 && index === ctas.length-1 ? 12 : 6}>
+                        <Grid item key={t(`cta:${cta}.url`)} xs={12} sm={ctas.length % 2 && index === ctas.length - 1 ? 12 : 6}>
                           <CtaCard noMargins {...t(`cta:${cta}`, {}, { returnObjects: true })} />
                         </Grid>
                       )
@@ -493,7 +493,7 @@ function Index ({
                               value={method}
                               onChange={(event, newValue) => setMethod(newValue)}
                               options={methods}
-                              //getOptionLabel={(option) => option['ocds:releases/0/parties/address/region']}
+                              // getOptionLabel={(option) => option['ocds:releases/0/parties/address/region']}
                               renderInput={(params) => <TextField {...params} placeholder='Tutte' variant='outlined' />}
                             />
                           </FormControl>
@@ -509,14 +509,14 @@ function Index ({
                               <KeyboardDatePicker
                                 autoOk
                                 // disableToolbar
-                                views={['year', 'month']}
+                                // views={['year', 'month', 'day']}
                                 variant='inline'
                                 inputVariant='outlined'
                                 InputAdornmentProps={{ position: 'end' }}
-                                format='MM/yyyy'
+                                format='dd/MM/yyyy'
                                 // margin="normal"
                                 id='search-minDate-field'
-                                label='MM/yyyy'
+                                label='dd/MM/yyyy'
                                 value={minDate}
                                 onChange={(date) => setMinDate(date)}
                               />
@@ -534,13 +534,13 @@ function Index ({
                               <KeyboardDatePicker
                                 autoOk
                                 // disableToolbar
-                                views={['year', 'month']}
+                                // views={['year', 'month', 'day']}
                                 variant='inline'
                                 inputVariant='outlined'
-                                format='MM/yyyy'
+                                format='dd/MM/yyyy'
                                 // margin="normal"
                                 id='search-minDate-field'
-                                label='MM/yyyy'
+                                label='dd/MM/yyyy'
                                 value={maxDate}
                                 onChange={(date) => setMaxDate(date)}
                               />
@@ -565,7 +565,7 @@ function Index ({
                     >
                       <CopyToClipboard
                         text={permalink}
-                        onCopy={() => setCopied(true)}
+                        // onCopy={() => setCopied(true)}
                       >
                         <IconButton
                           color='primary'
@@ -587,11 +587,11 @@ function Index ({
                     <Pagination
                       variant='outlined'
                       shape='rounded'
-                      page={page+1}
+                      page={page + 1}
                       count={pages}
                       onChange={(e, value) => {
-                        setPage(value-1)
-                        handleSubmit({ page: value-1 })
+                        setPage(value - 1)
+                        handleSubmit({ page: value - 1 })
                       }}
                     />
                   )}
@@ -637,11 +637,11 @@ function Index ({
                     <Pagination
                       variant='outlined'
                       shape='rounded'
-                      page={page+1}
+                      page={page + 1}
                       count={pages}
                       onChange={(e, value) => {
-                        setPage(value-1)
-                        handleSubmit({ page: value-1 })
+                        setPage(value - 1)
+                        handleSubmit({ page: value - 1 })
                       }}
                     />
                   )}

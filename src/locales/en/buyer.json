@@ -13,6 +13,11 @@
   "unece/licencePlateCode": "Sigla automobilistica",
   "ocds/releases/0/awards/0/value/amount": "Importo aggiudicazione",
   "ocds/releases/0/contracts/0/implementation/transactions/0/value/amount": "Importo somme liquidate",
+  "appaltipop/releases/0/buyer/dataSource/url": "",
+  "appaltipop/releases/0/buyer/dataSource/lastUpdate": "Ultimo aggiornamento",
+  "appaltipop/releases/0/buyer/resource/url": "",
+  "appaltipop/releases/0/buyer/resource/format": "",
+  "appaltipop/releases/0/buyer/resource/sizeBytes": "",
   "search": {
     "title": "Pubbliche amministrazioni attualmente disponibili",
     "description": "In questa pagina trovi l'elenco delle Pubbliche amministrazioni incluse in AppaltiPOP. Al momento AppaltiPOP è online in fase sperimentale e le Pubbliche amministrazioni disponibili sono in numero limitato. Se hai interessa ad aggiungere una pubblica amministrazione, clicca su **[Partecipa](/it/get-involved)** per scoprire come andare avanti."
