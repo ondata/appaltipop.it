@@ -47,7 +47,7 @@ import FlagsInfo from '../../../../components/FlagsInfo'
 import KeyValue from '../../../../components/KeyValue'
 import AvatarIcon from '../../../../components/AvatarIcon'
 import Breadcrumbs from '../../../../components/Breadcrumbs'
-import { Button as CtaButton } from '../../../../components/Cta'
+import { Button as CtaButton, Dialog as CtaDialog } from '../../../../components/Cta'
 
 import SEO from '../../../../config/next-seo'
 
@@ -348,16 +348,16 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                 <Grid item xs={6} sm={4}>
                   <CtaButton
                     title={t('cta:foia.title')}
-                    icon='/icons/foia.png'
-                    url={t('cta:foia.url')}
+                    description={t('cta:foia.description')}
+                    icon={t('cta:foia.icon')}
                     noMargins
                   />
                 </Grid>
                 <Grid item xs={6} sm={4}>
                   <CtaButton
                     title={t('cta:whistle.title')}
-                    icon='/icons/whistle.svg'
-                    url={t('cta:whistle.url')}
+                    description={t('cta:foia.description')}
+                    icon={t('cta:whistle.icon')}
                     noMargins
                   />
                 </Grid>

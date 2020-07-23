@@ -30,12 +30,14 @@
     "icon": "/icons/lens.svg"
   },
   "foia": {
-    "title": "Fai una richiesta di accesso ai dati su un appalto all'ente appaltante",
-    "url": "http://foiapop.it/"
+    "title": "Fai una richiesta di accesso civico FOIA",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit cursus massa, et facilisis tellus. Mauris eget mauris id risus ullamcorper accumsan eu et massa.",
+    "icon": "/icons/foia.png"
   },
   "whistle": {
     "title": "Fai una segnalazione come whistleblower",
-    "url": "https://www.transparency.it/alac/"
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit cursus massa, et facilisis tellus. Mauris eget mauris id risus ullamcorper accumsan eu et massa.",
+    "icon": "/icons/whistle.png"
   },
   "warning": {
     "title": "Attenzione",

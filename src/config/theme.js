@@ -73,6 +73,11 @@ export default createMuiTheme({
     }
   },
   overrides: {
+    MuiDialog: {
+      paper: {
+        padding: 0
+      }
+    },
     MuiPaper: {
       root: {
         backgroundColor: greyColor,
