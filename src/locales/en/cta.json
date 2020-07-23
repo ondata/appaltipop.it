@@ -41,6 +41,6 @@
     "title": "Attenzione",
     "description": "Dati anomali",
     "url": "/faq",
-    "icon": "/icons/redflag-man.svg"
+    "icon": "/icons/alert.svg"
   }
 }

@@ -18,7 +18,8 @@ import {
 
 import {
   Print,
-  ArrowForward
+  ArrowForward,
+  ReportProblem
 } from '@material-ui/icons'
 
 import { getI18nProps, withI18n } from '../../../../utils/i18n'
@@ -29,7 +30,8 @@ import {
   CONTAINER_BREAKPOINT,
   CURRENCY_FORMAT,
   DATE_FORMAT,
-  INTEGER_FORMAT
+  INTEGER_FORMAT,
+  REPORT_URL
 } from '../../../../config/constants'
 
 import { getTenderById } from '../../../../utils/queries'
@@ -46,6 +48,8 @@ import KeyValue from '../../../../components/KeyValue'
 import AvatarIcon from '../../../../components/AvatarIcon'
 import Breadcrumbs from '../../../../components/Breadcrumbs'
 import { Button as CtaButton } from '../../../../components/Cta'
+
+import SEO from '../../../../config/next-seo'
 
 function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
   const router = useRouter()
@@ -91,24 +95,66 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     {tender['ocds:releases/0/tender/title']}
                   </Typography>
 
-                  <Typography
-                    component='div'
-                    variant='subtitle1'
-                    style={{ fontSize: '1rem' }}
-                  >
-                    <Grid container spacing={2} alignItems='center'>
-                      <Grid item>
-                        <a className='MuiButtonBase-root' onClick={() => window.print()}>
-                          {t('common:print')}
-                        </a>
-                      </Grid>
-                      <Grid item>
-                        <AvatarIcon color='primary'>
-                          <Print />
-                        </AvatarIcon>
-                      </Grid>
+                  <Grid container spacing={2}>
+
+                    <Grid item xs>
+                      <Typography
+                        component='div'
+                        variant='subtitle1'
+                        style={{ fontSize: '1rem' }}
+                      >
+                        <Grid container spacing={2} alignItems='center' wrap='nowrap'>
+                          <Grid item>
+                            <a className='MuiButtonBase-root' onClick={() => window.print()}>
+                              {t('common:print')}
+                            </a>
+                          </Grid>
+                          <Grid item>
+                            <AvatarIcon color='primary'>
+                              <Print />
+                            </AvatarIcon>
+                          </Grid>
+                        </Grid>
+                      </Typography>
                     </Grid>
-                  </Typography>
+
+                    <Grid item>
+                      <Typography
+                        component='div'
+                        variant='subtitle1'
+                        style={{ fontSize: '1rem' }}
+                      >
+                        <Grid container spacing={2} alignItems='center' wrap='nowrap'>
+                          <Grid item>
+                            <a
+                              className='MuiButtonBase-root'
+                              href={`${REPORT_URL}?${(new URLSearchParams({
+                                labels: 'segnalazione',
+                                title: `[${tender['ocds:releases/0/id']}] Segnalazione problema`,
+                                body: [
+                                  `## Appalto segnalato\n`,
+                                  `CIG: ${tender['ocds:releases/0/id']}`,
+                                  `URL: ${SEO.canonical}${router.asPath}`,
+                                  `Titolo: "${tender['ocds:releases/0/tender/title']}"\n`,
+                                  `## Descrizione del problema\n`,
+                                  `...`
+                                ].join('\n')
+                              })).toString()}`}
+                              target='_blank'
+                            >
+                              {t('common:report')}
+                            </a>
+                          </Grid>
+                          <Grid item>
+                            <AvatarIcon color='primary'>
+                              <ReportProblem />
+                            </AvatarIcon>
+                          </Grid>
+                        </Grid>
+                      </Typography>
+                    </Grid>
+
+                  </Grid>
 
                 </Grid>
 

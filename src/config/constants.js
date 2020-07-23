@@ -22,4 +22,6 @@ export const PAGE_SIZE = 25
 
 export const API_VERSION = 'v1'
 
-export const DOWNLOAD_URL = 'https://github.com/ondata/appaltipop/raw/master'
+export const REPOSITORY_URL = 'https://github.com/ondata/appaltipop'
+export const DOWNLOAD_URL = `${REPOSITORY_URL}/raw/master`
+export const REPORT_URL = `${REPOSITORY_URL}/issues/new`
