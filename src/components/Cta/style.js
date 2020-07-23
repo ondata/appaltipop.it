@@ -4,6 +4,7 @@ export default (theme) => ({
     padding: theme.spacing(2),
     maxWidth: noMargins => noMargins ? 'none' : 400,
     backgroundColor: theme.palette.common.white,
+    height: noMargins => noMargins ? '100%' : 'auto',
     '& > *': {
       height: '100%'
     }

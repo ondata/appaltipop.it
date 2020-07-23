@@ -189,13 +189,6 @@ export default createMuiTheme({
         width: '100%'
       }
     },
-    MuiGrid: {
-      item: {
-        '& > .MuiCard-root:first-child': {
-          height: '100%'
-        }
-      }
-    },
     MuiCard: {
       root: {
         '& a': {

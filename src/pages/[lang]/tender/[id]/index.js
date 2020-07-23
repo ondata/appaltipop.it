@@ -350,7 +350,6 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     title={t('cta:foia.title')}
                     description={t('cta:foia.description')}
                     icon={t('cta:foia.icon')}
-                    noMargins
                   />
                 </Grid>
                 <Grid item xs={6} sm={4}>
@@ -358,7 +357,6 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                     title={t('cta:whistle.title')}
                     description={t('cta:foia.description')}
                     icon={t('cta:whistle.icon')}
-                    noMargins
                   />
                 </Grid>
               </Grid>
