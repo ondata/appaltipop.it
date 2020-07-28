@@ -1,0 +1,520 @@
+openapi: 3.0.3
+info:
+  title: AppaltiPOP - OpenAPI 3.0
+  description: |-
+    This is the documentation of [AppaltiPOP](https://www.appaltipop.it) REST API based on the [OpenAPI 3.0 specification](https://swagger.io/specification/).
+
+    Some useful links:
+    - [AppaltiPOP](https://www.appaltipop.it)
+    - [OCDS](https://www.appaltipop.it/it/ocds)
+    - [About](https://www.appaltipop.it/it/about)
+    - [FAQ](https://www.appaltipop.it/it/faq)
+
+  termsOfService: 'https://www.appaltipop.it/it/credits'
+  contact:
+    email: info@ondata.it
+  license:
+    name: Creative Commons Attribution / Share Alike (CC-BY-SA)
+    url: 'https://creativecommons.org/licenses/by-sa/3.0/it/'
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: https://www.appaltipop.it/api/v1
+tags:
+  - name: Buyers
+    description: All buyers
+  - name: Suppliers
+    description: All suppliers
+  - name: Tenders
+    description: All tenders
+paths:
+  '/tenders':
+    get:
+      tags:
+        - Tenders
+      summary: Search for tenders
+      description: |
+        Return tenders, see also the [search engine GUI](https://www.appaltipop.it/it/tenders).
+      parameters:
+        - name: lang
+          in: query
+          description: Language code for search
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: Search string
+          schema:
+            type: string
+        - name: buyer
+          in: query
+          description: Buyer id
+          schema:
+            type: string
+        - name: region
+          in: query
+          description: Region ISTAT code
+          schema:
+            type: string
+        - name: method
+          in: query
+          description: Tender method
+          schema:
+            type: string
+        - name: minAmount
+          in: query
+          description: From amount of tender (€)
+          schema:
+            type: integer
+        - name: maxAmount
+          in: query
+          description: To amount of tender (€)
+          schema:
+            type: integer
+        - name: minDate
+          in: query
+          description: From start date (yyyy-MM-dd)
+          schema:
+            type: string
+        - name: maxDate
+          in: query
+          description: To start date (yyyy-MM-dd)
+          schema:
+            type: string
+        - name: minFlags
+          in: query
+          description: From number of redflags
+          schema:
+            type: integer
+        - name: maxFlags
+          in: query
+          description: To number of redflags
+          schema:
+            type: integer
+        - name: page
+          in: query
+          description: Pagination (from 0)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tender'
+  '/tenders/{tenderId}':
+    get:
+      tags:
+        - Tenders
+      summary: Find tender by ID
+      description: Returns a single tender.
+      operationId: getTenderById
+      parameters:
+        - name: tenderId
+          in: path
+          description: ID of tender to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tender'
+        '404':
+          description: Tender not found
+  '/tenders/{tenderId}/buyers':
+    get:
+      tags:
+        - Tenders
+      summary: Find buyers by tender ID
+      description: Returns buyers.
+      operationId: getBuyersByTenderId
+      parameters:
+        - name: tenderId
+          in: path
+          description: ID of tender
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Buyer'
+  '/tenders/{tenderId}/suppliers':
+    get:
+      tags:
+        - Tenders
+      summary: Find suppliers by tender ID
+      description: Returns suppliers.
+      operationId: getSuppliersByTenderId
+      parameters:
+        - name: tenderId
+          in: path
+          description: ID of tender
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Supplier'
+  '/tenders/{tenderId}/redflags':
+    get:
+      tags:
+        - Tenders
+      summary: Find redflags by tender ID
+      description: Returns redflags.
+      operationId: getRedflagsByTenderId
+      parameters:
+        - name: tenderId
+          in: path
+          description: ID of tender
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Z0-9]+$'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Redflag'
+  '/suppliers':
+    get:
+      tags:
+        - Suppliers
+      summary: Search for suppliers
+      description: |
+        Return suppliers.
+      parameters:
+        - name: lang
+          in: query
+          description: Language code for search
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: Search string
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Pagination (from 0)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Supplier'
+  '/suppliers/{supplierId}':
+    get:
+      tags:
+        - Suppliers
+      summary: Find supplier by ID
+      description: Returns a single supplier.
+      operationId: getSupplierById
+      parameters:
+        - name: supplierId
+          in: path
+          description: ID of supplier to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Supplier'
+        '404':
+          description: Supplier not found
+  '/suppliers/{supplierId}/tenders':
+    get:
+      tags:
+        - Suppliers
+      summary: Find tenders by supplier ID
+      description: Returns tenders.
+      operationId: getTendersBySupplierId
+      parameters:
+        - name: supplierId
+          in: path
+          description: ID of supplier
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Pagination (from 0)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tender'
+  '/buyers':
+    get:
+      tags:
+        - Buyers
+      summary: Search for buyers
+      description: |
+        Return buyers.
+      parameters:
+        - name: lang
+          in: query
+          description: Language code for search
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: Search string
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Pagination (from 0)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Buyer'
+  '/buyers/{buyerId}':
+    get:
+      tags:
+        - Buyers
+      summary: Find buyer by ID
+      description: Returns a single buyer.
+      operationId: getBuyerById
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+        '404':
+          description: Buyer not found
+  '/buyers/{buyerId}/tenders':
+    get:
+      tags:
+        - Buyers
+      summary: Find tenders by buyer ID
+      description: Returns tenders.
+      operationId: getTendersByBuyerId
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Pagination (from 0)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tender'
+components:
+  schemas:
+    Buyer:
+      required:
+        - 'ocds:releases/0/buyer/id'
+      type: object
+      properties:
+        'ocds:releases/0/buyer/id':
+          type: string
+          pattern: '^[A-Z]{2}-[A-Z]{2}-[0-9]+$'
+          example: 'IT-CF-01199250158'
+        'ocds:releases/0/buyer/name':
+          type: string
+          example: 'Comune di Milano'
+        'ipa:cod_amm':
+          type: string
+          example: 'c_f205'
+        'ocds:releases/0/parties/address/postalCode':
+          type: string
+          example: '20121'
+        'ocds:releases/0/parties/contactPoint/url':
+          type: string
+          example: 'www.comune.milano.it'
+        'ipaocds:releases/0/parties/address/streetAddress':
+          type: string
+          example: 'Piazza Della Scala, 2'
+        'istat:COD_REG':
+          type: string
+          example: '03'
+        'istat:COD_CM':
+          type: string
+          example: '215'
+        'ipa:comune':
+          type: string
+          example: 'Milano'
+        'ocds:releases/0/parties/address/region':
+          type: string
+          example: 'Lombardia'
+        'istat:DEN_CM':
+          type: string
+          example: 'Milano'
+        'unece:licencePlateCode':
+          type: string
+          example: 'MI'
+        'appaltipop:releases/0/buyer/dataSource/url':
+          type: string
+          example: 'http://allegati.comune.milano.it/Comunicazione/Trasparenza/indicedataset2019.xml'
+        'appaltipop:releases/0/buyer/dataSource/lastUpdate':
+          type: string
+          example: '2020-07-09T14:48:00.000Z'
+          format: date
+        'appaltipop:releases/0/buyer/dataSource/resources':
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+    Supplier:
+      required:
+        - 'ocds:releases/0/parties/0/id'
+      type: object
+      properties:
+        'ocds:releases/0/parties/0/id':
+          type: string
+          pattern: '^[A-Z]-[A-Z]{2}-[A-Z]{2}-[A-Z0-9,/]+$'
+          example: 'S-IT-CF-09548760967'
+        'ocds:releases/0/parties/0/name':
+          type: string
+          example: 'PROFILI SRLS'
+    Tender:
+      required:
+        - 'ocds:releases/0/id'
+      type: object
+      properties:
+        'ocds:releases/0/id':
+          type: string
+          pattern: '^[A-Z0-9]+$'
+          example: '7933880CE2'
+        'ocds:releases/0/tender/title':
+          type: string
+          example: 'IMPIANTI TECNOLOGICI – Servizio di noleggio full service di estintori presso gli immobili del Comune di Verona 2019/2022'
+        'ocds:releases/0/tender/procurementMethodDetails':
+          type: string
+          example: '01-PROCEDURA APERTA'
+        'ocds:releases/0/tender/contractPeriod/startDate':
+          type: string
+          format: date
+          example: '2019-11-01T09:30:00.000Z'
+        'ocds:releases/0/tender/contractPeriod/endDate':
+          type: string
+          format: date
+          example: '2022-10-31T09:30:00.000Z'
+        'ocds:releases/0/awards/0/value/amount':
+          type: number
+          example: 140767.56
+        'ocds:releases/0/contracts/0/implementation/transactions/0/value/amount':
+          type: number
+          example: 0.0
+        'appaltipop:releases/0/tender/participants/total':
+          type: integer
+          example: 8
+        'appaltipop:releases/0/participants/total':
+          type: integer
+          example: 39830
+        'appaltipop:releases/0/participants/mean':
+          type: number
+          example: 3.25
+        'appaltipop:releases/0/suppliers':
+          type: array
+          items:
+            $ref: '#/components/schemas/Supplier'
+        'appaltipop:releases/0/redflags':
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Redflag'
+              - type: object
+                properties:
+                  'appaltipop:releases/0/supplier/amountBySingleBuyer/total':
+                    type: number
+                    example: 152060.16
+                  'appaltipop:releases/0/supplier/tendersByBuyers/total':
+                    type: integer
+                    example: 10
+        'appaltipop:releases/0/buyers':
+          type: array
+          items:
+            $ref: '#/components/schemas/Buyer'
+    Resource:
+      type: object
+      properties:
+        'appaltipop:releases/0/buyer/resource/url':
+          type: string
+          example: 'data/IT-CF-01199250158/ocds.json'
+        'appaltipop:releases/0/buyer/resource/format':
+          type: string
+          enum:
+            - json
+            - xlsx
+          example: 'json'
+        'appaltipop:releases/0/buyer/resource/sizeBytes':
+          type: integer
+          example: 10294582
+    Redflag:
+      required:
+        - 'appaltipop:releases/0/redflag/code'
+      type: object
+      properties:
+        'appaltipop:releases/0/redflag/code':
+          type: string
+          example: '03'
+        'appaltipop:releases/0/redflag/description':
+          type: string
+          example: 'Questa gara presenta un solo offerente'
