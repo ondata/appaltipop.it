@@ -21,12 +21,12 @@
     "appaltipop/releases/0/redflag/code": "04",
     "title": "Prima gara vinta",
     "summary": "L'offerente che non ha mai fatto un'offerta in precedenza vince un'offerta.",
-    "description": "È un indicatore interessante, che da conto di una \"novità\" nel sistema. Sarebbe da integrare a componenti aggiuntivi, come l'anno di fondazione del fornitore (dato purtroppo non disponibile). Uno che vince per la prima volta, che è sul mercato da meno di 1 anno, può essere una vera bandiera."
+    "description": "È un indicatore interessante, che dà conto di una \"novità\" nel sistema. Sarebbe da integrare a componenti aggiuntivi, come l'anno di fondazione del fornitore (dato purtroppo non disponibile). Uno che vince per la prima volta, che è sul mercato da meno di 1 anno, può essere una vera bandiera."
   },
   "05": {
     "appaltipop/releases/0/redflag/code": "05",
     "title": "Aggiudicatari sconosciuti",
-    "summary": "Non si conoscono né Codice Fiscale, né ragione sociale.",
-    "description": "Questo è un indicatore sopratutto della qualità del dato sorgente, in cui sono elencate delle gare con un aggiudicatario, ma senza alcun elemento anagrafico. Non avere queste informazioni di base impoverisce il valore informativo e le opportunità di monitoraggio."
+    "summary": "Non si conoscono né Codice Fiscale, né ragione sociale dell'aggiudicatario dell'appalto",
+    "description": "Questo è un indicatore soprattutto della qualità del dato sorgente, in cui sono elencate delle gare con un aggiudicatario, ma senza alcun elemento anagrafico. Nel comunicare i dati all'Autorità Anti Corruzione in pratica il Comune/Stazione Appaltante non ha specificato chi è l'aggiudicatario dell'appalto. Non avere queste informazioni di base impoverisce il valore informativo e le opportunità di monitoraggio."
   }
 }
