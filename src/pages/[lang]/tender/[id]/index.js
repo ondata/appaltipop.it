@@ -355,7 +355,7 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                 <Grid item xs={6} sm={4}>
                   <CtaButton
                     title={t('cta:whistle.title')}
-                    description={t('cta:foia.description')}
+                    description={t('cta:whistle.description')}
                     icon={t('cta:whistle.icon')}
                   />
                 </Grid>
