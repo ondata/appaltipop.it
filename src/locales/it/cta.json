@@ -30,13 +30,13 @@
     "icon": "/icons/lens.svg"
   },
   "foia": {
-    "title": "Fai una richiesta di accesso civico FOIA",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit cursus massa, et facilisis tellus. Mauris eget mauris id risus ullamcorper accumsan eu et massa.",
+    "title": "Richiedi maggiori informazioni su questo appalto",
+    "description": "Se hai interesse ad approfondire questo appalto, la legge italiana ti riconosce il diritto di chiedere alla stazione appaltante maggiori informazioni. Puoi farlo facendo una richiesta di accesso civico generalizzato (FOIA). Crea la tua richiesta inserendo i riferimenti a questo appalto e inviala alla stazione appaltante, che ha l'obbligo di legge di risponderti entro 30 giorni. Per creare la tua richiesta ti consigliamo di usare il generatore di richieste di accesso generalizzato sul sito [FoiaPop.it](http://foiapop.it)",
     "icon": "/icons/foia.png"
   },
   "whistle": {
     "title": "Fai una segnalazione come whistleblower",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit cursus massa, et facilisis tellus. Mauris eget mauris id risus ullamcorper accumsan eu et massa.",
+    "description": "Se sei a conoscenza di presunte irregolarità su questa appalto, puoi fare una segnalazione anonima affinché venga esanimata dalle autorità preposte. Per effettuare anonimamente la tua segnalazioni di consigliamo di servirti di ALAC, il servizio di Allerta Anticorruzione messo a disposizione da Transparency International Italia. Potrai effettuare la tua segnalazione anonimamente e con l'assistenza di Transparency International sul [sito di ALAC - Allerta Anticorruzione](https://www.transparency.it/alac/)",
     "icon": "/icons/whistle.png"
   },
   "warning": {
