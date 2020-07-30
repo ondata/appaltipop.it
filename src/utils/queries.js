@@ -581,8 +581,19 @@ export async function postSearch (hit = {}) {
   await es.index({
     index: `${ES_INDEX_PREFIX}-searches-${timestamp.getFullYear()}`,
     body: {
-      ...hit,
-      timestamp: timestamp.getTime()
+      'appaltipop:releases/0/search/timestamp': timestamp.getTime(),
+      'appaltipop:releases/0/search/lang': hit.lang || defaultLanguage,
+      'appaltipop:releases/0/search/q': hit.q,
+      'appaltipop:releases/0/search/buyer': hit.buyer,
+      'appaltipop:releases/0/search/region': hit.region,
+      'appaltipop:releases/0/search/method': hit.method,
+      'appaltipop:releases/0/search/minAmount': hit.minAmount,
+      'appaltipop:releases/0/search/maxAmount': hit.maxAmount,
+      'appaltipop:releases/0/search/minDate': hit.minDate,
+      'appaltipop:releases/0/search/maxDate': hit.maxDate,
+      'appaltipop:releases/0/search/minFlags': hit.minFlags,
+      'appaltipop:releases/0/search/maxFlags': hit.maxFlags,
+      'appaltipop:releases/0/search/page': hit.page
     }
   })
 }
