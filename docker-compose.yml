@@ -16,14 +16,14 @@ services:
         image: docker.pkg.github.com/ondata/appaltipop.it/appaltipop-proxy:latest
         environment:
             - APP_URL=${APP_URL:-http://app:3000}
-            - OAS_URL=${OAS_URL:-http://oas-ui:8080}
+            - OAS_URL=${OAS_URL:-http://oas-ui-v1:8080}
         ports:
             - ${PROD_PORT:-8080}:80
         depends_on:
             - app
-            - oas-ui
+            - oas-ui-v1
 
-    oas-ui:
+    oas-ui-v1:
         build: oas/
         image: docker.pkg.github.com/ondata/appaltipop.it/appaltipop-oas:latest
 

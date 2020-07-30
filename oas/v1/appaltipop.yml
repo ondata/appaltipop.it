@@ -22,6 +22,11 @@ externalDocs:
   url: 'http://swagger.io'
 servers:
   - url: https://www.appaltipop.it/api/v1
+    description: Production environment
+  - url: https://dev.appaltipop.it/api/v1
+    description: Development environment
+  - url: http://localhost:8080/api/v1
+    description: Local environment
 tags:
   - name: Buyers
     description: All buyers
