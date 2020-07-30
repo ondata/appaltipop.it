@@ -55,7 +55,7 @@ function Index ({ buyersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
               <Grid item xs={4} sm={2}>
                 <BuyersCounter
                   count={buyersCount}
-                  label={t('buyer:counter.buyer', {
+                  label={t('counter:buyer', {
                     count: buyersCount
                   })}
                 />
@@ -63,7 +63,7 @@ function Index ({ buyersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
               <Grid item xs={4} sm={2}>
                 <TendersCounter
                   count={tendersCount}
-                  label={t('buyer:counter.tender', {
+                  label={t('counter:tender', {
                     count: tendersCount
                   })}
                 />
@@ -73,7 +73,7 @@ function Index ({ buyersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
                   count={`${Math.round(
                     (redTendersCount / tendersCount) * 100
                   )}%`}
-                  label={t('buyer:counter.redflag', {
+                  label={t('counter:redflag', {
                     count: redTendersCount
                   })}
                 />
@@ -110,7 +110,7 @@ function Index ({ buyersCount = 0, tendersCount = 0, redTendersCount = 0 }) {
 export const getStaticProps = async (ctx) => {
   return {
     props: {
-      ...(await getI18nProps(ctx, ['common', 'buyer'])),
+      ...(await getI18nProps(ctx, ['common', 'buyer', 'counter'])),
       buyersCount: await getBuyersCount(),
       tendersCount: await getTendersCount(),
       redTendersCount: await getRedTendersCount()
