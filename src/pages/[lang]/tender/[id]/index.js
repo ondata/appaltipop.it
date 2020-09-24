@@ -47,7 +47,7 @@ import FlagsInfo from '../../../../components/FlagsInfo'
 import KeyValue from '../../../../components/KeyValue'
 import AvatarIcon from '../../../../components/AvatarIcon'
 import Breadcrumbs from '../../../../components/Breadcrumbs'
-import { Button as CtaButton, Dialog as CtaDialog } from '../../../../components/Cta'
+import { Button as CtaButton } from '../../../../components/Cta'
 
 import SEO from '../../../../config/next-seo'
 
@@ -132,15 +132,16 @@ function Index ({ tender = {}, buyers = [], suppliers = [], redflags = [] }) {
                                 labels: 'segnalazione',
                                 title: `[${tender['ocds:releases/0/id']}] Segnalazione problema`,
                                 body: [
-                                  `## Appalto segnalato\n`,
+                                  '## Appalto segnalato\n',
                                   `CIG: ${tender['ocds:releases/0/id']}`,
                                   `URL: ${SEO.canonical}${router.asPath}`,
                                   `Titolo: "${tender['ocds:releases/0/tender/title']}"\n`,
-                                  `## Descrizione del problema\n`,
-                                  `...`
+                                  '## Descrizione del problema\n',
+                                  '...'
                                 ].join('\n')
                               })).toString()}`}
                               target='_blank'
+                              rel='noopener noreferrer'
                             >
                               {t('common:report')}
                             </a>
