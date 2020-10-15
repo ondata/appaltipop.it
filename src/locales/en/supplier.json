@@ -14,5 +14,5 @@
         "label": "Cerca tra gli aggiudicatari",
         "redflags": "Mostra solo risultati con red flag"
     },
-    "ctas": ["search","download"]
+    "ctas": ["download"]
 }
