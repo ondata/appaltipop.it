@@ -28,7 +28,7 @@ services:
         image: docker.pkg.github.com/ondata/appaltipop.it/appaltipop-oas:latest
 
     es01:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
         container_name: appaltipop-es01
         environment:
             - discovery.type=single-node
@@ -37,7 +37,7 @@ services:
             - 9200:9200
 
     kibana:
-        image: docker.elastic.co/kibana/kibana:7.8.0
+        image: docker.elastic.co/kibana/kibana:7.9.2
         container_name: appaltipop-kibana
         environment:
             SERVER_NAME: dashboard.appaltipop.it
