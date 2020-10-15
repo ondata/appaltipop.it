@@ -135,9 +135,9 @@ function Index ({
     setMaxDate(query.maxDate ? new Date(query.maxDate) : maxDate)
     setRangeFlags(query.minFlags || query.maxFlags ? [query.minFlags ? +query.minFlags : 0, query.maxFlags ? +query.maxFlags : redflagsCount] : rangeFlags)
     setPage(query.page ? +query.page : page)
-    setPermalink(`${location.origin}${location.pathname}?${(new URLSearchParams(query)).toString()}`)
+    setPermalink(`${window.location.origin}${window.location.pathname}?${(new URLSearchParams(query)).toString()}`)
     // setCopied(false)
-    if (!location.search || keys(query).length > 1) {
+    if (!window.location.search || keys(query).length > 1) {
       handleRequest({ page: 0, ...query })
     }
   }, [query])
@@ -148,7 +148,7 @@ function Index ({
       q: searchString,
       buyer: buyer ? buyer['ocds:releases/0/buyer/id'] : '',
       region: region ? region['istat:COD_REG'] : '',
-      method: method,
+      method: method || '',
       minAmount: 10 ** rangeAmount[0],
       maxAmount: 10 ** rangeAmount[1],
       minDate: minDate ? minDate.toISOString().split('T')[0] : '',
@@ -171,7 +171,7 @@ function Index ({
     )
 
     setResultsLabel(<>&nbsp;</>)
-    e?.preventDefault?.()
+    e && e.preventDefault && e.preventDefault()
   }
 
   function handleReset () {
@@ -200,7 +200,7 @@ function Index ({
             q: query.q || searchString,
             buyer: query.buyer || (buyer ? buyer['ocds:releases/0/buyer/id'] : ''),
             region: query.region || (region ? region['istat:COD_REG'] : ''),
-            method: query.method || method,
+            method: query.method || method || '',
             minAmount: query.minAmount || 10 ** rangeAmount[0],
             maxAmount: query.maxAmount || 10 ** rangeAmount[1],
             minDate: query.minDate || (minDate ? minDate.toISOString().split('T')[0] : ''),
@@ -671,7 +671,7 @@ export const getStaticProps = async (ctx) => {
       regions: map((await getRegions()).hits, '_source'),
       methods: map((await getTenderMethods()).buckets, 'key')
     },
-    unstable_revalidate: 3600
+    revalidate: 3600
   }
 }
 

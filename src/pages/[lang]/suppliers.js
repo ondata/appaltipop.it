@@ -338,7 +338,7 @@ export const getStaticProps = async (ctx) => {
       tendersCount: await getTendersCount(),
       redTendersCount: await getRedTendersCount()
     },
-    unstable_revalidate: 3600
+    revalidate: 3600
   }
 }
 
