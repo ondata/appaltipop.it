@@ -1,0 +1,7 @@
+# Changelog
+
+Version number follows the [semantic versioning specifications](https://semver.org/): v[MAJOR].[MINOR].[PATCH]
+
+## v1.0.0 (beta) 2020-10-15
+
+First stable release. See [youtu.be/vopDD1YnEpg](https://youtu.be/vopDD1YnEpg).
