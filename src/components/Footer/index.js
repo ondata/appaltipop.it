@@ -74,7 +74,7 @@ export default function Index () {
                 </Link>
                 <ListItem
                   component='a'
-                  href='/api/v1'
+                  href='/api/v1/'
                   button
                   className={classes.menuButton}
                 >
