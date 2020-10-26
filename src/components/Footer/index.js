@@ -72,6 +72,16 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
+                <ListItem
+                  component='a'
+                  href='/api/v1'
+                  button
+                  className={classes.menuButton}
+                >
+                  <ListItemText
+                    primary={t('common:api')}
+                  />
+                </ListItem>
               </List>
             </Grid>
             <Grid item xs={6} sm={3}>
@@ -98,6 +108,17 @@ export default function Index () {
                     />
                   </ListItem>
                 </Link>
+                <ListItem
+                  component='a'
+                  href='https://github.com/ondata/appaltipop.it'
+                  target='_blank'
+                  button
+                  className={classes.menuButton}
+                >
+                  <ListItemText
+                    primary={t('common:sourcecode')}
+                  />
+                </ListItem>
               </List>
             </Grid>
           </Grid>

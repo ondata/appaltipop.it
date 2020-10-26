@@ -25,6 +25,8 @@
     "download": "Scarica i dati",
     "faq": "FAQ",
     "credits": "Crediti",
+    "sourcecode": "Codice sorgente",
+    "api": "API",
 
     "print": "Stampa report",
     "report": "Segnala un'anomalia sui dati",
