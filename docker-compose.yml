@@ -7,7 +7,7 @@ services:
         image: docker.pkg.github.com/ondata/appaltipop.it/appaltipop-app:latest
         environment:
             - ES_SCHEME=${ES_SCHEME:-http}
-            - ES_HOST=${ES_HOST:-elastic}
+            - ES_HOST=${ES_HOST:-es01}
             - ES_PORT=${ES_PORT:-9200}
             - ES_INDEX_PREFIX=${ES_INDEX_PREFIX:-appaltipop}
 
