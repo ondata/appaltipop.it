@@ -38,16 +38,16 @@ You can simply copy and paste the [docker-compose.yml file](https://github.com/o
 
 Additionally you can host also the Elasticsearch database with Kibana enabled.
 
-You can set environment variables using a `.env` file:
+You can set environment variables using a `.env` file (see `default.env`):
+- PROD_PORT - Port exposed on host, default: `8080`
+- APP_URL - URL of nextjs application, default: `http://app:3000`
+- OAS_URL - URL of swagger ui service, default: `http://oas-ui:8080`
 - ES_SCHEME - Scheme of elasticsearch instance, default: `http`
 - ES_HOST - Host of elasticsearch instance, default: `es01`
 - ES_PORT - Port of elasticsearch instance, default: `9200`
 - ES_INDEX_PREFIX - Prefix of elasticsearch indices, default: `appaltipop`
 - ES_AUTH_USERNAME - Username for basic auth of elasticsearch instance, default: empty value
 - ES_AUTH_PASSWORD - Password for basic auth of elasticsearch instance, default: empty value
-- APP_URL - URL of nextjs application, default: `http://app:3000`
-- OAS_URL - URL of swagger ui service, default: `http://oas-ui:8080`
-- PROD_PORT - Port exposed on host, default: `8080`
 
 ### Development
 
