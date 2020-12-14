@@ -91,6 +91,18 @@ export default function Index () {
                 {t('common:ocds')}
               </Button>
             </Link>
+            <Link href='/redflags' passHref>
+              <Button
+                component='a'
+                disableElevation
+                className={clsx(
+                  classes.menuButton,
+                  router.pathname === '/[lang]/redflags' && classes.selected
+                )}
+              >
+                {t('common:redflags')}
+              </Button>
+            </Link>
             <Link href='/get-involved' passHref>
               <Button
                 component='a'
