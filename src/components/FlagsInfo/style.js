@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   root: {
     marginBottom: theme.spacing(2)
   },
@@ -17,3 +17,5 @@ export default (theme) => ({
   },
   description: {}
 })
+
+export default style

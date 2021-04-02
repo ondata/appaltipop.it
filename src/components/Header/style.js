@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   container: {
     padding: 0
   },
@@ -32,3 +32,5 @@ export default (theme) => ({
     marginLeft: 'auto'
   }
 })
+
+export default style

@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   card: {
     margin: noMargins => noMargins ? 0 : theme.spacing(8, 0),
     padding: theme.spacing(2),
@@ -44,3 +44,5 @@ export default (theme) => ({
     color: theme.palette.grey[500]
   }
 })
+
+export default style

@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   primary: {
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.primary.light
@@ -8,3 +8,5 @@ export default (theme) => ({
     backgroundColor: theme.palette.secondary.light
   }
 })
+
+export default style

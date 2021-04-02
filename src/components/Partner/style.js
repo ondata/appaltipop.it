@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   root: {
     textAlign: 'center',
     border: `${theme.spacing(0.25)}px solid ${theme.palette.primary.main}`,
@@ -10,3 +10,5 @@ export default (theme) => ({
     maxHeight: '6rem'
   }
 })
+
+export default style

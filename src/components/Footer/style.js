@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   root: {
     backgroundColor: theme.palette.text.primary,
     paddingTop: theme.spacing(4),
@@ -20,6 +20,16 @@ export default (theme) => ({
       }
     }
   },
+  thanks: {
+    textAlign: 'center',
+    '& .MuiTypography-body1': {
+      fontSize: '0.85rem !important'
+    },
+    '& img': {
+      width: '100%',
+      maxWidth: '150px'
+    }
+  },
   menuButton: {
     textDecoration: 'underline',
     '&:hover': {
@@ -30,3 +40,5 @@ export default (theme) => ({
     }
   }
 })
+
+export default style

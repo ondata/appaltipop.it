@@ -1,4 +1,4 @@
-export default (theme) => ({
+const style = (theme) => ({
   root: {
     position: 'relative',
     padding: theme.spacing(2, 4),
@@ -19,3 +19,5 @@ export default (theme) => ({
     right: theme.spacing(1)
   }
 })
+
+export default style
