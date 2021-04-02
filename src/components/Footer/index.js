@@ -9,7 +9,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  Grid
+  Grid,
+  Typography
 } from '@material-ui/core'
 
 import { CONTAINER_BREAKPOINT } from '../../config/constants'
@@ -35,6 +36,7 @@ export default function Index () {
               item
               xs={12}
               sm={6}
+              md={4}
               style={{ alignSelf: 'center' }}
             >
               <Box p={2} className={classes.logo}>
@@ -48,7 +50,7 @@ export default function Index () {
                 </Link>
               </Box>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid item xs={6} sm={3} md={2}>
               <List component='nav' className={classes.list}>
                 <Link href='/tenders' passHref>
                   <ListItem
@@ -84,7 +86,7 @@ export default function Index () {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item xs={6} sm={3}>
+            <Grid item xs={6} sm={3} md={2}>
               <List component='nav' className={classes.list}>
                 <Link href='/faq' passHref>
                   <ListItem
@@ -121,6 +123,28 @@ export default function Index () {
                 </ListItem>
               </List>
             </Grid>
+            <Grid item xs={12} md={4} className={classes.thanks}>
+              <Typography gutterBottom>Il presente sito è stato realizzato grazie ad ACT - Anticorruption City Toolkit (ISFP-2017-AG-CORRUPT-823791), un progetto co-finanziato dal Fondo per la Sicurezza interna - Polizia dell'Unione Europea.</Typography>
+              <Grid container spacing={2} alignItems='center' justify='center'>
+                <Grid item xs={4}>
+                  <a href='https://www.anticorruptiontoolkit.eu/' target='_blank' rel='noreferrer'>
+                    <img
+                      src='/partners/act.png'
+                      alt='ACT'
+                    />
+                  </a>
+                </Grid>
+                <Grid item xs={4}>
+                  <a href='https://ec.europa.eu/' target='_blank' rel='noreferrer'>
+                    <img
+                      src='/partners/commissione-europea.png'
+                      alt='Commissione europea'
+                    />
+                  </a>
+                </Grid>
+              </Grid>
+            </Grid>
+
           </Grid>
         </Container>
       </Toolbar>
